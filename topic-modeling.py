@@ -7,6 +7,7 @@ from gensim.parsing.preprocessing import preprocess_string, strip_punctuation, s
 from gensim.corpora.dictionary import Dictionary
 from gensim.models.ldamodel import LdaModel
 from gensim.matutils import corpus2csc
+from gensim.models import CoherenceModel
 import numpy
 
 
@@ -22,7 +23,7 @@ gv_content = []
 CUSTOM_FILTERS = [lambda x: x.lower(), strip_punctuation, strip_multiple_whitespaces]
 
 #open file and add in gun violence content
-if i < 500: 
+if i < 100: 
     with open('/data/madesai/articles_clean.jsonlist') as f:
     
 
@@ -54,9 +55,10 @@ topics = lda.get_document_topics(gv_corpus)
 
 all_topics = []
 for j in range(0,ntopics):
-    topic_list = lda.show_topic(j, topn=10)
-    print(topic_list)
-    all_topics.append(topic_list)
+    topic_list = lda.get_topic_terms(j, topn=10)
+    [string_topics = gv_dictionary[item[0]]for item in topic_list]
+    print(string_topics)
+    all_topics.append(string_topics)
 
 all_topics_df = pd.DataFrame(all_topics) 
 all_topics_df.to_csv("topics.csv")
