@@ -28,7 +28,9 @@ with open('/data/madesai/articles_clean.jsonlist') as f, open('./gv-headlines.tx
                 year = 3000
         else:
             year = 3000
-        pattern = re.compile(r"\b(gun|shooting)\b", re.IGNORECASE)
+        pattern = re.compile(r"\b(gun)\b", re.IGNORECASE)
+        pattern2 = r"\<shoot(?!.*\b(?:ball|lacrosse|hoop)\b)"
+        pattern3 = r"\<shot(?!.*\b(?:ball|lacrosse|hoop)\b)"    
         headline_gv = False
         content_gv = False
         if year in df['year'].values:
@@ -37,7 +39,7 @@ with open('/data/madesai/articles_clean.jsonlist') as f, open('./gv-headlines.tx
             new_row = {'year':year, 'n gv headlines':0,'n other':0,'total':1,'percent gv':0}
             df = pd.concat([df, pd.DataFrame([new_row])])
             print(year)
-        if re.findall(pattern, headline):
+        if if re.findall(pattern, headline) or re.findall(pattern2, headline) or re.findall(pattern3, headline):
             headline_gv = True
             # i += 1 
             f2.write(headline.replace(",", "")+','+str(year)+'\n')
