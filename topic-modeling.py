@@ -5,6 +5,7 @@ import matplotlib.pyplot as plt
 import pandas as pd 
 from gensim.parsing.preprocessing import preprocess_string, strip_punctuation, strip_multiple_whitespaces
 from gensim.corpora.dictionary import Dictionary
+from gensim.models.ldamodel import LdaModel
 import numpy
 
 
@@ -33,9 +34,13 @@ if i < 500:
             if re.findall(pattern, headline):
                 gv_json_file.append(list)
                 i += 1
+                
 
                 # remove multiple whitespaces, remove punctuation, tokenize 
-                gv_content.append(preprocess_string(content, CUSTOM_FILTERS))
+                preprocessed_content = preprocess_string(content, CUSTOM_FILTERS)
+                if i % 100 == 0:
+                    print(preprocessed_content[:10])
+                gv_content.append(preprocessed_content)
 
 # create corpus
 gv_dictionary = Dictionary(gv_content)
