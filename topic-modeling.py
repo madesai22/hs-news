@@ -3,7 +3,7 @@ import re
 from datetime import datetime
 import matplotlib.pyplot as plt
 import pandas as pd 
-from gensim.parsing.preprocessing import preprocess_string
+from gensim.parsing.preprocessing import preprocess_string, strip_punctuation, strip_multiple_whitespaces
 from gensim.corpora.dictionary import Dictionary
 import numpy
 
