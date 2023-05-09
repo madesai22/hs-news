@@ -27,23 +27,23 @@ CUSTOM_FILTERS = [lambda x: x.lower(), strip_punctuation, strip_multiple_whitesp
 with open('/data/madesai/articles_clean.jsonlist') as f:
 
     for line in f:
-        if i <500: 
+       # if i <500: 
         
 
-            data = json.loads(line)
-            headline = data['headline']
-            content = data['content']
+        data = json.loads(line)
+        headline = data['headline']
+        content = data['content']
 
-            if re.findall(pattern, headline):
-                gv_json_file.append(list)
-                i += 1
-                
+        if re.findall(pattern, headline):
+            gv_json_file.append(list)
+            i += 1
+            
 
-                # remove multiple whitespaces, remove punctuation, tokenize 
-                preprocessed_content = preprocess_string(content, CUSTOM_FILTERS)
-                if i % 100 == 0:
-                    print(preprocessed_content[:10])
-                gv_content.append(preprocessed_content)
+            # remove multiple whitespaces, remove punctuation, tokenize 
+            preprocessed_content = preprocess_string(content, CUSTOM_FILTERS)
+            if i % 100 == 0:
+                print(preprocessed_content[:10])
+            gv_content.append(preprocessed_content)
 
 # create corpus
 gv_dictionary = Dictionary(gv_content)
@@ -74,7 +74,7 @@ print("Coherence ="+str(coherence_lda))
 
 # save gun violence articles with all metadata here: 
 with open('/data/madesai/gun-violence-articles_clean.jsonlist', 'w') as file:
-    json.dump(gv_json_file)
+    json.dumps(gv_json_file)
 
 
     
