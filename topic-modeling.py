@@ -3,7 +3,7 @@ import re
 from datetime import datetime
 import matplotlib.pyplot as plt
 import pandas as pd 
-from gensim.parsing.preprocessing import preprocess_string, strip_punctuation, strip_multiple_whitespaces
+from gensim.parsing.preprocessing import preprocess_string, strip_punctuation, strip_multiple_whitespaces, remove_stopwords
 from gensim.corpora.dictionary import Dictionary
 from gensim.models.ldamodel import LdaModel
 from gensim.matutils import corpus2csc
@@ -35,16 +35,17 @@ with open('/data/madesai/articles_clean.jsonlist') as f:
         content = data['content']
 
         if re.findall(pattern, headline):
-            gv_json_file.append(list)
+            gv_json_file.append(line)
             i += 1
             
 
             # remove multiple whitespaces, remove punctuation, tokenize 
             preprocessed_content = preprocess_string(content, CUSTOM_FILTERS)
-            if i % 100 == 0:
+            if i % 300 == 0:
                 print(preprocessed_content[:10])
             gv_content.append(preprocessed_content)
 
+print("***")
 # create corpus
 gv_dictionary = Dictionary(gv_content)
 gv_corpus = [gv_dictionary.doc2bow(text) for text in gv_content]
