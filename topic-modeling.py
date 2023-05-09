@@ -56,7 +56,7 @@ topics = lda.get_document_topics(gv_corpus)
 all_topics = []
 for j in range(0,ntopics):
     topic_list = lda.get_topic_terms(j, topn=10)
-    [string_topics = gv_dictionary[item[0]]for item in topic_list]
+    string_topics = [gv_dictionary[item[0]]for item in topic_list]
     print(string_topics)
     all_topics.append(string_topics)
 
