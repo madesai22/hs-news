@@ -15,53 +15,55 @@ total_idx = 2
 with open('/data/madesai/articles_clean.jsonlist') as f, open('./gv-headlines.txt','w') as f2:
     
     for line in f:
+        if i <1000:
+            i+= 1
 
-        data = json.loads(line)
-        headline = data['headline']
-        content = data['content']
-        if data['date']:
-           # try:
-           #     year = datetime.strptime(data['date'], "%B %d, %Y").year
-           # except:
-            year_pattern = r"(19[1-9][0-9]|20[0-9][0-9])"
+            data = json.loads(line)
+            headline = data['headline']
+            content = data['content']
+            if data['date']:
+            # try:
+            #     year = datetime.strptime(data['date'], "%B %d, %Y").year
+            # except:
+                year_pattern = r"(19[1-9][0-9]|20[0-9][0-9])"
 
-            year_string  = re.findall(year_pattern, data['date'])
-            if year_string:
-                year  = int(year_string[0])
+                year_string  = re.findall(year_pattern, data['date'])
+                if year_string:
+                    year  = int(year_string[0])
+                else:
+                    year = 3000
             else:
                 year = 3000
-        else:
-            year = 3000
-        pattern = re.compile(r"\b(gun)\b", re.IGNORECASE)
-        pattern2 = r"\<shoot(?!.*\b(?:ball|lacrosse|hoop)\b)"
-        pattern3 = r"\<shot(?!.*\b(?:ball|lacrosse|hoop)\b)"    
-        headline_gv = False
-        content_gv = False
+            pattern = re.compile(r"\b(gun)\b", re.IGNORECASE)
+            pattern2 = r"\<shoot(?!.*\b(?:ball|lacrosse|hoop)\b)"
+            pattern3 = r"\<shot(?!.*\b(?:ball|lacrosse|hoop)\b)"    
+            headline_gv = False
+            content_gv = False
 
-        # if year in df['year'].values:
-        #     df.loc[df['year'] == year, 'total'] += 1
-        # else:
-        #     new_row = {'year':year, 'n gv headlines':0,'n other':0,'total':1,'percent gv':0}
-        #     df = pd.concat([df, pd.DataFrame([new_row])])
-        #     print(year)
-        if re.findall(pattern, headline) or re.findall(pattern2, headline) or re.findall(pattern3, headline):
-            headline_gv = True
-            # i += 1 
-            f2.write(headline.replace(",", "")+','+str(year)+'\n')
-            #df.loc[df['year'] == year, 'n gv headlines'] += 1
-            if year in year_counts:
-                year_counts[year][n_gv_headlines_idx] += 1
-                year_counts[year][total_idx] += 1
+            # if year in df['year'].values:
+            #     df.loc[df['year'] == year, 'total'] += 1
+            # else:
+            #     new_row = {'year':year, 'n gv headlines':0,'n other':0,'total':1,'percent gv':0}
+            #     df = pd.concat([df, pd.DataFrame([new_row])])
+            #     print(year)
+            if re.findall(pattern, headline) or re.findall(pattern2, headline) or re.findall(pattern3, headline):
+                headline_gv = True
+                # i += 1 
+                f2.write(headline.replace(",", "")+','+str(year)+'\n')
+                #df.loc[df['year'] == year, 'n gv headlines'] += 1
+                if year in year_counts:
+                    year_counts[year][n_gv_headlines_idx] += 1
+                    year_counts[year][total_idx] += 1
+                else:
+                    year_counts[year]= [1,0,1] 
             else:
-                year_counts[year]= [1,0,1] 
-        else:
-            #df.loc[df['year'] == year, 'n other'] += 1
-            if year in year_counts:
-                year_counts[year][n_other_idx] += 1
-                year_counts[year][total_idx] += 1
+                #df.loc[df['year'] == year, 'n other'] += 1
+                if year in year_counts:
+                    year_counts[year][n_other_idx] += 1
+                    year_counts[year][total_idx] += 1
 
-            else:
-                year_counts[year] = [0,1,1]
+                else:
+                    year_counts[year] = [0,1,1]
 f2.close()
 df = pd.DataFrame.from_dict(year_counts, orient='index', columns=['Year', 'n gv headlines','n other','total'])
 
