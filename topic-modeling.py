@@ -20,7 +20,7 @@ gv_json_file = []
 gv_content = []
 
 #preprocessing filters:
-CUSTOM_FILTERS = [lambda x: x.lower(), strip_punctuation, strip_multiple_whitespaces]
+CUSTOM_FILTERS = [lambda x: x.lower(), strip_punctuation, strip_multiple_whitespaces, remove_stopwords]
 
 #open file and add in gun violence content
 
