@@ -23,10 +23,10 @@ gv_content = []
 CUSTOM_FILTERS = [lambda x: x.lower(), strip_punctuation, strip_multiple_whitespaces]
 
 #open file and add in gun violence content
-if i < 100: 
-    with open('/data/madesai/articles_clean.jsonlist') as f:
-    
 
+with open('/data/madesai/articles_clean.jsonlist') as f:
+
+    if i <500: 
         for line in f:
 
             data = json.loads(line)
