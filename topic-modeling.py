@@ -21,7 +21,7 @@ CUSTOM_FILTERS = [lambda x: x.lower(), strip_punctuation, strip_multiple_whitesp
 
 #open file and add in gun violence content
 if i < 500: 
-    with open('/data/madesai/articles_clean.jsonlist'):
+    with open('/data/madesai/articles_clean.jsonlist') as f:
     
 
         for line in f:
