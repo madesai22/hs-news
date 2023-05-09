@@ -6,6 +6,7 @@ import pandas as pd
 from gensim.parsing.preprocessing import preprocess_string, strip_punctuation, strip_multiple_whitespaces
 from gensim.corpora.dictionary import Dictionary
 from gensim.models.ldamodel import LdaModel
+from gensim.matutils import corpus2csc
 import numpy
 
 
@@ -49,7 +50,7 @@ gv_corpus = [gv_dictionary.doc2bow(text) for text in gv_content]
 # train LDA model
 lda = LdaModel(gv_corpus, num_topics = 25) 
 topics = lda.get_document_topics(gv_corpus)
-topics_numpy = gensim.matutils.corpus2csc(topics).toarray()
+topics_numpy = corpus2csc(topics).toarray()
 all_topics_df = pd.DataFrame(all_topics_numpy)
 print(all_topics_df) 
 all_topics_df.to_csv("topics.csv")
