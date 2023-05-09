@@ -67,7 +67,7 @@ with open('/data/madesai/articles_clean.jsonlist') as f, open('./gv-headlines.tx
 f2.close()
 df = pd.DataFrame.from_dict(year_counts, orient='index', columns=[ 'n gv headlines','n other','total'])
 df.reset_index(inplace=True)
-df = df.rename(columns = {'index':'year'})
+df = df.rename(columns = {'index':'years'})
 
 
 # add item to year_couts[year] with total articles and percent gv 
@@ -80,7 +80,7 @@ for index, row in df.iterrows():
     percent = row['n gv headlines']/row['total']*100
     row['percent gv'] = percent
 
-df.sort_values(by=['year'])
+df.sort_values(by=['years'])
 df.to_csv('gv-articles-by-year.csv')
 
 #for y, counts in year_counts.items():
