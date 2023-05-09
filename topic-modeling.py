@@ -51,7 +51,7 @@ gv_corpus = [gv_dictionary.doc2bow(text) for text in gv_content]
 lda = LdaModel(gv_corpus, num_topics = 25) 
 topics = lda.get_document_topics(gv_corpus)
 topics_numpy = corpus2csc(topics).toarray()
-all_topics_df = pd.DataFrame(all_topics_numpy)
+all_topics_df = pd.DataFrame(topics_numpy)
 print(all_topics_df) 
 all_topics_df.to_csv("topics.csv")
 
