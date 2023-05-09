@@ -51,7 +51,7 @@ gv_dictionary = Dictionary(gv_content)
 gv_corpus = [gv_dictionary.doc2bow(text) for text in gv_content]
 
 # train LDA model
-ntopics = 25
+ntopics = 10
 lda = LdaModel(gv_corpus, num_topics = ntopics) 
 topics = lda.get_document_topics(gv_corpus)
 
