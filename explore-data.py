@@ -65,7 +65,9 @@ with open('/data/madesai/articles_clean.jsonlist') as f, open('./gv-headlines.tx
                 else:
                     year_counts[year] = [0,1,1]
 f2.close()
-df = pd.DataFrame.from_dict(year_counts, orient='index', columns=['Year', 'n gv headlines','n other','total'])
+df = pd.DataFrame.from_dict(year_counts, orient='index', columns=[ 'n gv headlines','n other','total'])
+df.reset_index(inplace=True)
+df = df.rename(columns = {'index':'Year'})
 
 
 # add item to year_couts[year] with total articles and percent gv 
