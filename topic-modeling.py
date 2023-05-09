@@ -68,7 +68,7 @@ all_topics_df.to_csv("topics.csv")
 coherence_model_lda = CoherenceModel(model=lda, dictionary = gv_dictionary, corpus=gv_corpus, coherence="u_mass")
 coherence_lda = coherence_model_lda.get_coherence()
 #print("Perplexity = "+ str(perplexity))
-print("Coherence ="+str(coherence))
+print("Coherence ="+str(coherence_lda))
 
 
 # save gun violence articles with all metadata here: 
