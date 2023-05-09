@@ -48,17 +48,23 @@ gv_dictionary = Dictionary(gv_content)
 gv_corpus = [gv_dictionary.doc2bow(text) for text in gv_content]
 
 # train LDA model
-lda = LdaModel(gv_corpus, num_topics = 25) 
+ntopics = 25
+lda = LdaModel(gv_corpus, num_topics = ntopics) 
 topics = lda.get_document_topics(gv_corpus)
-topics_numpy = corpus2csc(topics).toarray()
-all_topics_df = pd.DataFrame(topics_numpy)
-print(all_topics_df) 
+
+all_topics = []
+for j in range(0,ntopics):
+    topic_list = lda.show_topic(j, topn=10)
+    print(topic_list)
+    all_topics.append(topic_list)
+
+all_topics_df = pd.DataFrame(all_topics) 
 all_topics_df.to_csv("topics.csv")
 
-perplexity = lda.log_perplexity(lda)
+#perplexity = lda.log_perplexity(lda)
 coherence_model_lda = CoherenceModel(model=lda, corpus=gv_corpus, coherence = u_mass)
 coherence_lda = coherence_model_lda.get_coherence()
-print("Perplexity = "+ str(percent))
+#print("Perplexity = "+ str(perplexity))
 print("Coherence ="+str(coherence))
 
 
