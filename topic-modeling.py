@@ -64,7 +64,7 @@ for j in range(0,ntopics):
     all_topics.append(string_topics)
 
 all_topics_df = pd.DataFrame(all_topics) 
-all_topics_df.to_csv("topics_"+str(ntopics)".csv")
+all_topics_df.to_csv("topics_"+str(ntopics)+".csv")
 
 #perplexity = lda.log_perplexity(lda)
 coherence_model_lda = CoherenceModel(model=lda, dictionary = gv_dictionary, corpus=gv_corpus, coherence="u_mass")
