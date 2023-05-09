@@ -26,8 +26,9 @@ CUSTOM_FILTERS = [lambda x: x.lower(), strip_punctuation, strip_multiple_whitesp
 
 with open('/data/madesai/articles_clean.jsonlist') as f:
 
-    if i <500: 
-        for line in f:
+    for line in f:
+        if i <500: 
+        
 
             data = json.loads(line)
             headline = data['headline']
