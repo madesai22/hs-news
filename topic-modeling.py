@@ -14,7 +14,10 @@ import numpy
 i = 0
 year_counts = {} # key: year (int) --> value: [n gv headlines, n other] (list)
 #df = pd.DataFrame(columns = ['year', 'n gv headlines','n other','total','percent gv'])
-pattern = re.compile(r"\b(gun|shooting)\b", re.IGNORECASE)
+pattern = re.compile(r"\b(gun)\b", re.IGNORECASE)
+pattern2 = r"\<shoot(?!.*\b(?:ball|lacrosse|hoop)\b)"
+pattern3 = r"\<shot(?!.*\b(?:ball|lacrosse|hoop)\b)"
+
 
 gv_json_file = []
 gv_content = []
@@ -34,7 +37,9 @@ with open('/data/madesai/articles_clean.jsonlist') as f:
         headline = data['headline']
         content = data['content']
 
-        if re.findall(pattern, headline):
+        if re.findall(pattern, headline) or re.findall(pattern2, headline) or re.findall(pattern3, headline):
+            if i%100 == 0:
+                print(headline)
             gv_json_file.append(line)
             i += 1
             
