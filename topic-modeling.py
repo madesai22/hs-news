@@ -15,12 +15,7 @@ i = 0
 year_counts = {} # key: year (int) --> value: [n gv headlines, n other] (list)
 #df = pd.DataFrame(columns = ['year', 'n gv headlines','n other','total','percent gv'])
 
-gun_match = re.findall(r"\b(gun)\b|\b(firearm)\b", headline, re.IGNORECASE)
-sports_pattern = r"ball|lacrosse|score|point|film|movie|hoop|win|soccer|court|hockey|polo|champ|game|varsity|lax|trophy|sweep|flu|vaccin|photo|star|playoff|competition|finals"
-sports_match = re.findall(sports_pattern, headline, re.IGNORECASE)
-shooting_match = re.findall(r"\b(?!(?:shot[\s-]?put(?:t|s)?(?:ter)?\b))(?:shoot|shot)\w*\b", headline, re.IGNORECASE)
-long_shot_match = re.findall(r"(\blong\s+shot\w*)|(call\s+the\s+shot\w*)", headline, re.IGNORECASE)
-shooter_likely = re.findall(r"\b(?:active|mass|school)\s+(?:shoot|shot)\w*\b", headline, re.IGNORECASE)
+
 
 gv_json_file = []
 gv_content = []
@@ -43,6 +38,12 @@ with open('/data/madesai/articles_clean.jsonlist') as f:
 
         preprocessed_all_content = preprocess_string(content, CUSTOM_FILTERS)
         all_content.append(preprocessed_all_content)
+        gun_match = re.findall(r"\b(gun)\b|\b(firearm)\b", headline, re.IGNORECASE)
+        sports_pattern = r"ball|lacrosse|score|point|film|movie|hoop|win|soccer|court|hockey|polo|champ|game|varsity|lax|trophy|sweep|flu|vaccin|photo|star|playoff|competition|finals"
+        sports_match = re.findall(sports_pattern, headline, re.IGNORECASE)
+        shooting_match = re.findall(r"\b(?!(?:shot[\s-]?put(?:t|s)?(?:ter)?\b))(?:shoot|shot)\w*\b", headline, re.IGNORECASE)
+        long_shot_match = re.findall(r"(\blong\s+shot\w*)|(call\s+the\s+shot\w*)", headline, re.IGNORECASE)
+        shooter_likely = re.findall(r"\b(?:active|mass|school)\s+(?:shoot|shot)\w*\b", headline, re.IGNORECASE)
 
 
         if gun_match or shooter_likely or march_match or (shooting_match and not sports_match and not long_shot_match):
@@ -88,6 +89,15 @@ for j in range(0,ntopics):
 
 all_topics_df = pd.DataFrame(all_topics) 
 all_topics_df.to_csv("topics_"+str(ntopics)+".csv")
+
+# total topics 
+all_data_topics = []
+for j in range(0,ntopics):
+    topic_list_all = lda_all.get_topic_terms(j, topn=10)
+    string_topics = [all_dictionary[item[0]] for item in topic_list_all]
+    all_data_topics.append(string_topics)
+all_data_topics_df = pd.DataFrame(all_data_topics) 
+all_data_topics_df.to_csv("all_topics_"+str(ntopics)+".csv")
 
 #perplexity = lda.log_perplexity(lda)
 coherence_model_lda = CoherenceModel(model=lda, dictionary = gv_dictionary, corpus=gv_corpus, coherence="u_mass")
