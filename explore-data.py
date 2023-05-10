@@ -34,7 +34,7 @@ with open('/data/madesai/articles_clean.jsonlist') as f, open('./gv-headlines.cs
             else:
                 year = 3000
             
-            bullet_and_march = re.findall(r"\bMarch for Our Lives\b|\bbullet\b|\bStudents Demand Action\b|\bNational School Walkout\b|\bsecond amendment\b|\bNRA\b|\bNever Again MSD\b",headline, re.IGNORECASE)
+            bullet_and_march = re.findall(r"\bMarch for Our Lives\b|\bStudents Demand Action\b|\bNational School Walkout\b|\bsecond amendment\b|\bNRA\b|\bNever Again MSD\b|\b2nd amendment\b|\bstand for the second\b",headline, re.IGNORECASE)
             
 
             gun_match = re.findall(r"\b(gun)\b", headline, re.IGNORECASE)
