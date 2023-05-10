@@ -14,7 +14,7 @@ n_gv = data['n gv headlines']
 total = data['total']
 
 fig, ax = plt.subplots()
-ax.plot(year, n_gv, label='gun violence headlines')
+ax.plot(year, n_gv)#, label='gun violence headlines')
 #ax.plot(year, total, label='total headlines')
 ax.set_xlabel('Year')
 ax.set_ylabel('n headlines')
