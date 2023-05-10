@@ -63,10 +63,20 @@ print("***")
 gv_dictionary = Dictionary(gv_content)
 gv_corpus = [gv_dictionary.doc2bow(text) for text in gv_content]
 
+# create whole corpus 
+all_dictionary = Dictionary(all_content)
+all_corpus = [all_dictionary.doc2bow(text) for text in all_content]
+
 # train LDA model
 ntopics = 10
 lda = LdaModel(gv_corpus, num_topics = ntopics) 
 topics = lda.get_document_topics(gv_corpus)
+
+# train whole LDA
+ntopics_all = 45
+lda_all = LdaModel(all_corpus, num_topics = ntopics_all) 
+topics = lda.get_document_topics(all_corpus)
+
 
 all_topics = []
 for j in range(0,ntopics):
