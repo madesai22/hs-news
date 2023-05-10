@@ -19,7 +19,7 @@ ax.plot(year, n_gv, label='gun violence headlines')
 ax.set_xlabel('Year')
 ax.set_ylabel('n headlines')
 ax.set_title('Gun Violence headlines')
-ax.legend()
+#ax.legend()
 
 
 ax.set_ylim(ymin=0)
