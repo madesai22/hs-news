@@ -91,7 +91,7 @@ df.to_csv('gv-articles-by-year.csv')
 #print(year_counts)
 #print("missing year for "+str(no_date_gv)+" articles with gun violence.")
 #print("missing year for "+str(no_date_other)+" other articles.")
-df = df.loc[(df['years'] > 3000) & (df['years'] < 1999)]
+df = df.loc[(df['years'] < 3000) & (df['years'] > 1999)]
 df.sort_values(by=['years'])
 # percentage plot
 #years = list(year_counts.keys())
