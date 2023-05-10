@@ -46,7 +46,7 @@ with open('/data/madesai/articles_clean.jsonlist') as f, open('./gv-headlines.cs
             content_gv = False
 
        
-            if (re.findall(pattern, headline, re.IGNORECASE)) or (re.findall(shooter_likely, headline, re.IGNORECASE)) or (re.findall(shooting_pattern, headline, re.IGNORECASE) and not re.findall(sports_pattern, headline, re.IGNORECASE)):
+            if (re.findall(pattern, headline, re.IGNORECASE)) or (re.findall(shooter_likely, headline, re.IGNORECASE)) or (re.match(shooting_pattern, headline, re.IGNORECASE) and not re.findall(sports_pattern, headline, re.IGNORECASE)):
                 print(headline)
 
                 f2.write(headline.replace(",", "")+','+str(year)+'\n')
