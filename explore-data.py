@@ -11,7 +11,7 @@ n_other_idx = 1
 total_idx = 2
 
 #df = pd.DataFrame(columns = ['year', 'n gv headlines','n other','total','percent gv'])
-
+new_headlines = 0
 with open('/data/madesai/articles_clean.jsonlist') as f, open('./gv-headlines.csv','w') as f2:
     
     for line in f:
@@ -33,6 +33,11 @@ with open('/data/madesai/articles_clean.jsonlist') as f, open('./gv-headlines.cs
                     year = 3000
             else:
                 year = 3000
+            
+            bullet_and_march = re.findall(r"\bMarch for Our Lives\b|\bbullet\b",headline, re.IGNORECASE)
+            if bullet_and_march:
+                print(headline)
+                new_headlines = +=1
 
             gun_match = re.findall(r"\b(gun)\b", headline, re.IGNORECASE)
             sports_pattern = r"ball|lacrosse|score|point|film|movie|hoop|win|soccer|hockey|polo|champ|game|varsity|lax|trophy|sweep|flu|vaccin|photo|star|playoff|competition|finals"
@@ -50,7 +55,7 @@ with open('/data/madesai/articles_clean.jsonlist') as f, open('./gv-headlines.cs
 
             if gun_match or shooter_likely or (shooting_match and not sports_match and not long_shot_match):
 
-                print(headline)
+                #print(headline)
 
                 f2.write(headline.replace(",", "")+','+str(year)+'\n')
                 #df.loc[df['year'] == year, 'n gv headlines'] += 1
@@ -73,7 +78,7 @@ df.reset_index(inplace=True)
 df = df.rename(columns = {'index':'years'})
 
 
-
+print(new_headlines)
 percent_list = []
 for index, row in df.iterrows():
     percent_list.append(row['n gv headlines']/row['total']*100)
