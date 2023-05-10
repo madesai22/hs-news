@@ -34,7 +34,6 @@ with open('/data/madesai/articles_clean.jsonlist') as f, open('./gv-headlines.cs
             else:
                 year = 3000
 
-            headline = "shot scare at the Global Citizen Music Festival only a sound can incite fear"
             gun_match = re.findall(r"\b(gun)\b", headline, re.IGNORECASE)
             sports_pattern = r"ball|lacrosse|score|point|film|movie|hoop|win|soccer|hockey|polo|champ|game|varsity|lax|trophy|sweep|flu|vaccin|photo|star|playoff|competition|finals"
             sports_match = re.findall(sports_pattern, headline, re.IGNORECASE)
