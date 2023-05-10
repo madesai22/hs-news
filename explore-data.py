@@ -75,7 +75,7 @@ df.reset_index(inplace=True)
 df = df.rename(columns = {'index':'years'})
 
 
-print(new_headlines)
+
 percent_list = []
 for index, row in df.iterrows():
     percent_list.append(row['n gv headlines']/row['total']*100)
