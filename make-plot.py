@@ -7,7 +7,7 @@ df = pd.read_csv('gv-articles-by-year.csv')
 # Extract the rows with year values between 1999 and 2019
 start_year = 1999
 end_year = 2019
-data = df[(df['year'] >= start_year) & (df['year'] <= end_year)].sort_values(by='year')
+data = df[(df['years'] >= start_year) & (df['years'] <= end_year)].sort_values(by='years')
 
 year = data['years']
 n_gv = data['n gv headlines']
