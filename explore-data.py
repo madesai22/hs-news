@@ -11,12 +11,10 @@ n_other_idx = 1
 total_idx = 2
 
 #df = pd.DataFrame(columns = ['year', 'n gv headlines','n other','total','percent gv'])
-new_headlines = 0
+
 with open('/data/madesai/articles_clean.jsonlist') as f, open('./gv-headlines.csv','w') as f2:
     
     for line in f:
-            
-
             data = json.loads(line)
             headline = data['headline']
             content = data['content']
@@ -34,10 +32,10 @@ with open('/data/madesai/articles_clean.jsonlist') as f, open('./gv-headlines.cs
             else:
                 year = 3000
             
-            bullet_and_march = re.findall(r"\bMarch for Our Lives\b|\bStudents Demand Action\b|\bNational School Walkout\b|\bsecond amendment\b|\bNRA\b|\bNever Again MSD\b|\b2nd amendment\b|\bstand for the second\b",headline, re.IGNORECASE)
+            march_match = re.findall(r"\bMarch for Our Lives\b|\bStudents Demand Action\b|\bNational School Walkout\b|\bsecond amendment\b|\bNRA\b|\bNever Again MSD\b|\b2nd amendment\b|\bstand for the second\b",headline, re.IGNORECASE)
             
 
-            gun_match = re.findall(r"\b(gun)\b", headline, re.IGNORECASE)
+            gun_match = re.findall(r"\b(gun)\b|\b(firearm)\b", headline, re.IGNORECASE)
             sports_pattern = r"ball|lacrosse|score|point|film|movie|hoop|win|soccer|hockey|polo|champ|game|varsity|lax|trophy|sweep|flu|vaccin|photo|star|playoff|competition|finals"
             sports_match = re.findall(sports_pattern, headline, re.IGNORECASE)
             shooting_match = re.findall(r"\b(?!(?:shot[\s-]?put(?:t)?(?:ter)?\b))(?:shoot|shot)\w*\b", headline, re.IGNORECASE)
@@ -51,9 +49,9 @@ with open('/data/madesai/articles_clean.jsonlist') as f, open('./gv-headlines.cs
             headline_gv = False
             content_gv = False
 
-            if gun_match or shooter_likely or (shooting_match and not sports_match and not long_shot_match):
+            if gun_match or shooter_likely or march_match or (shooting_match and not sports_match and not long_shot_match):
 
-                #print(headline)
+                print(headline)
 
                 f2.write(headline.replace(",", "")+','+str(year)+'\n')
                 #df.loc[df['year'] == year, 'n gv headlines'] += 1
@@ -64,10 +62,6 @@ with open('/data/madesai/articles_clean.jsonlist') as f, open('./gv-headlines.cs
                     year_counts[year]= [1,0,1] 
             
             else:
-                if bullet_and_march:
-                    print(headline)
-                    new_headlines +=1
-
                 if year in year_counts:
                     year_counts[year][n_other_idx] += 1
                     year_counts[year][total_idx] += 1
