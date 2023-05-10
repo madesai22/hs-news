@@ -11,15 +11,15 @@ data = df[(df['years'] >= start_year) & (df['years'] <= end_year)].sort_values(b
 
 year = data['years']
 n_gv = data['n gv headlines']
-total = data['total']
+total = data['percent gv']
 
 fig, ax = plt.subplots()
-ax.plot(year, n_gv, label='gun violence headlines')
+#ax.plot(year, n_gv, label='gun violence headlines')
 ax.plot(year, total, label='total headlines')
-ax.set_xlabel('Year')
-ax.set_ylabel('n headlines')
-ax.set_title('Gun Violence headlines')
-ax.legend()
+ax.set_xlabel('year')
+ax.set_ylabel('percent headlines')
+ax.set_title('Percent gun violence headlines')
+#ax.legend()
 
 
 ax.set_ylim(ymin=0)
