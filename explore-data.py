@@ -33,14 +33,18 @@ with open('/data/madesai/articles_clean.jsonlist') as f, open('./gv-headlines.cs
                     year = 3000
             else:
                 year = 3000
-            pattern = re.compile(r"\b(gun)\b", re.IGNORECASE)
-            pattern2 = r"^(?!.*ball|lacrosse|hoop|point).*shoot.*$" 
-            pattern3 = r"^(?!.*ball|lacrosse|hoop|point).*shot.*$"     
+
+            pattern = r"\b(gun)\b"
+            sports_pattern = r"ball|lacrosse|point|film|hoop|win|soccer|varsity|lax"
+            shooting_pattern = r"\b(?:shoot|shot)\w*\b"
+            #pattern = re.compile(r"\b(gun)\b", re.IGNORECASE)
+            #pattern2 = r"^(?!.*ball|lacrosse|hoop|varsity|win|soccer|point).*shoot.*$" 
+            #pattern3 = r"^(?!.*ball|lacrosse|hoop|varsity|win|soccer|point).*shot.*$"     
             headline_gv = False
             content_gv = False
 
        
-            if re.findall(pattern, headline) or re.findall(pattern2, headline) or re.findall(pattern3, headline):
+            if (re.findall(pattern, headline, re.IGNORECASE)) or (re.findall(shooting_pattern, headline, re.IGNORECASE) and not re.findall(sports_pattern, headline, re.IGNORECASE)):
                 print(headline)
 
                 f2.write(headline.replace(",", "")+','+str(year)+'\n')
