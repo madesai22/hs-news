@@ -34,14 +34,14 @@ with open('/data/madesai/articles_clean.jsonlist') as f, open('./gv-headlines.cs
             else:
                 year = 3000
             pattern = re.compile(r"\b(gun)\b", re.IGNORECASE)
-            pattern2 = r"\<shoot(?!.*\b(?:ball|lacrosse|hoop)\b)"
-            pattern3 = r"\<shot(?!.*\b(?:ball|lacrosse|hoop)\b)"    
+            pattern2 = r"\bshoot(?!.*\b(?:ball|lacrosse|hoop)\b)"
+            pattern3 = r"\bshot(?!.*\b(?:ball|lacrosse|hoop)\b)"    
             headline_gv = False
             content_gv = False
 
        
             if re.findall(pattern, headline) or re.findall(pattern2, headline) or re.findall(pattern3, headline):
-                headline_gv = True
+                print(headline)
 
                 f2.write(headline.replace(",", "")+','+str(year)+'\n')
                 #df.loc[df['year'] == year, 'n gv headlines'] += 1
