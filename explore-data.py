@@ -34,10 +34,14 @@ with open('/data/madesai/articles_clean.jsonlist') as f, open('./gv-headlines.cs
             else:
                 year = 3000
 
-            pattern = r"\b(gun)\b"
-            sports_pattern = r"ball|lacrosse|score|point|film|movie|hoop|win|soccer|hockey|polo|champ|game|varsity|lax|trophy|sweep|flu|vaccin|photo|star|playoff|competition"
-            shooting_pattern = r"\b(?!(?:shot[\s-]?put(?:ter)?\b))(?:shoot|shot)\w*\b"
-            shooter_likely = r"\b(?:active|mass|school)\s+(?:shoot|shot)\w*\b"
+            headline = "shot scare at the Global Citizen Music Festival only a sound can incite fear"
+            gun_match = re.findall(r"\b(gun)\b", headline, re.IGNORECASE)
+            sports_pattern = r"ball|lacrosse|score|point|film|movie|hoop|win|soccer|hockey|polo|champ|game|varsity|lax|trophy|sweep|flu|vaccin|photo|star|playoff|competition|finals"
+            sports_match = re.findall(sports_pattern, headline, re.IGNORECASE)
+            shooting_match = re.findall(r"\b(?!(?:shot[\s-]?put(?:t)?(?:ter)?\b))(?:shoot|shot)\w*\b", headline, re.IGNORECASE)
+            long_shot_match = re.findall(r"(\blong\s+shot\b)|(call\s+the\s+shot\b)", headline, re.IGNORECASE)
+            shooter_likely = re.findall(r"\b(?:active|mass|school)\s+(?:shoot|shot)\w*\b", headline, re.IGNORECASE)
+
 
             #pattern = re.compile(r"\b(gun)\b", re.IGNORECASE)
             #pattern2 = r"^(?!.*ball|lacrosse|hoop|varsity|win|soccer|point|).*shoot.*$" 
@@ -45,8 +49,8 @@ with open('/data/madesai/articles_clean.jsonlist') as f, open('./gv-headlines.cs
             headline_gv = False
             content_gv = False
 
-       
-            if (re.findall(pattern, headline, re.IGNORECASE)) or (re.findall(shooter_likely, headline, re.IGNORECASE)) or (re.match(shooting_pattern, headline, re.IGNORECASE) and not re.findall(sports_pattern, headline, re.IGNORECASE)):
+            if gun_match or shooter_likely or (shooting_match and not sports_match and not long_shot_match):
+
                 print(headline)
 
                 f2.write(headline.replace(",", "")+','+str(year)+'\n')
