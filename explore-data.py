@@ -75,10 +75,12 @@ df = df.rename(columns = {'index':'years'})
 # no_date = year_counts.pop(3000,[0,0])
 # no_date_gv = no_date[0]
 # no_date_other = no_date[1]
-
+percent_list = []
 for index, row in df.iterrows():
-    percent = row['n gv headlines']/row['total']*100
-    row['percent gv'] = percent
+    percent_list.append(row['n gv headlines']/row['total']*100)
+df['percent gv'] = percent_list
+
+    #row['percent gv'] = percent
 
 df.sort_values(by=['years'])
 df.to_csv('gv-articles-by-year.csv')
