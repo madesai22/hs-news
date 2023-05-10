@@ -36,7 +36,7 @@ with open('/data/madesai/articles_clean.jsonlist') as f, open('./gv-headlines.cs
             
 
             gun_match = re.findall(r"\b(gun)\b|\b(firearm)\b", headline, re.IGNORECASE)
-            sports_pattern = r"ball|lacrosse|score|point|film|movie|hoop|win|soccer|hockey|polo|champ|game|varsity|lax|trophy|sweep|flu|vaccin|photo|star|playoff|competition|finals"
+            sports_pattern = r"ball|lacrosse|score|point|film|movie|hoop|win|soccer|court|hockey|polo|champ|game|varsity|lax|trophy|sweep|flu|vaccin|photo|star|playoff|competition|finals"
             sports_match = re.findall(sports_pattern, headline, re.IGNORECASE)
             shooting_match = re.findall(r"\b(?!(?:shot[\s-]?put(?:t|s)?(?:ter)?\b))(?:shoot|shot)\w*\b", headline, re.IGNORECASE)
             long_shot_match = re.findall(r"(\blong\s+shot\w*)|(call\s+the\s+shot\w*)", headline, re.IGNORECASE)
