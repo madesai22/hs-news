@@ -62,7 +62,11 @@ with open('/data/madesai/articles_clean.jsonlist') as f, open('./gv-headlines.cs
                     year_counts[year][total_idx] += 1
                 else:
                     year_counts[year]= [1,0,1] 
+            
             else:
+                if bullet_and_march:
+                    print(headline)
+                    new_headlines +=1
 
                 if year in year_counts:
                     year_counts[year][n_other_idx] += 1
@@ -70,9 +74,7 @@ with open('/data/madesai/articles_clean.jsonlist') as f, open('./gv-headlines.cs
 
                 else:
                     year_counts[year] = [0,1,1]
-            elif bullet_and_march:
-                print(headline)
-                new_headlines +=1
+            
 f2.close()
 df = pd.DataFrame.from_dict(year_counts, orient='index', columns=[ 'n gv headlines','n other','total'])
 df.reset_index(inplace=True)
