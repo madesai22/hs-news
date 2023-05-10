@@ -38,6 +38,7 @@ with open('/data/madesai/articles_clean.jsonlist') as f:
 
         preprocessed_all_content = preprocess_string(content, CUSTOM_FILTERS)
         all_content.append(preprocessed_all_content)
+        march_match = re.findall(r"\bMarch for Our Lives\b|\bStudents Demand Action\b|\bNational School Walkout\b|\bsecond amendment\b|\bNRA\b|\bNever Again MSD\b|\b2nd amendment\b|\bstand for the second\b",headline, re.IGNORECASE)
         gun_match = re.findall(r"\b(gun)\b|\b(firearm)\b", headline, re.IGNORECASE)
         sports_pattern = r"ball|lacrosse|score|point|film|movie|hoop|win|soccer|court|hockey|polo|champ|game|varsity|lax|trophy|sweep|flu|vaccin|photo|star|playoff|competition|finals"
         sports_match = re.findall(sports_pattern, headline, re.IGNORECASE)
@@ -97,7 +98,7 @@ for j in range(0,ntopics):
     string_topics = [all_dictionary[item[0]] for item in topic_list_all]
     all_data_topics.append(string_topics)
 all_data_topics_df = pd.DataFrame(all_data_topics) 
-all_data_topics_df.to_csv("all_topics_"+str(ntopics)+".csv")
+all_data_topics_df.to_csv("all_data_topics_"+str(ntopics_all)+".csv")
 
 #perplexity = lda.log_perplexity(lda)
 coherence_model_lda = CoherenceModel(model=lda, dictionary = gv_dictionary, corpus=gv_corpus, coherence="u_mass")
