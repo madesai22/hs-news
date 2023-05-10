@@ -24,6 +24,7 @@ shooter_likely = re.findall(r"\b(?:active|mass|school)\s+(?:shoot|shot)\w*\b", h
 
 gv_json_file = []
 gv_content = []
+all_content = []
 
 #preprocessing filters:
 CUSTOM_FILTERS = [lambda x: x.lower(), strip_punctuation, strip_multiple_whitespaces, remove_stopwords]
@@ -39,6 +40,10 @@ with open('/data/madesai/articles_clean.jsonlist') as f:
         data = json.loads(line)
         headline = data['headline']
         content = data['content']
+
+        preprocessed_all_content = preprocess_string(content, CUSTOM_FILTERS)
+        all_content.append(preprocessed_all_content)
+
 
         if gun_match or shooter_likely or march_match or (shooting_match and not sports_match and not long_shot_match):
             if i%100 == 0:
