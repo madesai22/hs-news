@@ -9,7 +9,7 @@ start_year = 1999
 end_year = 2019
 data = df[(df['year'] >= start_year) & (df['year'] <= end_year)].sort_values(by='year')
 
-year = data['year']
+year = data['years']
 n_gv = data['n gv headlines']
 total = data['total']
 
