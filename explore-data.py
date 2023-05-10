@@ -36,7 +36,7 @@ with open('/data/madesai/articles_clean.jsonlist') as f, open('./gv-headlines.cs
 
             pattern = r"\b(gun)\b"
             sports_pattern = r"ball|lacrosse|score|point|film|movie|hoop|win|soccer|hockey|polo|champ|game|varsity|lax|trophy|sweep|flu|vaccin|photo|star|playoff|competition"
-            shooting_pattern = pattern = r"\b(?!(?:shot[\s-]?put(?:ter)?\b))(?:shoot|shot)\w*\b"
+            shooting_pattern = r"\b(?!(?:shot[\s-]?put(?:ter)?\b))(?:shoot|shot)\w*\b"
 
             #pattern = re.compile(r"\b(gun)\b", re.IGNORECASE)
             #pattern2 = r"^(?!.*ball|lacrosse|hoop|varsity|win|soccer|point|).*shoot.*$" 
