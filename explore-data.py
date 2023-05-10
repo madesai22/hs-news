@@ -35,9 +35,7 @@ with open('/data/madesai/articles_clean.jsonlist') as f, open('./gv-headlines.cs
                 year = 3000
             
             bullet_and_march = re.findall(r"\bMarch for Our Lives\b|\bbullet\b",headline, re.IGNORECASE)
-            if bullet_and_march:
-                print(headline)
-                new_headlines +=1
+            
 
             gun_match = re.findall(r"\b(gun)\b", headline, re.IGNORECASE)
             sports_pattern = r"ball|lacrosse|score|point|film|movie|hoop|win|soccer|hockey|polo|champ|game|varsity|lax|trophy|sweep|flu|vaccin|photo|star|playoff|competition|finals"
@@ -72,6 +70,9 @@ with open('/data/madesai/articles_clean.jsonlist') as f, open('./gv-headlines.cs
 
                 else:
                     year_counts[year] = [0,1,1]
+            elif bullet_and_march:
+                print(headline)
+                new_headlines +=1
 f2.close()
 df = pd.DataFrame.from_dict(year_counts, orient='index', columns=[ 'n gv headlines','n other','total'])
 df.reset_index(inplace=True)
