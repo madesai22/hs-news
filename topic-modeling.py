@@ -6,10 +6,13 @@ import pandas as pd
 from gensim.parsing.preprocessing import preprocess_string, strip_punctuation, strip_multiple_whitespaces, remove_stopwords
 from gensim.corpora.dictionary import Dictionary
 from gensim.models.ldamodel import LdaModel
+from gensim.models.wrappers.ldamallet import LdaMallet
 from gensim.matutils import corpus2csc
 from gensim.models import CoherenceModel
 import numpy
+import pickle
 
+path_to_mallet_binary = "/home/madesai/Mallet/bin/mallet/"
 
 i = 0
 year_counts = {} # key: year (int) --> value: [n gv headlines, n other] (list)
@@ -71,45 +74,48 @@ all_corpus = [all_dictionary.doc2bow(text) for text in all_content]
 
 # train LDA model
 ntopics = 10
-lda = LdaModel(gv_corpus, num_topics = ntopics) 
+ldamallet = LdaMallet(path_to_mallet_binary, corpus=gv_corpus, num_topics=ntopics, id2word=gv_dictionary)
+pprint(ldamallet.show_topics(formatted=False))
+
+#lda = LdaModel(gv_corpus, num_topics = ntopics) 
 topics = lda.get_document_topics(gv_corpus)
 
-# train whole LDA
-ntopics_all = 45
-lda_all = LdaModel(all_corpus, num_topics = ntopics_all) 
-topics = lda.get_document_topics(all_corpus)
+# # train whole LDA
+# ntopics_all = 45
+# lda_all = LdaModel(all_corpus, num_topics = ntopics_all) 
+# topics = lda.get_document_topics(all_corpus)
 
 
-all_topics = []
-for j in range(0,ntopics):
-    topic_list = lda.get_topic_terms(j, topn=10)
-   #string_topics = [(gv_dictionary[item[0]], item[1]) for item in topic_list]
-    string_topics = [gv_dictionary[item[0]] for item in topic_list]
-    print(string_topics)
-    all_topics.append(string_topics)
+# all_topics = []
+# for j in range(0,ntopics):
+#     topic_list = lda.get_topic_terms(j, topn=10)
+#    #string_topics = [(gv_dictionary[item[0]], item[1]) for item in topic_list]
+#     string_topics = [gv_dictionary[item[0]] for item in topic_list]
+#     print(string_topics)
+#     all_topics.append(string_topics)
 
-all_topics_df = pd.DataFrame(all_topics) 
-all_topics_df.to_csv("topics_"+str(ntopics)+".csv")
+# all_topics_df = pd.DataFrame(all_topics) 
+# all_topics_df.to_csv("topics_"+str(ntopics)+".csv")
 
-# total topics 
-all_data_topics = []
-for j in range(0,ntopics):
-    topic_list_all = lda_all.get_topic_terms(j, topn=10)
-    string_topics = [all_dictionary[item[0]] for item in topic_list_all]
-    all_data_topics.append(string_topics)
-all_data_topics_df = pd.DataFrame(all_data_topics) 
-all_data_topics_df.to_csv("all_data_topics_"+str(ntopics_all)+".csv")
+# # total topics 
+# all_data_topics = []
+# for j in range(0,ntopics):
+#     topic_list_all = lda_all.get_topic_terms(j, topn=10)
+#     string_topics = [all_dictionary[item[0]] for item in topic_list_all]
+#     all_data_topics.append(string_topics)
+# all_data_topics_df = pd.DataFrame(all_data_topics) 
+# all_data_topics_df.to_csv("all_data_topics_"+str(ntopics_all)+".csv")
 
-#perplexity = lda.log_perplexity(lda)
-coherence_model_lda = CoherenceModel(model=lda, dictionary = gv_dictionary, corpus=gv_corpus, coherence="u_mass")
-coherence_lda = coherence_model_lda.get_coherence()
-#print("Perplexity = "+ str(perplexity))
-print("Coherence ="+str(coherence_lda))
+# #perplexity = lda.log_perplexity(lda)
+# coherence_model_lda = CoherenceModel(model=lda, dictionary = gv_dictionary, corpus=gv_corpus, coherence="u_mass")
+# coherence_lda = coherence_model_lda.get_coherence()
+# #print("Perplexity = "+ str(perplexity))
+# print("Coherence ="+str(coherence_lda))
 
 
-# save gun violence articles with all metadata here: 
-with open('/data/madesai/gun-violence-articles_clean.jsonlist', 'w') as file:
-    json.dumps(gv_json_file)
+# # save gun violence articles with all metadata here: 
+# with open('/data/madesai/gun-violence-articles_clean.jsonlist', 'w') as file:
+#     json.dumps(gv_json_file)
 
 
     
