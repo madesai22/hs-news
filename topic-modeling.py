@@ -32,36 +32,36 @@ CUSTOM_FILTERS = [lambda x: x.lower(), strip_punctuation, strip_multiple_whitesp
 with open('/data/madesai/articles_clean.jsonlist') as f:
 
     for line in f:
-       # if i <500: 
+        if i <500: 
         
 
-        data = json.loads(line)
-        headline = data['headline']
-        content = data['content']
+            data = json.loads(line)
+            headline = data['headline']
+            content = data['content']
 
-        preprocessed_all_content = preprocess_string(content, CUSTOM_FILTERS)
-        all_content.append(preprocessed_all_content)
-        march_match = re.findall(r"\bMarch for Our Lives\b|\bStudents Demand Action\b|\bNational School Walkout\b|\bsecond amendment\b|\bNRA\b|\bNever Again MSD\b|\b2nd amendment\b|\bstand for the second\b",headline, re.IGNORECASE)
-        gun_match = re.findall(r"\b(gun)\b|\b(firearm)\b", headline, re.IGNORECASE)
-        sports_pattern = r"ball|lacrosse|score|point|film|movie|hoop|win|soccer|court|hockey|polo|champ|game|varsity|lax|trophy|sweep|flu|vaccin|photo|star|playoff|competition|finals"
-        sports_match = re.findall(sports_pattern, headline, re.IGNORECASE)
-        shooting_match = re.findall(r"\b(?!(?:shot[\s-]?put(?:t|s)?(?:ter)?\b))(?:shoot|shot)\w*\b", headline, re.IGNORECASE)
-        long_shot_match = re.findall(r"(\blong\s+shot\w*)|(call\s+the\s+shot\w*)", headline, re.IGNORECASE)
-        shooter_likely = re.findall(r"\b(?:active|mass|school)\s+(?:shoot|shot)\w*\b", headline, re.IGNORECASE)
+            preprocessed_all_content = preprocess_string(content, CUSTOM_FILTERS)
+            all_content.append(preprocessed_all_content)
+            march_match = re.findall(r"\bMarch for Our Lives\b|\bStudents Demand Action\b|\bNational School Walkout\b|\bsecond amendment\b|\bNRA\b|\bNever Again MSD\b|\b2nd amendment\b|\bstand for the second\b",headline, re.IGNORECASE)
+            gun_match = re.findall(r"\b(gun)\b|\b(firearm)\b", headline, re.IGNORECASE)
+            sports_pattern = r"ball|lacrosse|score|point|film|movie|hoop|win|soccer|court|hockey|polo|champ|game|varsity|lax|trophy|sweep|flu|vaccin|photo|star|playoff|competition|finals"
+            sports_match = re.findall(sports_pattern, headline, re.IGNORECASE)
+            shooting_match = re.findall(r"\b(?!(?:shot[\s-]?put(?:t|s)?(?:ter)?\b))(?:shoot|shot)\w*\b", headline, re.IGNORECASE)
+            long_shot_match = re.findall(r"(\blong\s+shot\w*)|(call\s+the\s+shot\w*)", headline, re.IGNORECASE)
+            shooter_likely = re.findall(r"\b(?:active|mass|school)\s+(?:shoot|shot)\w*\b", headline, re.IGNORECASE)
 
 
-        if gun_match or shooter_likely or march_match or (shooting_match and not sports_match and not long_shot_match):
-            if i%100 == 0:
-                print(headline)
-            gv_json_file.append(line)
-            i += 1
-            
+            if gun_match or shooter_likely or march_match or (shooting_match and not sports_match and not long_shot_match):
+                if i%100 == 0:
+                    print(headline)
+                gv_json_file.append(line)
+                i += 1
+                
 
-            # remove multiple whitespaces, remove punctuation, tokenize 
-            preprocessed_content = preprocess_string(content, CUSTOM_FILTERS)
-            if i % 300 == 0:
-                print(preprocessed_content[:10])
-            gv_content.append(preprocessed_content)
+                # remove multiple whitespaces, remove punctuation, tokenize 
+                preprocessed_content = preprocess_string(content, CUSTOM_FILTERS)
+                if i % 300 == 0:
+                    print(preprocessed_content[:10])
+                gv_content.append(preprocessed_content)
 
 print("***")
 # create corpus
