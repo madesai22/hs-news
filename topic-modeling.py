@@ -12,7 +12,7 @@ from gensim.models import CoherenceModel
 import numpy
 import pickle
 
-path_to_mallet_binary = "/home/madesai/Mallet/bin/mallet/"
+path_to_mallet_binary = "/home/madesai/Mallet/bin/mallet.bat"
 
 i = 0
 year_counts = {} # key: year (int) --> value: [n gv headlines, n other] (list)
