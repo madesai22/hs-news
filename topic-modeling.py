@@ -10,6 +10,7 @@ from gensim.models.wrappers.ldamallet import LdaMallet
 from gensim.matutils import corpus2csc
 from gensim.models import CoherenceModel
 import numpy
+import pprint
 import pickle
 
 path_to_mallet_binary = "/home/madesai/Mallet/bin/mallet"
