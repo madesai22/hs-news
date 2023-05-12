@@ -76,7 +76,20 @@ all_corpus = [all_dictionary.doc2bow(text) for text in all_content]
 # train LDA model
 ntopics = 10
 ldamallet = LdaMallet(path_to_mallet_binary, corpus=gv_corpus, num_topics=ntopics, id2word=gv_dictionary)
-print(ldamallet.show_topics(formatted=False))
+topic_list  = ldamallet.show_topics(formatted=False)
+topic_dict = {}
+for t in topic_list:
+    word_list = []
+    for t2 in t[1]:
+        word_list.append(t2[0])
+
+    topic_dict[t[0]]=word_list
+
+topic_df= pd.DataFrame.from_dict(data)
+print(topic_df)
+
+
+
 
 #lda = LdaModel(gv_corpus, num_topics = ntopics) 
 topics = lda.get_document_topics(gv_corpus)
