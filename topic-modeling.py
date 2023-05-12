@@ -52,16 +52,16 @@ with open('/data/madesai/articles_clean.jsonlist') as f:
 
 
             if gun_match or shooter_likely or march_match or (shooting_match and not sports_match and not long_shot_match):
-                if i%100 == 0:
-                    print(headline)
+              #  if i%100 == 0:
+              #      print(headline)
                 gv_json_file.append(line)
                 i += 1
                 
 
                 # remove multiple whitespaces, remove punctuation, tokenize 
                 preprocessed_content = preprocess_string(content, CUSTOM_FILTERS)
-                if i % 300 == 0:
-                    print(preprocessed_content[:10])
+                
+                print(preprocessed_content[:10])
                 gv_content.append(preprocessed_content)
 
 print("***")
@@ -73,21 +73,21 @@ gv_corpus = [gv_dictionary.doc2bow(text) for text in gv_content]
 all_dictionary = Dictionary(all_content)
 all_corpus = [all_dictionary.doc2bow(text) for text in all_content]
 
-# train LDA model
-ntopics = 10
-ldamallet = LdaMallet(path_to_mallet_binary, corpus=gv_corpus, num_topics=ntopics, id2word=gv_dictionary)
-topic_list  = ldamallet.show_topics(formatted=False)
-topic_dict = {}
-for t in topic_list:
-    word_list = []
-    for t2 in t[1]:
-        word_list.append(t2[0])
+# # train LDA model
+# ntopics = 10
+# ldamallet = LdaMallet(path_to_mallet_binary, corpus=gv_corpus, num_topics=ntopics, id2word=gv_dictionary)
+# topic_list  = ldamallet.show_topics(formatted=False)
+# topic_dict = {}
+# for t in topic_list:
+#     word_list = []
+#     for t2 in t[1]:
+#         word_list.append(t2[0])
 
-    topic_dict[t[0]]=word_list
-    print(t[0], word_list)
+#     topic_dict[t[0]]=word_list
+#     print(t[0], word_list)
 
-topic_df= pd.DataFrame.from_dict(data)
-print(topic_df)
+# topic_df= pd.DataFrame.from_dict(data,orient='index')
+# print(topic_df)
 
 
 
