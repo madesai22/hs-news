@@ -59,6 +59,8 @@ with open('/data/madesai/articles_clean.jsonlist') as f:
                 
 
                 # remove multiple whitespaces, remove punctuation, tokenize 
+                print(content[:10])
+                print(type(content))
                 content = re.sub(r'"', '', content)
 
                 preprocessed_content = preprocess_string(content, CUSTOM_FILTERS)
