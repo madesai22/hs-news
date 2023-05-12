@@ -59,7 +59,7 @@ with open('/data/madesai/articles_clean.jsonlist') as f:
                 
 
                 # remove multiple whitespaces, remove punctuation, tokenize 
-                if (re.findall(r'"', '', content)):
+                if (re.findall(r'\"', '', content)):
                     print(content)
 
                 content = re.sub(r'"', '', content)
