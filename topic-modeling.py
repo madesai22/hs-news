@@ -26,7 +26,7 @@ gv_content = []
 all_content = []
 
 #preprocessing filters:
-CUSTOM_FILTERS = [lambda x: x.lower(), x,.lstrip('\"'), strip_punctuation, strip_multiple_whitespaces, remove_stopwords]
+CUSTOM_FILTERS = [lambda x: x.lower(), x.lstrip('\"'), strip_punctuation, strip_multiple_whitespaces, remove_stopwords]
 
 #open file and add in gun violence content
 
