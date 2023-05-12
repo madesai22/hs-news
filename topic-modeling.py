@@ -59,13 +59,14 @@ with open('/data/madesai/articles_clean.jsonlist') as f:
                 
 
                 # remove multiple whitespaces, remove punctuation, tokenize 
-                if (re.findall(r'\"', '', content)):
-                    print(content)
+                
 
                 content = re.sub(r'"', '', content)
 
-                if (re.findall(r'"', '', content)):
-                    print(content)
+                pattern = r'".*"'
+                if re.search(pattern, content):
+                    print("quote: "+content)
+
 
                 preprocessed_content = preprocess_string(content, CUSTOM_FILTERS)
                 
