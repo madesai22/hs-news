@@ -84,6 +84,7 @@ for t in topic_list:
         word_list.append(t2[0])
 
     topic_dict[t[0]]=word_list
+    print(t[0], word_list)
 
 topic_df= pd.DataFrame.from_dict(data)
 print(topic_df)
@@ -92,7 +93,7 @@ print(topic_df)
 
 
 #lda = LdaModel(gv_corpus, num_topics = ntopics) 
-topics = lda.get_document_topics(gv_corpus)
+#topics = lda.get_document_topics(gv_corpus)
 
 # # train whole LDA
 # ntopics_all = 45
