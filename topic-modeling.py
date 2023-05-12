@@ -26,7 +26,7 @@ gv_content = []
 all_content = []
 
 #preprocessing filters:
-CUSTOM_FILTERS = [lambda x: x.lstrip('\"'), strip_punctuation, strip_multiple_whitespaces, remove_stopwords]
+CUSTOM_FILTERS = [lambda x: x.lower(), strip_punctuation, strip_multiple_whitespaces, remove_stopwords]
 
 #open file and add in gun violence content
 
@@ -59,6 +59,8 @@ with open('/data/madesai/articles_clean.jsonlist') as f:
                 
 
                 # remove multiple whitespaces, remove punctuation, tokenize 
+                content = re.sub(r'"', '', content)
+
                 preprocessed_content = preprocess_string(content, CUSTOM_FILTERS)
                 
                 print(preprocessed_content[:10])
