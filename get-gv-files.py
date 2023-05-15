@@ -41,29 +41,30 @@ def main():
     total = 0 
     with open('/data/madesai/articles_clean.jsonlist') as f, open(path+'/gv-headlines.csv','w') as f2:
         for line in f:
-            data = json.loads(line)
-            headline = data['headline']
-            content = pp.pre_process(data['content'],stopwords)
+            if n_gv < 400: 
+                data = json.loads(line)
+                headline = data['headline']
+                content = pp.pre_process(data['content'],stopwords)
 
 
-            if data['date']:
-                year = pp.get_year(data['date'])
-            else:
-                year =  3000
-            
-            all_headlines.append(headline)
-            all_content.append(content)
-            sys.stdout.write("Found {} total headlines".format(total))
-            sys.stdout.flush()
-            total +=1
-
-            if pp.match_gun_violence(headline):
-                gv_json_file.append(line)
-                gv_content.append(content,stopwords)
-                f2.write(headline+','+str(year)+'\n')
-                sys.stdout.write("Found {} gun violence headlines".format(n_gv))
+                if data['date']:
+                    year = pp.get_year(data['date'])
+                else:
+                    year =  3000
+                
+                all_headlines.append(headline)
+                all_content.append(content)
+                sys.stdout.write("Found {} total headlines".format(total))
                 sys.stdout.flush()
-                n_gv +=1
+                total +=1
+
+                if pp.match_gun_violence(headline):
+                    gv_json_file.append(line)
+                    gv_content.append(content,stopwords)
+                    f2.write(headline+','+str(year)+'\n')
+                    sys.stdout.write("Found {} gun violence headlines".format(n_gv))
+                    sys.stdout.flush()
+                    n_gv +=1
     
     sys.stdout.write("Writing files...")
     fh.pickle_data(gv_content, path+'/gv_content.pkl')
