@@ -10,29 +10,28 @@ from gensim.models.wrappers.ldamallet import LdaMallet
 from gensim.matutils import corpus2csc
 from gensim.models import CoherenceModel
 import numpy
-import pprint
-import pickle
 from unidecode import unidecode
 import string
+import file_handling as fh
 
-def pre_process(content):
-    content = re.sub(' +|\n+|\t+', ' ', content)
-    return content.translate(str.maketrans('', '', string.punctuation)).lower().strip()
-
+stop_words = fh.read_text_to_list("./snowball.txt")
+stopwords = set([word.strip() for word in stopwords])
 path_to_mallet_binary = "/home/madesai/Mallet/bin/mallet"
 
+def pre_process(content, stopwords): #remove punctuation, remove stop words, lower case, and tokenize 
+    content =  unidecode(content)
+    content = re.sub(' +|\n+|\t+', ' ', content)
+    content = content.translate(str.maketrans('', '', string.punctuation)).lower().strip()
+    content = [token for token in content.split() if token not in stopwords]
+    return content
+
+
+
 i = 0
-year_counts = {} # key: year (int) --> value: [n gv headlines, n other] (list)
-#df = pd.DataFrame(columns = ['year', 'n gv headlines','n other','total','percent gv'])
-
-
 
 gv_json_file = []
 gv_content = []
 all_content = []
-
-#preprocessing filters:
-CUSTOM_FILTERS = [lambda x: pre_process(x), remove_stopwords]
 
 #open file and add in gun violence content
 
@@ -58,19 +57,12 @@ with open('/data/madesai/articles_clean.jsonlist') as f:
 
 
             if gun_match or shooter_likely or march_match or (shooting_match and not sports_match and not long_shot_match):
-              #  if i%100 == 0:
-              #      print(headline)
                 gv_json_file.append(line)
                 i += 1
                 
 
                 # remove multiple whitespaces, remove punctuation, tokenize 
-                
-
-                content =  unidecode(content)
-                
-
-                preprocessed_content = preprocess_string(content, CUSTOM_FILTERS)
+                preprocessed_content = pre_process(content, stopwords)
                 print(preprocessed_content[:10])
                 gv_content.append(preprocessed_content)
 
@@ -139,8 +131,10 @@ print(topic_df)
 
 
 # # save gun violence articles with all metadata here: 
-# with open('/data/madesai/gun-violence-articles_clean.jsonlist', 'w') as file:
-#     json.dumps(gv_json_file)
+fh.write_list_to_text(gv_json_file,'/data/madesai/gun-violence-articles_clean.jsonlist')
+
+fh.pickle_data(gv_content, 'gv_content.pkl')
+#fh.pickle_data(all_content, 'all_content.pkl')
 
 
     

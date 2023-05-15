@@ -95,3 +95,8 @@ def load_sparse(input_filename):
     npy = np.load(input_filename)
     coo_matrix = sparse.coo_matrix((npy['data'], (npy['row'], npy['col'])), shape=npy['shape'])
     return coo_matrix.tocsc()
+
+def write_documentation(documentation, filename):
+    f = open(filename,"w")
+    f.write(documentation)
+    f.close()
