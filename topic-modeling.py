@@ -13,6 +13,11 @@ import numpy
 import pprint
 import pickle
 from unidecode import unidecode
+import string
+
+def pre_process(content):
+    content = re.sub(' +|\n+|\t+', ' ', content)
+    return content.translate(str.maketrans('', '', string.punctuation)).lower().strip()
 
 path_to_mallet_binary = "/home/madesai/Mallet/bin/mallet"
 
@@ -27,7 +32,7 @@ gv_content = []
 all_content = []
 
 #preprocessing filters:
-CUSTOM_FILTERS = [lambda x: x.lower(), strip_punctuation, strip_multiple_whitespaces, remove_stopwords]
+CUSTOM_FILTERS = [lambda x: pre_process(x), remove_stopwords]
 
 #open file and add in gun violence content
 
@@ -63,6 +68,7 @@ with open('/data/madesai/articles_clean.jsonlist') as f:
                 
 
                 content =  unidecode(content)
+                
 
                 preprocessed_content = preprocess_string(content, CUSTOM_FILTERS)
                 #print(preprocessed_content[:10])
