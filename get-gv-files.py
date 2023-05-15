@@ -33,22 +33,23 @@ def main():
     stopwords = fh.read_text_to_list(stopword_file)
     stopwords = set([word.strip() for word in stopwords])
 
-    gv_json_file = []
-    gv_content = []
+    gv_by_headline_json_file = []
+    gv_by_headline_content = []
+    gv_by_content_content = []
     all_content = []
     all_headlines = []
     n_gv = 0 
     total = 0
     with open('/data/madesai/articles_clean.jsonlist') as f, open(path+'/gv-headlines.csv','w') as f2, open(path+'/shooting-headlines.csv','w') as f3:
         for line in f:
-            sys.stdout.write("seeing %d articles\r" %total)
+            sys.stdout.write("Seen %.2f percent of articles\r" %total/1951843*100)
             sys.stdout.flush()
             total +=1
             
             data = json.loads(line)
             headline = data['headline']
-            #content = pp.pre_process(data['content'],stopwords)
             content = data['content']
+            pp_content = pp.pre_process(content,stopwords)
 
             if data['date']:
                 year = pp.get_year(data['date'])
@@ -59,30 +60,33 @@ def main():
             all_content.append(content)
 
             if pp.match_gun_violence(headline):
-                #gv_json_file.append(line)
-                #gv_content.append(content)
+                gv_by_headline_json_file.append(line)
+                gv_by_headline_content.append(pp_content)
                 f2.write(headline.replace(",", "")+','+str(year)+'\n')
                 n_gv +=1
             if pp.match_gun_violence_simple(content):
+                gv_by_content_content.append(pp_content)
                 f3.write(headline.replace(",", "")+','+str(year)+'\n')      
     
-    # sys.stdout.write("Writing files...")
-    # fh.pickle_data(gv_content, path+'/gv_content.pkl')
-    # fh.pickle_data(all_headlines,path +'/all_headlines.pkl')
-    # fh.pickle_data(all_content, path+'/all_content.pkl')
-    # fh.write_to_jsonlist(gv_json_file,path+'/gun-violence-articles_clean.jsonlist')
-    
-    # documentation = """file,description
-    # gv-headlines.csv,headlines that match gun violence terms - not preprocessed
-    # gv_content.pkl,list of full content of articles that match gun violence terms, where each article is preprocessed (list of list of strings)
-    # all_headlines.pkl,list of headlines of all articles, where each headline is preprocessed (list of list of strings)
-    # all_content.pkl,list of full content of articles, where each article is preprocessed (list of list of strings)
-    # gun-violence-articles_clean.jsonlist,jsonlist file with all articles that match gun violence terms, no preprocessing
-    # stopwords, """+ stopword_file+""" 
-    # other preprocessing, remove punctuation remove extra white spaces words lowercased tokenized"""
+    sys.stdout.write("Writing files...")
+    fh.pickle_data(gv_by_content_content, path+'/gv_content_by_content.pkl')
+    fh.pickle_data(gv_by_headline_content, path+'/gv_content_by_headline.pkl')
+    fh.pickle_data(all_headlines,path +'/all_headlines.pkl')
+    fh.pickle_data(all_content, path+'/all_content.pkl')
+    fh.write_to_jsonlist(gv_by_headline_json_file,path+'/gun-violence-articles-by-headline_clean.jsonlist')
 
-    # fh.write_documentation(documentation,path+"/README.txt")
-    # sys.stdout.write("Done!")
+
+    documentation = """file,description
+    gv-headlines.csv,headlines that match gun violence terms - not preprocessed
+    gv_content.pkl,list of full content of articles that match gun violence terms, where each article is preprocessed (list of list of strings)
+    all_headlines.pkl,list of headlines of all articles, where each headline is preprocessed (list of list of strings)
+    all_content.pkl,list of full content of articles, where each article is preprocessed (list of list of strings)
+    gun-violence-articles_clean.jsonlist,jsonlist file with all articles that match gun violence terms, no preprocessing
+    stopwords, """+ stopword_file+""" 
+    other preprocessing, remove punctuation remove extra white spaces words lowercased tokenized"""
+
+    fh.write_documentation(documentation,path+"/README.txt")
+    sys.stdout.write("Done!")
 
 
 if __name__ == '__main__':

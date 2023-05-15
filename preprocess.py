@@ -5,19 +5,21 @@ from datetime import datetime
 import file_handling as fh
 
 def match_gun_violence(text):
-    march_match = re.search(r"\bMarch for Our Lives\b|\bStudents Demand Action\b|\bNational School Walkout\b|\bsecond amendment\b|\bNRA\b|Never Again MSD|2nd amendment|stand for the second|moms demand action|\beverytown\b|sandy hook promise|bear arms|assault weapons",text, re.IGNORECASE)
-    gun_match = re.search(r"\b(gun+(s)*)\b|\b(firearm+(s)*)\b|\b(gunfir)", text, re.IGNORECASE)
+    march_match = re.search(r"\bMarch(ing|es|ed)? for Our Lives\b|neveragain|\bStudents Demand Action\b|\bNational School Walkout\b|\bsecond amendment\b|\bNRA\b|Never Again MSD|2nd amendment|stand for the second|moms demand action|\beverytown\b|sandy hook promise|bear(ing)* arms|(conceal(ed)*|assault|automatic)+ (rifle|weapon|carry)+|national walk(-|\s)?out",text, re.IGNORECASE)
+    alice_match = re.search(r"\bALICE\b", text)
+    gun_match = re.search(r"\b(gun+(s)*)\b|\b(firearm+(s)*)\b|\b(gunfir)|(^(?=.*teach)(?=.*arm).*)", text, re.IGNORECASE)
     mgk = re.search(r"machine gun kelly|\btop gun",text, re.IGNORECASE)
-    sports_pattern = r"ball|lacrosse|score|point|film|movie|hoop|win|soccer|court|hockey|polo|champ|game|varsity|lax|trophy|sweep|flu|vaccin|photo|star|playoff|competition|finals|drink|alcohol"
+    sports_pattern = r"ball\b|lacrosse|score|film|movie|hoop|win|soccer|court|hockey|polo|champ|game|varsity|lax|trophy|sweep|flu|vaccin|photo|star|playoff|competition|finals|drink|alcohol"
     sports_match = re.search(sports_pattern, text, re.IGNORECASE)
     shooting_match = re.search(r"\b(?!(?:shot[\s-]?put(?:t|s)?(?:ter)?\b))(?:shoot|shot)\w*\b", text, re.IGNORECASE)
     long_shot_match = re.search(r"(long\s+shot|big\s+shot|best\s+shot\w*)|(call+(ing|ed|s)* the shot)", text, re.IGNORECASE)
     shooter_likely = re.search(r"\b(?:active|mass|school|campus)\s+(?:shoot|shot)\w*", text, re.IGNORECASE)
-    match = (gun_match and not mgk) or shooter_likely or march_match or (shooting_match and not sports_match and not long_shot_match)
+    match = (gun_match and not mgk) or alice_match or shooter_likely or march_match or (shooting_match and not sports_match and not long_shot_match)
     return match
 
 def match_gun_violence_simple(text):
     shooter_likely = re.search(r"\b(?:active|mass|school|campus)\s+(?:shoot|shot)\w*", text, re.IGNORECASE)
+    
     return  shooter_likely
 
 def get_year(date_string):
