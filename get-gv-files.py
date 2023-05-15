@@ -57,23 +57,23 @@ def main():
                 year =  3000
             
             all_headlines.append(headline)
-            all_content.append(content)
+            all_content.append(pp_content)
 
-            if pp.match_gun_violence(headline):
-                gv_by_headline_json_file.append(line)
-                gv_by_headline_content.append(pp_content)
-                f2.write(headline.replace(",", "")+','+str(year)+'\n')
-                n_gv +=1
-            if pp.match_gun_violence_simple(content):
-                gv_by_content_content.append(pp_content)
-                f3.write(headline.replace(",", "")+','+str(year)+'\n')      
+            # if pp.match_gun_violence(headline):
+            #     gv_by_headline_json_file.append(line)
+            #     gv_by_headline_content.append(pp_content)
+            #     f2.write(headline.replace(",", "")+','+str(year)+'\n')
+            #     n_gv +=1
+            # if pp.match_gun_violence_simple(content):
+            #     gv_by_content_content.append(pp_content)
+            #     f3.write(headline.replace(",", "")+','+str(year)+'\n')      
     
     sys.stdout.write("Writing files...")
-    fh.pickle_data(gv_by_content_content, path+'/gv_content_by_content.pkl')
-    fh.pickle_data(gv_by_headline_content, path+'/gv_content_by_headline.pkl')
+    #fh.pickle_data(gv_by_content_content, path+'/gv_content_by_content.pkl')
+    #fh.pickle_data(gv_by_headline_content, path+'/gv_content_by_headline.pkl')
     fh.pickle_data(all_headlines,path +'/all_headlines.pkl')
     fh.pickle_data(all_content, path+'/all_content.pkl')
-    fh.write_to_jsonlist(gv_by_headline_json_file,path+'/gun-violence-articles-by-headline_clean.jsonlist')
+    #fh.write_to_jsonlist(gv_by_headline_json_file,path+'/gun-violence-articles-by-headline_clean.jsonlist')
 
 
     documentation = """file,description
