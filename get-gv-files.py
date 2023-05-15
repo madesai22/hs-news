@@ -42,7 +42,7 @@ def main():
     total = 0
     with open('/data/madesai/articles_clean.jsonlist') as f, open(path+'/gv-headlines.csv','w') as f2, open(path+'/shooting-headlines.csv','w') as f3:
         for line in f:
-            sys.stdout.write("Seen %.2f percent of articles\r" %total/1951843*100)
+            sys.stdout.write("Seen %.2f percent of articles\r" %(total/1951843*100))
             sys.stdout.flush()
             total +=1
             
