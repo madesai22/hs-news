@@ -23,7 +23,7 @@ def main():
         path = "/data/madesai/gv-topic-data/"
     print("Writing to "+path)
     
-    if sys.argv[2] and os.path.exists(os.path.dirname(sys.argv[2]):
+    if sys.argv[2] and os.path.exists(os.path.dirname(sys.argv[2])):
         stopword_file = sys.argv[2]
     else:
         stopword_file = "/home/madesai/snowball.txt"
