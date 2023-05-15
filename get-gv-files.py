@@ -60,7 +60,7 @@ def main():
 
                 if pp.match_gun_violence(headline):
                     gv_json_file.append(line)
-                    gv_content.append(content,stopwords)
+                    gv_content.append(content)
                     f2.write(headline+','+str(year)+'\n')
                     sys.stdout.write("Found {} gun violence headlines".format(n_gv))
                     sys.stdout.flush()
