@@ -63,17 +63,9 @@ with open('/data/madesai/articles_clean.jsonlist') as f:
                 
 
                 content =  unidecode(content)
-                content = content.replace('"','')
-
-                pattern = r'".*"'
-                if re.search(pattern, content):
-                    print("quote: "+content)
-
 
                 preprocessed_content = preprocess_string(content, CUSTOM_FILTERS)
-                #print(type(preprocessed_content))
-                #print(type(preprocessed_content[0]))
-                print(preprocessed_content[:10])
+                #print(preprocessed_content[:10])
                 gv_content.append(preprocessed_content)
 
 print("***")
@@ -86,20 +78,20 @@ all_dictionary = Dictionary(all_content)
 all_corpus = [all_dictionary.doc2bow(text) for text in all_content]
 
 # # train LDA model
-# ntopics = 10
-# ldamallet = LdaMallet(path_to_mallet_binary, corpus=gv_corpus, num_topics=ntopics, id2word=gv_dictionary)
-# topic_list  = ldamallet.show_topics(formatted=False)
-# topic_dict = {}
-# for t in topic_list:
-#     word_list = []
-#     for t2 in t[1]:
-#         word_list.append(t2[0])
+ntopics = 10
+ldamallet = LdaMallet(path_to_mallet_binary, corpus=gv_corpus, num_topics=ntopics, id2word=gv_dictionary)
+topic_list  = ldamallet.show_topics(formatted=False)
+topic_dict = {}
+for t in topic_list:
+    word_list = []
+    for t2 in t[1]:
+        word_list.append(t2[0])
 
-#     topic_dict[t[0]]=word_list
-#     print(t[0], word_list)
+    topic_dict[t[0]]=word_list
+    print(t[0], word_list)
 
-# topic_df= pd.DataFrame.from_dict(data,orient='index')
-# print(topic_df)
+topic_df= pd.DataFrame.from_dict(data,orient='index')
+print(topic_df)
 
 
 
