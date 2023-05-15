@@ -16,16 +16,17 @@ import os
 
 
 def main():
-    if sys.argv[1]:
+    try:
         path = sys.argv[1]
         fh.makedirs(path)
-    else:
+    except:
         path = "/data/madesai/gv-topic-data/"
     print("Writing to "+path)
     
-    if sys.argv[2] and os.path.exists(os.path.dirname(sys.argv[2])):
-        stopword_file = sys.argv[2]
-    else:
+    try:
+        if os.path.exists(os.path.dirname(sys.argv[2])):
+            stopword_file = sys.argv[2]
+    except:
         stopword_file = "/home/madesai/snowball.txt"
         
     print("Reading stopwords from "+stopword_file)
