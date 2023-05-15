@@ -61,7 +61,8 @@ with open('/data/madesai/articles_clean.jsonlist') as f:
                 # remove multiple whitespaces, remove punctuation, tokenize 
                 
 
-                content = re.sub(r'"', '', content)
+                #content = re.sub(r'"', '', content)
+                content = content.replace('"','')
 
                 pattern = r'".*"'
                 if re.search(pattern, content):
@@ -69,9 +70,9 @@ with open('/data/madesai/articles_clean.jsonlist') as f:
 
 
                 preprocessed_content = preprocess_string(content, CUSTOM_FILTERS)
-                print(type(preprocessed_content))
-                print(type(preprocessed_content[0]))
-               # print(preprocessed_content[:10])
+                #print(type(preprocessed_content))
+                #print(type(preprocessed_content[0]))
+                print(preprocessed_content[:10])
                 gv_content.append(preprocessed_content)
 
 print("***")
