@@ -38,8 +38,12 @@ def main():
     all_content = []
     all_headlines = []
     n_gv = 0 
+    total = 0
     with open('/data/madesai/articles_clean.jsonlist') as f, open(path+'/gv-headlines.csv','w') as f2, open(path+'/naive-gv-headlines.csv','w') as f3:
         for line in f:
+            sys.stdout.write("seeing {} articles".format(total))
+            sys.stdout.flush()
+            total +=1
             
             data = json.loads(line)
             headline = data['headline']
