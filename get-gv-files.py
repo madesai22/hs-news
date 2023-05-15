@@ -38,50 +38,47 @@ def main():
     all_content = []
     all_headlines = []
     n_gv = 0 
-    total = 0 
-    with open('/data/madesai/articles_clean.jsonlist') as f, open(path+'/gv-headlines.csv','w') as f2:
+    with open('/data/madesai/articles_clean.jsonlist') as f, open(path+'/gv-headlines.csv','w') as f2, open(path+'/naive-gv-headlines.csv','w') as f3:
         for line in f:
-            if n_gv < 400: 
-                data = json.loads(line)
-                headline = data['headline']
-                content = pp.pre_process(data['content'],stopwords)
+            
+            data = json.loads(line)
+            headline = data['headline']
+            content = pp.pre_process(data['content'],stopwords)
 
 
-                if data['date']:
-                    year = pp.get_year(data['date'])
-                else:
-                    year =  3000
-                
-                all_headlines.append(headline)
-                all_content.append(content)
-                sys.stdout.write("Found {} total headlines".format(total))
-                sys.stdout.flush()
-                total +=1
+            if data['date']:
+                year = pp.get_year(data['date'])
+            else:
+                year =  3000
+            
+            all_headlines.append(headline)
+            all_content.append(content)
 
-                if pp.match_gun_violence(headline):
-                    gv_json_file.append(line)
-                    gv_content.append(content)
-                    f2.write(headline+','+str(year)+'\n')
-                    sys.stdout.write("Found {} gun violence headlines".format(n_gv))
-                    sys.stdout.flush()
-                    n_gv +=1
+            if pp.match_gun_violence(headline):
+                #gv_json_file.append(line)
+                #gv_content.append(content)
+                f2.write(headline.replace(",", "")+','+str(year)+'\n')
+                n_gv +=1
+            if pp.match_gun_violence_simple(content):
+                f3.write(headline.replace(",", "")+','+str(year)+'\n')
     
-    sys.stdout.write("Writing files...")
-    fh.pickle_data(gv_content, path+'/gv_content.pkl')
-    fh.pickle_data(all_headlines,path +'/all_headlines.pkl')
-    fh.pickle_data(all_content, path+'/all_content.pkl')
-    fh.write_to_jsonlist(gv_json_file,path+'/gun-violence-articles_clean.jsonlist')
+    # sys.stdout.write("Writing files...")
+    # fh.pickle_data(gv_content, path+'/gv_content.pkl')
+    # fh.pickle_data(all_headlines,path +'/all_headlines.pkl')
+    # fh.pickle_data(all_content, path+'/all_content.pkl')
+    # fh.write_to_jsonlist(gv_json_file,path+'/gun-violence-articles_clean.jsonlist')
     
-    documentation = """file\tdescription\n
-    gv-headlines.csv\theadlines that match gun violence terms - not preprocessed\n
-    gv_content.pkl\tlist of full content of articles that match gun violence terms, where each article is preprocessed (list of list of strings)\n
-    all_headlines.pkl\tlist of headlines of all articles, where each headline is preprocessed (list of list of strings)\n
-    all_content.pkl\tlist of full content of articles, where each article is preprocessed (list of list of strings)\n
-    gun-violence-articles_clean.jsonlist\t jsonlist file with all articles that match gun violence terms, no preprocessing\n\n
-    preprocessing: """+ stopword_file+""" stopwords, punctuation, extra white spaces, removed, words lowercased, tokenized\n"""
+    # documentation = """file,description
+    # gv-headlines.csv,headlines that match gun violence terms - not preprocessed
+    # gv_content.pkl,list of full content of articles that match gun violence terms, where each article is preprocessed (list of list of strings)
+    # all_headlines.pkl,list of headlines of all articles, where each headline is preprocessed (list of list of strings)
+    # all_content.pkl,list of full content of articles, where each article is preprocessed (list of list of strings)
+    # gun-violence-articles_clean.jsonlist,jsonlist file with all articles that match gun violence terms, no preprocessing
+    # stopwords, """+ stopword_file+""" 
+    # other preprocessing, remove punctuation remove extra white spaces words lowercased tokenized"""
 
-    fh.write_documentation(documentation,path+"/README.txt")
-    sys.stdout.write("Done!")
+    # fh.write_documentation(documentation,path+"/README.txt")
+    # sys.stdout.write("Done!")
 
 
 if __name__ == '__main__':
