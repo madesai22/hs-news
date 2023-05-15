@@ -1,142 +1,57 @@
-import json
-import re
-from datetime import datetime
-import matplotlib.pyplot as plt
-import pandas as pd 
-from gensim.parsing.preprocessing import preprocess_string, strip_punctuation, strip_multiple_whitespaces, remove_stopwords
-from gensim.corpora.dictionary import Dictionary
-from gensim.models.ldamodel import LdaModel
 from gensim.models.wrappers.ldamallet import LdaMallet
 from gensim.matutils import corpus2csc
 from gensim.models import CoherenceModel
+from gensim.corpora.dictionary import Dictionary
 import numpy
-from unidecode import unidecode
-import string
 import file_handling as fh
-
-stop_words = fh.read_text_to_list("./snowball.txt")
-stopwords = set([word.strip() for word in stopwords])
-path_to_mallet_binary = "/home/madesai/Mallet/bin/mallet"
-
-def pre_process(content, stopwords): #remove punctuation, remove stop words, lower case, and tokenize 
-    content =  unidecode(content)
-    content = re.sub(' +|\n+|\t+', ' ', content)
-    content = content.translate(str.maketrans('', '', string.punctuation)).lower().strip()
-    content = [token for token in content.split() if token not in stopwords]
-    return content
+import pandas as pd
 
 
+def topic_model(path_to_file, ntopics):
 
-i = 0
-
-gv_json_file = []
-gv_content = []
-all_content = []
-
-#open file and add in gun violence content
-
-with open('/data/madesai/articles_clean.jsonlist') as f:
-
-    for line in f:
-        if i <500: 
-        
-
-            data = json.loads(line)
-            headline = data['headline']
-            content = data['content']
-
-           # preprocessed_all_content = preprocess_string(content, CUSTOM_FILTERS)
-           # all_content.append(preprocessed_all_content)
-            march_match = re.findall(r"\bMarch for Our Lives\b|\bStudents Demand Action\b|\bNational School Walkout\b|\bsecond amendment\b|\bNRA\b|\bNever Again MSD\b|\b2nd amendment\b|\bstand for the second\b",headline, re.IGNORECASE)
-            gun_match = re.findall(r"\b(gun)\b|\b(firearm)\b", headline, re.IGNORECASE)
-            sports_pattern = r"ball|lacrosse|score|point|film|movie|hoop|win|soccer|court|hockey|polo|champ|game|varsity|lax|trophy|sweep|flu|vaccin|photo|star|playoff|competition|finals"
-            sports_match = re.findall(sports_pattern, headline, re.IGNORECASE)
-            shooting_match = re.findall(r"\b(?!(?:shot[\s-]?put(?:t|s)?(?:ter)?\b))(?:shoot|shot)\w*\b", headline, re.IGNORECASE)
-            long_shot_match = re.findall(r"(\blong\s+shot\w*)|(call\s+the\s+shot\w*)", headline, re.IGNORECASE)
-            shooter_likely = re.findall(r"\b(?:active|mass|school)\s+(?:shoot|shot)\w*\b", headline, re.IGNORECASE)
+    path_to_mallet_binary = "/home/madesai/Mallet/bin/mallet"
+    path = "/".join(path_to_file.split("/")[:-1])+"/"
+    file_name = path[-1].split(".")[0]
 
 
-            if gun_match or shooter_likely or march_match or (shooting_match and not sports_match and not long_shot_match):
-                gv_json_file.append(line)
-                i += 1
-                
+    content = fh.unpickle_data(path_to_file)
+    dictionary = Dictionary(content)
+    corpus = [dictionary.doc2bow(text) for text in content]
 
-                # remove multiple whitespaces, remove punctuation, tokenize 
-                preprocessed_content = pre_process(content, stopwords)
-                print(preprocessed_content[:10])
-                gv_content.append(preprocessed_content)
+    ldamallet = LdaMallet(path_to_mallet_binary, corpus=corpus, num_topics=ntopics, id2word=dictionary)
 
-print("***")
-# create corpus
-gv_dictionary = Dictionary(gv_content)
-gv_corpus = [gv_dictionary.doc2bow(text) for text in gv_content]
+    topic_list  = ldamallet.show_topics(formatted=False)
+    topic_dict = {}
+    for t in topic_list:
+        word_list = []
+        for t2 in t[1]:
+            word_list.append(t2[0])
 
-# create whole corpus 
-all_dictionary = Dictionary(all_content)
-all_corpus = [all_dictionary.doc2bow(text) for text in all_content]
+        topic_dict[t[0]]=word_list
+        print(t[0], word_list)
 
-# # train LDA model
-ntopics = 10
-ldamallet = LdaMallet(path_to_mallet_binary, corpus=gv_corpus, num_topics=ntopics, id2word=gv_dictionary)
-topic_list  = ldamallet.show_topics(formatted=False)
-topic_dict = {}
-for t in topic_list:
-    word_list = []
-    for t2 in t[1]:
-        word_list.append(t2[0])
+    topic_df= pd.DataFrame.from_dict(topic_dict,orient='index')
+    topic_df.to_csv(path+file_name+"topics_"+str(ntopics)+".csv")
 
-    topic_dict[t[0]]=word_list
-    print(t[0], word_list)
+def main():
+    path = "/data/madesai/gv-topic-data/"
+    data =["all_content.pkl","all_headlines.pkl"]
+    gv_data = "gv_content_by_headline.pkl"
+    ntopics = [25,40,55]
+    gv_topics = [5,10,15]
 
-topic_df= pd.DataFrame.from_dict(data,orient='index')
-print(topic_df)
+    for p in data:
+        for nt in ntopics:
+            topic_model(path+p,nt)
+    for g in gv_topics:
+        topic_model(path+gv_data, g)
+
+
+if __name__ == '__main__':
+    main()
 
 
 
 
-#lda = LdaModel(gv_corpus, num_topics = ntopics) 
-#topics = lda.get_document_topics(gv_corpus)
-
-# # train whole LDA
-# ntopics_all = 45
-# lda_all = LdaModel(all_corpus, num_topics = ntopics_all) 
-# topics = lda.get_document_topics(all_corpus)
-
-
-# all_topics = []
-# for j in range(0,ntopics):
-#     topic_list = lda.get_topic_terms(j, topn=10)
-#    #string_topics = [(gv_dictionary[item[0]], item[1]) for item in topic_list]
-#     string_topics = [gv_dictionary[item[0]] for item in topic_list]
-#     print(string_topics)
-#     all_topics.append(string_topics)
-
-# all_topics_df = pd.DataFrame(all_topics) 
-# all_topics_df.to_csv("topics_"+str(ntopics)+".csv")
-
-# # total topics 
-# all_data_topics = []
-# for j in range(0,ntopics):
-#     topic_list_all = lda_all.get_topic_terms(j, topn=10)
-#     string_topics = [all_dictionary[item[0]] for item in topic_list_all]
-#     all_data_topics.append(string_topics)
-# all_data_topics_df = pd.DataFrame(all_data_topics) 
-# all_data_topics_df.to_csv("all_data_topics_"+str(ntopics_all)+".csv")
-
-# #perplexity = lda.log_perplexity(lda)
-# coherence_model_lda = CoherenceModel(model=lda, dictionary = gv_dictionary, corpus=gv_corpus, coherence="u_mass")
-# coherence_lda = coherence_model_lda.get_coherence()
-# #print("Perplexity = "+ str(perplexity))
-# print("Coherence ="+str(coherence_lda))
-
-
-# # save gun violence articles with all metadata here: 
-fh.write_list_to_text(gv_json_file,'/data/madesai/gun-violence-articles_clean.jsonlist')
-
-fh.pickle_data(gv_content, 'gv_content.pkl')
-#fh.pickle_data(all_content, 'all_content.pkl')
-
-
-    
 
         
