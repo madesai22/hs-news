@@ -1,6 +1,7 @@
 from unidecode import unidecode
 import string
 import re
+from datetime import datetime
 
 def match_gun_violence(text):
     march_match = re.findall(r"\bMarch for Our Lives\b|\bStudents Demand Action\b|\bNational School Walkout\b|\bsecond amendment\b|\bNRA\b|\bNever Again MSD\b|\b2nd amendment\b|\bstand for the second\b",text, re.IGNORECASE)
@@ -12,6 +13,18 @@ def match_gun_violence(text):
     shooter_likely = re.findall(r"\b(?:active|mass|school)\s+(?:shoot|shot)\w*\b", text, re.IGNORECASE)
     match = gun_match or shooter_likely or march_match or (shooting_match and not sports_match and not long_shot_match)
     return match
+
+def get_year(date_string):
+    try:
+        year = datetime.strptime(date_string, "%B %d, %Y").year
+        return year
+    except:
+        year_pattern = r"(19[1-9][0-9]|20[0-9][0-9])"
+        year_string  = re.findall(year_pattern, date_string)
+        if year_string:
+            return int(year_string[0])
+        else:
+            return 3000 
 
 def remove_whitespaces(text):
     return re.sub(' +|\n+|\t+', ' ', text)
