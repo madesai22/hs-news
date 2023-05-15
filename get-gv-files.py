@@ -37,7 +37,8 @@ def main():
     gv_content = []
     all_content = []
     all_headlines = []
-    
+    n_gv = 0 
+    total = 0 
     with open('/data/madesai/articles_clean.jsonlist') as f, open(path+'/gv-headlines.csv','w') as f2:
         for line in f:
             data = json.loads(line)
@@ -54,9 +55,13 @@ def main():
                 gv_json_file.append(line)
                 gv_content.append(content,stopwords)
                 f2.write(headline+','+str(year)+'\n')
-            else: 
-                all_headlines.append(headline)
-                all_content.append(content)
+                sys.stdout.write("Found {} gun violence headlines".format(n_gv))
+                sys.stdout.flush()
+             
+            all_headlines.append(headline)
+            all_content.append(content)
+            sys.stdout.write("Found {} total headlines".format(n_gv))
+            sys.stdout.flush()
     
     
     
