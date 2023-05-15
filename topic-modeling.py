@@ -12,6 +12,7 @@ from gensim.models import CoherenceModel
 import numpy
 import pprint
 import pickle
+from unidecode import unidecode
 
 path_to_mallet_binary = "/home/madesai/Mallet/bin/mallet"
 
@@ -61,7 +62,7 @@ with open('/data/madesai/articles_clean.jsonlist') as f:
                 # remove multiple whitespaces, remove punctuation, tokenize 
                 
 
-                #content = re.sub(r'"', '', content)
+                content =  unidecode(content)
                 content = content.replace('"','')
 
                 pattern = r'".*"'
