@@ -43,8 +43,8 @@ def main():
             
             data = json.loads(line)
             headline = data['headline']
-            content = pp.pre_process(data['content'],stopwords)
-
+            #content = pp.pre_process(data['content'],stopwords)
+            content = data['content']
 
             if data['date']:
                 year = pp.get_year(data['date'])
@@ -60,7 +60,7 @@ def main():
                 f2.write(headline.replace(",", "")+','+str(year)+'\n')
                 n_gv +=1
             if pp.match_gun_violence_simple(content):
-                f3.write(headline.replace(",", "")+','+str(year)+'\n')
+                f3.write(headline.replace(",", "")+','+str(year)+'\n')      
     
     # sys.stdout.write("Writing files...")
     # fh.pickle_data(gv_content, path+'/gv_content.pkl')

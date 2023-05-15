@@ -48,8 +48,10 @@ def tokenize(text, stopwords=None):
         text = [token for token in text.split()]
     return text
 
+
 def pre_process(text, stopwords): #remove punctuation, remove stop words, lower case, and tokenize   
     text = remove_whitespaces(text)
     text = strip_punctuation(text).lower().strip()
     text = tokenize(text,stopwords)
     return text
+
