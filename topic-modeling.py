@@ -35,7 +35,7 @@ def topic_model(path_to_file, ntopics):
 
 def main():
     path = "/data/madesai/gv-topic-data/"
-    data =["all_headlines.pkl"]
+    data =["all_content.pkl","all_headlines.pkl"]
     gv_data = "gv_content_by_headline.pkl"
     ntopics = [25,40,55]
     gv_topics = [5,10,15]
