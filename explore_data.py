@@ -7,9 +7,9 @@ i = 0
 with open('/data/madesai/articles_clean.jsonlist') as f:
     for line in f:
         if i <1:
-            print(json.loads(line).keys())
+            print(json.loads(line)['school_type'])
             
-        i +=2
+        i +=25
 
     
 
