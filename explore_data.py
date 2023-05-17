@@ -9,7 +9,7 @@ for item in data[0]:
     try:
         print(item.keys)
     except:
-        
-        print("no key")
+
+        print(type(item))
 
 
