@@ -16,7 +16,8 @@ def lat_long_to_fips(latitude, longitude):
 def fips_to_zip_dict(path_to_file):
     ftz_dict = {}
     with open(path_to_file) as f:
-        for line in f[1:]: #skip heading
+        lines = f.readlines()
+        for line in lines[1:]: #skip heading
             items = line.split(",")
             zipcode = items[0] # zip is first column 
             fips = items[1] # county is the next one 
