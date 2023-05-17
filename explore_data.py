@@ -3,13 +3,10 @@ import file_handling as fh
 
 
 
-json_file = '/data/madesai/school_full_info_with_votes.jsonlist'
+json_file = '/data/madesai/school_locations_full.jsonlist'
 data = fh.read_jsonlist(json_file)
-for item in data[0]:
-    try:
-        print(item.keys)
-    except:
+print(data[0])
 
-        print(type(item))
+    
 
 
