@@ -87,7 +87,11 @@ for row, idx in events_df:
     row_match = get_matches(idx, row, distance, events_df)
     if row_match:
         matches.append(row_match)
-print(matches)
+if matches:
+    print(matches)
+else:
+    print("no matches")
+
 
 # collect articles that are within boundary of events? 
 # loop through the event list
