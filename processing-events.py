@@ -99,35 +99,43 @@ path_to_voting_data = "/home/madesai/hs-news/external-data/mit-election-lab/coun
 path_to_fips_file = "/home/madesai/hs-news/external-data/ZIP_COUNTY_122021.csv"
 distance = 100 #km 
 
-party_dictionary = year_fips_to_party(path_to_voting_data)
-events_df = pd.read_csv(path_to_events)
-events_df = events_df.astype({'year': 'int'})
-events_df = pp.df_slice(events_df,2000,2019,'year')
+def make_edited_csv(path_to_events,path_to_voting_data, path_to_fips_file):
 
-ftz_dict = fips_to_zip_dict(path_to_fips_file)
-years = events_df['year'].tolist()
-election_years = [pp.year_to_election_year(y) for y in years]
+    party_dictionary = year_fips_to_party(path_to_voting_data)
+    events_df = pd.read_csv(path_to_events)
+    events_df = events_df.astype({'year': 'int'})
+    events_df = pp.df_slice(events_df,2000,2019,'year')
 
-# add fips, zip code, and party to events df 
+    ftz_dict = fips_to_zip_dict(path_to_fips_file)
+    years = events_df['year'].tolist()
+    election_years = [pp.year_to_election_year(y) for y in years]
+
+    # add fips, zip code, and party to events df 
+    latitude = events_df['latitude'].tolist()
+    longitude = events_df['longitude'].tolist()
+    cases = events_df['case'].tolist()
+
+    countyFIPS = [lat_long_to_fips(lat, lon) for lat, lon in zip(latitude,longitude)]
+    zip_code = [ftz_dict[fips] for fips in countyFIPS]
+    party = [party_dictionary[(y,f)][1] for y, f in zip(election_years,countyFIPS)]
+    last_party = [party_dictionary[(y-4,f)][1] if y-4>=2000 else "n/a" for y, f in zip(election_years,countyFIPS)]
+    next_party = [party_dictionary[(y+4,f)][1] if y+4>=2000 else "n/a" for y, f in zip(election_years,countyFIPS)]
+
+    events_df['countyFIPS'] = countyFIPS
+    events_df['zip'] = zip_code
+    events_df['party'] = party
+    events_df['previous election'] = last_party
+    events_df['next election'] = next_party
+
+
+    events_df.to_csv("/home/madesai/hs-news/external-data/mother-jones-edited.csv")
+    print("wrote csv")
+
+events_df = pd.read_csv("/home/madesai/hs-news/external-data/mother-jones-edited.csv")
+cases = events_df['case'].tolist()
 latitude = events_df['latitude'].tolist()
 longitude = events_df['longitude'].tolist()
-cases = events_df['case'].tolist()
-
-countyFIPS = [lat_long_to_fips(lat, lon) for lat, lon in zip(latitude,longitude)]
-zip_code = [ftz_dict[fips] for fips in countyFIPS]
-party = [party_dictionary[(y,f)][1] for y, f in zip(election_years,countyFIPS)]
-last_party = [party_dictionary[(y-4,f)][1] if y-4>=2000 else "n/a" for y, f in zip(election_years,countyFIPS)]
-next_party = [party_dictionary[(y+4,f)][1] if y+4>=2000 else "n/a" for y, f in zip(election_years,countyFIPS)]
-
-events_df['countyFIPS'] = countyFIPS
-events_df['zip'] = zip_code
-events_df['party'] = party
-events_df['previous election'] = last_party
-events_df['next election'] = next_party
-
-
-events_df.to_csv("/home/madesai/hs-news/external-data/mother-jones-edited.csv")
-print("wrote csv")
+years = events_df['year'].tolist()
 
 clusters = find_clusters(latitude,longitude,distance)
 all_cluster_data, longest_cluster, columns = [], 0, []
