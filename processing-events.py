@@ -12,10 +12,8 @@ def lat_long_to_fips(latitude, longitude):
     response = requests.get(request_str)
     try: 
         fips = response.json()['results'][0]['county_fips']
-        print(fips)
         return int(fips)
     except:
-        print(-1)
         return -1
 
 def fips_to_zip_dict(path_to_file):
@@ -84,6 +82,9 @@ longitude = events_df['longitude'].tolist()
 dates = events_df['date'].tolist()
 countyFIPS = [lat_long_to_fips(lat, lon) for lat, lon in zip(latitude,longitude)]
 zip_code = [ftz_dict[fips] for fips in countyFIPS]
+print(zip_code)
+print("**")
+print(countyFIPS)
 years = [get_year(d) for d in dates]
 party = [party_dictionary[y,] for y,f in zip(years,countyFIPS)]
 
