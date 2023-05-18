@@ -43,8 +43,6 @@ def year_fips_to_party(csv_file):
                 party_dict[key] = party
             except:
                 pass
-    print(party_dict)
-    
     return party_dict
 
 def zip_to_lat_lon(zip_code):
@@ -85,6 +83,7 @@ years = [get_year(d) for d in dates]
 events_df['years'] = years
 events_df = pp.df_to_1999_2019(events_df)
 ftz_dict = fips_to_zip_dict(path_to_fips_file)
+good_years = events_df['years'].tolist()
 
 # add fips, zip code, and party to events df 
 latitude = events_df['latitude'].tolist()
@@ -95,10 +94,9 @@ print(len(dates))
 
 countyFIPS = [lat_long_to_fips(lat, lon) for lat, lon in zip(latitude,longitude)]
 zip_code = [ftz_dict[fips] for fips in countyFIPS]
-party = [party_dictionary[(y,f)] for y, f in zip(years,countyFIPS)]
+party = [party_dictionary[(y,f)] for y, f in zip(good_years,countyFIPS)]
 events_df['countyFIPS'] = countyFIPS
 events_df['zip'] = zip_code
-events_df['year'] = years
 events_df['party'] = party
 
 # events_df['countyFIPS'] = events_df.apply(lambda row: lat_long_to_fips(row['latitude'], row['longitude']), axis=1)
