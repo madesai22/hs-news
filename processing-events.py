@@ -69,7 +69,7 @@ def get_matches(idx, row, boundary, dataframe):
     for index_other, row_other in dataframe:
         if index_other != idx:
             coords_other = (row_other['lat'], row_other['lon'])
-            distance = geopy.distance.geodesic(coords, coords_other)
+            distance = geopy.distance.geodesic(coords, coords_other).km
             if distance >= boundary:
                 matches[row['case']]= row_other['case']
     return matches
@@ -115,9 +115,11 @@ matches = set()
 for i, latlon in enumerate(zip(latitude,longitude)):
     for j, latlon_other in enumerate(zip(latitude,longitude)):
         if i != j:
-            d = geopy.distance.geodesic(latlon, latlon_other)
-            if d < distance:
+            d = geopy.distance.geodesic(latlon, latlon_other).km
+            if d < distance and d > 0:
                 matches.add(frozenset((cases[i], cases[j])))
+print(matches)
+print("**")
 
 if matches:
     for m in matches:
