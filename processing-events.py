@@ -119,7 +119,7 @@ for i, latlon in enumerate(zip(latitude,longitude)):
         if i != j:
             d = geopy.distance.geodesic(latlon, latlon_other)
             if d < distance:
-                matches.add(frozenset(cases[i], cases[j]))
+                matches.add(frozenset((cases[i], cases[j])))
 
 if matches:
     for m in matches:
@@ -128,15 +128,7 @@ else:
     print("no matches")
 
 
-    
-# for row, idx in events_df:
-#     row_match = get_matches(idx, row, distance, events_df)
-#     if row_match:
-#         matches.append(row_match)
-# if matches:
-#     print(matches)
-# else:
-#     print("no matches")
+
 
 
 
