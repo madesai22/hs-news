@@ -121,7 +121,7 @@ for i, latlon in enumerate(zip(latitude,longitude)):
 
 if matches:
     for m in matches:
-        print("{} within 200km of  {}".format(next(iter(m)), next(iter(m)))
+        print("{} within 200km of  {}".format(next(iter(m)), next(iter(m))))
 else:
     print("no matches")
 
