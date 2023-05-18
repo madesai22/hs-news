@@ -99,9 +99,9 @@ cases = events_df['case'].tolist()
 countyFIPS = [lat_long_to_fips(lat, lon) for lat, lon in zip(latitude,longitude)]
 zip_code = [ftz_dict[fips] for fips in countyFIPS]
 party = [party_dictionary[(y,f)][1] for y, f in zip(election_years,countyFIPS)]
-last_party = [party_dictionary[(y-4,f)][1] for y, f in zip(election_years,countyFIPS) if y-4>=2000]
+last_party = [party_dictionary[(y-4,f)][1] if y-4>=2000 else "n/a" for y, f in zip(election_years,countyFIPS)]
+next_party = [party_dictionary[(y+4,f)][1] if y+4>=2000 else "n/a" for y, f in zip(election_years,countyFIPS)]
 
-next_party = [party_dictionary[(y+4,f)][1] for y, f in zip(election_years,countyFIPS) if y+4>=2000]
 events_df['countyFIPS'] = countyFIPS
 events_df['zip'] = zip_code
 events_df['party'] = party
