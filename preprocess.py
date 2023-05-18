@@ -21,6 +21,13 @@ def match_gun_violence_simple(text):
     shooter_likely = re.search(r"\b(?:active|mass|school|campus)\s+(?:shoot|shot)\w*|(\bgun violence)", text, re.IGNORECASE)
     return  shooter_likely
 
+def df_to_1999_2019(df):
+    # Extract the rows with year values between 1999 and 2019
+    start_year = 1999
+    end_year = 2019
+    data = df[(df['years'] >= start_year) & (df['years'] <= end_year)].sort_values(by='years')
+    return data
+
 def get_year(date_string):
     try:
         year = datetime.strptime(date_string, "%B %d, %Y").year

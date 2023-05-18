@@ -5,6 +5,7 @@ import csv
 from datetime import datetime
 import requests
 import json
+import preprocess as pp
 
 
 def lat_long_to_fips(latitude, longitude):
@@ -29,8 +30,8 @@ def fips_to_zip_dict(path_to_file):
 
 def year_fips_to_party(csv_file):
     party_dict = {}
-    with open(csv_file, 'r') as file:
-        reader = csv.DictReader(file)
+    with open(csv_file, 'r') as f:
+        reader = csv.DictReader(f)
         for row in reader:
             year = row['year']
             county_fips = row['county_fips']
@@ -38,6 +39,7 @@ def year_fips_to_party(csv_file):
             
             key = (year, county_fips)
             party_dict[key] = party
+    print(party_dict)
     
     return party_dict
 
@@ -74,12 +76,16 @@ distance = 200 #km
 
 party_dictionary = year_fips_to_party(path_to_voting_data)
 events_df = pd.read_csv(path_to_events)
+events_df = pp.df_to_1999_2019(events_df)
 ftz_dict = fips_to_zip_dict(path_to_fips_file)
 
 # add fips, zip code, and party to events df 
 latitude = events_df['latitude'].tolist()
 longitude = events_df['longitude'].tolist()
 dates = events_df['date'].tolist()
+print(len(dates))
+
+
 countyFIPS = [lat_long_to_fips(lat, lon) for lat, lon in zip(latitude,longitude)]
 zip_code = [ftz_dict[fips] for fips in countyFIPS]
 years = [get_year(d) for d in dates]
