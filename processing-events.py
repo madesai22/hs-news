@@ -79,10 +79,10 @@ ftz_dict = fips_to_zip_dict(path_to_fips_file)
 
 # add fips, zip code, and party to events df 
 events_df['countyFIPS'] = events_df.apply(lambda row: lat_long_to_fips(row['latitude'], row['longitude']), axis=1)
-events_df['zip'] = events_df.apply(lambda row: ftz_dict(row['countyFIPS']), axis=1)
+events_df['zip'] = events_df.apply(lambda row: ftz_dict[row['countyFIPS']], axis=1)
 events_df['year'] = events_df.apply(lambda row: get_year(row['date']), axis=1)
 events_df['party'] = events_df.apply(lambda row: party_dictionary[(row['year'],row['party'])], axis=1)
-
+events_df.to_csv("/home/madesai/hs-news/external-data/mother-jones-edited.csv")
 # see if any events are within some distance of one another
 matches = []
 for row, idx in events_df:
@@ -93,6 +93,7 @@ if matches:
     print(matches)
 else:
     print("no matches")
+
 
 
 # collect articles that are within boundary of events? 
