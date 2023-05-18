@@ -119,7 +119,7 @@ for i, latlon in enumerate(zip(latitude,longitude)):
         if i != j:
             d = geopy.distance.geodesic(latlon, latlon_other)
             if d < distance:
-                matches.add((cases[i], cases[j]))
+                matches.append((cases[i], cases[j]))
 
 if matches:
     for m in matches:
