@@ -89,8 +89,6 @@ print(events_df)
 
 ftz_dict = fips_to_zip_dict(path_to_fips_file)
 years = events_df['year'].tolist()
-print(years)
-#years = [int(y) for y in years]
 election_years = [pp.year_to_election_year(y) for y in years]
 
 # add fips, zip code, and party to events df 
@@ -101,8 +99,9 @@ cases = events_df['case'].tolist()
 countyFIPS = [lat_long_to_fips(lat, lon) for lat, lon in zip(latitude,longitude)]
 zip_code = [ftz_dict[fips] for fips in countyFIPS]
 party = [party_dictionary[(y,f)][1] for y, f in zip(election_years,countyFIPS)]
-last_party = [party_dictionary[(y-4,f)][1] for y, f in zip(election_years,countyFIPS)]
-next_party = [party_dictionary[(y+4,f)][1] for y, f in zip(election_years,countyFIPS)]
+last_party = [party_dictionary[(y-4,f)][1] for y, f in zip(election_years,countyFIPS) if y-4>=2000]
+
+next_party = [party_dictionary[(y+4,f)][1] for y, f in zip(election_years,countyFIPS) if y+4>=2000]
 events_df['countyFIPS'] = countyFIPS
 events_df['zip'] = zip_code
 events_df['party'] = party
