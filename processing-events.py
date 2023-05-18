@@ -89,6 +89,7 @@ print(events_df)
 
 ftz_dict = fips_to_zip_dict(path_to_fips_file)
 years = events_df['year'].tolist()
+print(years)
 #years = [int(y) for y in years]
 election_years = [pp.year_to_election_year(y) for y in years]
 
