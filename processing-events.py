@@ -75,6 +75,24 @@ def get_matches(idx, row, boundary, dataframe):
                 matches[row['case']]= row_other['case']
     return matches
 
+def find_clusters(lat_list, lon_list,distance): # takes in a set of tuples with idx, lat, lon
+    points = zip(lat_list,lon_list)
+    coords = set()
+    for i, p in enumerate(points):
+      coords.add((i, p[0],p[1]))
+    C=[] #list of clusters
+    while len(coords):
+        l = coords.pop()
+        print(l)
+        locus_idx, locus_lat, locus_lon =l[0],l[1],l[2]
+        locus = [locus_lat,locus_lon]
+        cluster = [x for x in coords if geopy.distance.geodesic(locus,[x[1],x[2]]).km <= distance]
+        
+        C.append(cluster+[(locus_idx,locus_lat, locus_lon)])
+        for x in cluster:
+            coords.remove(x)
+    return C
+
 
 path_to_events = "/home/madesai/hs-news/external-data/Mother_jones_Mass_Shootings_Database_1982_2023.csv"
 path_to_voting_data = "/home/madesai/hs-news/external-data/mit-election-lab/countypres_2000-2020.csv"
@@ -108,26 +126,49 @@ events_df['previous election'] = last_party
 events_df['next election'] = next_party
 
 
-
 events_df.to_csv("/home/madesai/hs-news/external-data/mother-jones-edited.csv")
 print("wrote csv")
-# see if any events are within some distance of one another
-matches = set()
-for i, latlon in enumerate(zip(latitude,longitude)):
-    for j, latlon_other in enumerate(zip(latitude,longitude)):
-        if i != j:
-            d = geopy.distance.geodesic(latlon, latlon_other).km
-            if d < distance and d > 0:
-                matches.add(frozenset((cases[i], cases[j])))
-print(matches)
-print("**")
 
-if matches:
-    for m in matches:
-        m = list(m)
-        print("{} within 200km of  {}".format(m[0],m[1]))
-else:
-    print("no matches")
+clusters = find_clusters(latitude,longitude,distance)
+all_cluster_data, longest_cluster, columns = [], [], 0
+ 
+for c in clusters:
+    if len(c) > longest_cluster:
+        longest_cluster = len(c)
+    single_cluster_data = []
+    for event in c:
+        idx, latlon = event[0], [event[1],event[2]]
+        name = cases[idx]
+        date = years[idx]
+        single_cluster_data.append(name, date, latlon)
+    all_cluster_data.append(single_cluster_data)
+for i in range(longest_cluster): columns.extend(["name"+str(i),"date"+str(i),"location"+str(i)]) 
+match_df = pd.DataFrame(columns=columns, data = all_cluster_data)
+
+        
+
+
+
+
+
+
+# # see if any events are within some distance of one another
+# matches = set()
+# for i, latlon in enumerate(zip(latitude,longitude)):
+#     for j, latlon_other in enumerate(zip(latitude,longitude)):
+#         if i != j:
+#             d = geopy.distance.geodesic(latlon, latlon_other).km
+#             if d < distance and d > 0:
+#                 matches.add(frozenset((cases[i], cases[j])))
+# print(matches)
+# print("**")
+
+# if matches:
+#     for m in matches:
+#         m = list(m)
+#         print("{} within 200km of  {}".format(m[0],m[1]))
+# else:
+#     print("no matches")
 
 
 
