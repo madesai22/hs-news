@@ -51,7 +51,7 @@ def get_year(date_string):
     if len(date_string.split('/')[-1])==2:
         year = datetime.strptime(date_string, "%m/%d/%y").year
     else:
-        year = datetime.strptime(date_string, "%%m/%d/%Y").year
+        year = datetime.strptime(date_string, "%m/%d/%Y").year
     return year
 
 def get_matches(idx, row, boundary, dataframe):
