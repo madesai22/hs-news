@@ -12,8 +12,10 @@ def lat_long_to_fips(latitude, longitude):
     response = requests.get(request_str)
     try: 
         fips = response.json()['results'][0]['county_fips']
+        print(fips)
         return int(fips)
     except:
+        print(-1)
         return -1
 
 def fips_to_zip_dict(path_to_file):
