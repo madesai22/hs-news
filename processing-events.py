@@ -76,12 +76,26 @@ events_df = pd.read_csv(path_to_events)
 ftz_dict = fips_to_zip_dict(path_to_fips_file)
 
 # add fips, zip code, and party to events df 
-events_df['countyFIPS'] = events_df.apply(lambda row: lat_long_to_fips(row['latitude'], row['longitude']), axis=1)
-print(events_df['countyFIPS'].to_string(index=False))
-events_df['zip'] = events_df.apply(lambda row: ftz_dict[row['countyFIPS']], axis=1)
-events_df['year'] = events_df.apply(lambda row: get_year(row['date']), axis=1)
-events_df['party'] = events_df.apply(lambda row: party_dictionary[(row['year'],row['party'])], axis=1)
+latitude = events_df['lat'].tolist()
+longitude = events_df['longitude'].tolist()
+dates = events_df['date'].tolist()
+countyFIPS = [lat_long_to_fips(lat, lon) for lat, lon in zip(latitude,longitude)]
+zip_code = [ftz_dict[fips] for fips in countyFIPS]
+years = [get_year(d) for d in dates]
+party = [party_dictionary[y,] for y,f in zip(years,countyFIPS)]
+
+events_df['countyFIPS'] = countyFIPS
+events_df['zip'] = zip_code
+events_df['year'] = years
+events_df['party'] = party
+
+# events_df['countyFIPS'] = events_df.apply(lambda row: lat_long_to_fips(row['latitude'], row['longitude']), axis=1)
+# print(events_df['countyFIPS'].to_string(index=False))
+# events_df['zip'] = events_df.apply(lambda row: ftz_dict[row['countyFIPS']], axis=1)
+# events_df['year'] = events_df.apply(lambda row: get_year(row['date']), axis=1)
+# events_df['party'] = events_df.apply(lambda row: party_dictionary[(row['year'],row['party'])], axis=1)
 events_df.to_csv("/home/madesai/hs-news/external-data/mother-jones-edited.csv")
+print("wrote csv")
 # see if any events are within some distance of one another
 matches = []
 for row, idx in events_df:
