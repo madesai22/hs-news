@@ -76,21 +76,22 @@ distance = 200 #km
 
 party_dictionary = year_fips_to_party(path_to_voting_data)
 events_df = pd.read_csv(path_to_events)
+dates = events_df['date'].tolist()
+years = [get_year(d) for d in dates]
+events_df['years'] = years
 events_df = pp.df_to_1999_2019(events_df)
 ftz_dict = fips_to_zip_dict(path_to_fips_file)
 
 # add fips, zip code, and party to events df 
 latitude = events_df['latitude'].tolist()
 longitude = events_df['longitude'].tolist()
-dates = events_df['date'].tolist()
+
 print(len(dates))
 
 
 countyFIPS = [lat_long_to_fips(lat, lon) for lat, lon in zip(latitude,longitude)]
 zip_code = [ftz_dict[fips] for fips in countyFIPS]
-years = [get_year(d) for d in dates]
 party = [party_dictionary[(y,f)] for y, f in zip(years,countyFIPS)]
-
 events_df['countyFIPS'] = countyFIPS
 events_df['zip'] = zip_code
 events_df['year'] = years
