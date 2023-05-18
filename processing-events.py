@@ -113,13 +113,13 @@ events_df['next election'] = next_party
 events_df.to_csv("/home/madesai/hs-news/external-data/mother-jones-edited.csv")
 print("wrote csv")
 # see if any events are within some distance of one another
-matches = []
+matches = set()
 for i, latlon in enumerate(zip(latitude,longitude)):
     for j, latlon_other in enumerate(zip(latitude,longitude)):
         if i != j:
             d = geopy.distance.geodesic(latlon, latlon_other)
             if d < distance:
-                matches.append((cases[i], cases[j]))
+                matches.add(frozenset(cases[i], cases[j]))
 
 if matches:
     for m in matches:
