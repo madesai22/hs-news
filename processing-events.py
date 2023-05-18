@@ -3,17 +3,18 @@ from geopy.geocoders import Nominatim
 import geopy.distance
 import csv
 from datetime import datetime
+import requests
+import json
 
 
 def lat_long_to_fips(latitude, longitude):
-    string_lat_long = str(latitude)+","+str(longitude)
-    geolocator = Nominatim(user_agent="madesasi@umich.edu")
-    location = geolocator.reverse(string_lat_long, exactly_one=True)
-    address = location.raw['address']
-    county_fips = address.get('county_fips')
-    
-
-    return county_fips
+    request_str = "https://geo.fcc.gov/api/census/block/find?lat={}&lon={}&format=json".format(latitude,longitude)
+    response = requests.get(request_str)
+    fips = response.json()['results'][0]['county_fips']
+    try: 
+        return int(fips)
+    except:
+        return -1
 
 def fips_to_zip_dict(path_to_file):
     ftz_dict = {}
@@ -80,6 +81,7 @@ latitude = events_df['latitude'].tolist()
 longitude = events_df['longitude'].tolist()
 dates = events_df['date'].tolist()
 countyFIPS = [lat_long_to_fips(lat, lon) for lat, lon in zip(latitude,longitude)]
+print(countyFIPS)
 zip_code = [ftz_dict[fips] for fips in countyFIPS]
 years = [get_year(d) for d in dates]
 party = [party_dictionary[y,] for y,f in zip(years,countyFIPS)]
