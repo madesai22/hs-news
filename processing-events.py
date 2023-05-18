@@ -29,22 +29,24 @@ def fips_to_zip_dict(path_to_file):
     return ftz_dict
 
 def year_fips_to_party(csv_file):
-    party_dict = {}
+    max_votes_per_year = {} # (year, fips) --> [nvotes, party]
     with open(csv_file, 'r') as f:
         reader = csv.DictReader(f)
         for row in reader:
             try: 
-                party_votes = float(row['candidatevotes'])/float(row['totalvotes'])
-                if party_votes >.5:
-                    year = int(row['year'])
-                    county_fips = int(row['county_fips'])
-                    party = row['party']
-
-                    key = (year, county_fips)
-                    party_dict[key] = party
+                county_fips = int(row['county_fips'])
+                party = row['party']
+                party_votes = float(row['candidatevotes'])
+                key = (year, county_fips)
+                if key in max_votes_per_year:
+                    if party_votes > max_votes_per_year[year][0]:
+                        max_votes_per_year[key] = [party_votes,party]
+                else:
+                    max_votes_per_year[key] = [party_votes,party]    
             except:
                 pass
-    return party_dict
+
+    return max_votes_per_year
 
 def zip_to_lat_lon(zip_code):
     geolocator = Nominatim(user_agent="madesasi@umich.edu")
@@ -96,7 +98,7 @@ print(len(dates))
 
 countyFIPS = [lat_long_to_fips(lat, lon) for lat, lon in zip(latitude,longitude)]
 zip_code = [ftz_dict[fips] for fips in countyFIPS]
-party = [party_dictionary[(y,f)] for y, f in zip(election_years,countyFIPS)]
+party = [party_dictionary[(y,f)][1] for y, f in zip(election_years,countyFIPS)]
 events_df['countyFIPS'] = countyFIPS
 events_df['zip'] = zip_code
 events_df['party'] = party
