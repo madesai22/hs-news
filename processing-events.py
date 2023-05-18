@@ -6,7 +6,8 @@ from datetime import datetime
 
 
 def lat_long_to_fips(latitude, longitude):
-    geolocator = Nominatim(user_agent="my-application")
+    string_lat_long = str(latitude)+","+str(longitude)
+    geolocator = Nominatim(user_agent="madesasi@umich.edu")
     location = geolocator.reverse((latitude, longitude), exactly_one=True)
     address = location.raw['address']
     county_fips = address.get('county_fips')
@@ -42,7 +43,7 @@ def year_fips_to_party(csv_file):
     return party_dict
 
 def zip_to_lat_lon(zip_code):
-    geolocator = Nominatim(user_agent="my_app")
+    geolocator = Nominatim(user_agent="madesasi@umich.edu")
     location = geolocator.geocode(zip_code)
     return (location.latitude, location.longitude)
 
