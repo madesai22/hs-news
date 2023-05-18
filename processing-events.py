@@ -76,7 +76,7 @@ events_df = pd.read_csv(path_to_events)
 ftz_dict = fips_to_zip_dict(path_to_fips_file)
 
 # add fips, zip code, and party to events df 
-latitude = events_df['lat'].tolist()
+latitude = events_df['latitude'].tolist()
 longitude = events_df['longitude'].tolist()
 dates = events_df['date'].tolist()
 countyFIPS = [lat_long_to_fips(lat, lon) for lat, lon in zip(latitude,longitude)]
