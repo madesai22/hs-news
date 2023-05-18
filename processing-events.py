@@ -83,7 +83,7 @@ distance = 200 #km
 party_dictionary = year_fips_to_party(path_to_voting_data)
 print(party_dictionary)
 events_df = pd.read_csv(path_to_events)
-events_df = events_df.astype({'year': 'int32'}).dtypes
+events_df = events_df.astype({'year': 'int'}).dtypes
 events_df = pp.df_slice(events_df,2000,2019,'year')
 print(events_df)
 
