@@ -35,7 +35,7 @@ def year_fips_to_party(csv_file):
         for row in reader:
             try: 
                 party_votes = float(row['candidatevotes'])/float(row['totalvotes'])
-                if party_votes >50:
+                if party_votes >.5:
                     year = int(row['year'])
                     county_fips = int(row['county_fips'])
                     party = row['party']
