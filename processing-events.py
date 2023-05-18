@@ -11,6 +11,7 @@ def lat_long_to_fips(latitude, longitude):
     location = geolocator.reverse((latitude, longitude), exactly_one=True)
     address = location.raw['address']
     county_fips = address.get('county_fips')
+    
 
     return county_fips
 
@@ -76,6 +77,7 @@ ftz_dict = fips_to_zip_dict(path_to_fips_file)
 
 # add fips, zip code, and party to events df 
 events_df['countyFIPS'] = events_df.apply(lambda row: lat_long_to_fips(row['latitude'], row['longitude']), axis=1)
+print(events_df['countyFIPS'].to_string(index=False))
 events_df['zip'] = events_df.apply(lambda row: ftz_dict[row['countyFIPS']], axis=1)
 events_df['year'] = events_df.apply(lambda row: get_year(row['date']), axis=1)
 events_df['party'] = events_df.apply(lambda row: party_dictionary[(row['year'],row['party'])], axis=1)
@@ -100,7 +102,7 @@ else:
 # from there find the domains?
 # then find the articles with those zip codes
 # calculate a percent change? in gv coverage over that time? 
-# probably good to make a json file, or add to it? like
+# probably good to make a json file, or add to it? maybe do with a random sample 
 
 
     
