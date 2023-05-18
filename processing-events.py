@@ -130,7 +130,7 @@ events_df.to_csv("/home/madesai/hs-news/external-data/mother-jones-edited.csv")
 print("wrote csv")
 
 clusters = find_clusters(latitude,longitude,distance)
-all_cluster_data, longest_cluster, columns = [], [], 0
+all_cluster_data, longest_cluster, columns = [], 0, []
  
 for c in clusters:
     if len(c) > longest_cluster:
@@ -144,6 +144,7 @@ for c in clusters:
     all_cluster_data.append(single_cluster_data)
 for i in range(longest_cluster): columns.extend(["name"+str(i),"date"+str(i),"location"+str(i)]) 
 match_df = pd.DataFrame(columns=columns, data = all_cluster_data)
+match_df.to_csv("/home/madesai/hs-news/external-data/"+str(distance)+"km_event_matches.csv")
 
         
 
