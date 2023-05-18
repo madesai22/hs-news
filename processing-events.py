@@ -26,7 +26,7 @@ def fips_to_zip_dict(path_to_file):
                 ftz_dict[zipcode].add(fips)
             else:
                 ftz_dict[zipcode] = set(fips)
-    return fips_to_zip_dict
+    return ftz_dict
 
 def year_fips_to_party(csv_file):
     party_dict = {}
