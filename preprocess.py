@@ -22,8 +22,8 @@ def match_gun_violence_simple(text):
     return  shooter_likely
 
 def df_slice(df, start, end, column):
-    # Extract the rows with year values between 1999 and 2019
-    data = df[(df[column] >= start) & (df[column] <= end)].sort_values(by=column)
+    # e.g. extract the rows with year values between 1999 and 2019
+    data = df[(int(df[column]) >= start) & (int(df[column]) <= end)].sort_values(by=column)
     return data
 
 def year_to_election_year(year):
