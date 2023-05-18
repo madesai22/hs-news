@@ -10,6 +10,7 @@ import json
 def lat_long_to_fips(latitude, longitude):
     request_str = "https://geo.fcc.gov/api/census/block/find?lat={}&lon={}&format=json".format(latitude,longitude)
     response = requests.get(request_str)
+    print(request_str)
     fips = response.json()['results'][0]['county_fips']
     try: 
         return int(fips)
