@@ -39,16 +39,13 @@ def year_fips_to_party(csv_file):
                 party_votes = float(row['candidatevotes'])
                 year = int(row['year'])
                 key = (year, county_fips)
-                print(key, party, party_votes)
+            
                 if key in max_votes_per_year:
-                    print(party_votes, max_votes_per_year[key])
                     if party_votes > max_votes_per_year[key][0]:
-                        print("update! {} {} {}".format(year, party, party_votes))
                         max_votes_per_year[key] = [party_votes,party]
                 else:
                     max_votes_per_year[key] = [party_votes,party]
-            except Exception as error:
-                print("An exception occurred:", error)
+            except:       
                 pass
 
     return max_votes_per_year
@@ -85,52 +82,52 @@ path_to_fips_file = "/home/madesai/hs-news/external-data/ZIP_COUNTY_122021.csv"
 distance = 200 #km 
 
 party_dictionary = year_fips_to_party(path_to_voting_data)
-# events_df = pd.read_csv(path_to_events)
-# events_df = events_df.astype({'year': 'int'})
-# events_df = pp.df_slice(events_df,2000,2019,'year')
+events_df = pd.read_csv(path_to_events)
+events_df = events_df.astype({'year': 'int'})
+events_df = pp.df_slice(events_df,2000,2019,'year')
 
-# ftz_dict = fips_to_zip_dict(path_to_fips_file)
-# years = events_df['year'].tolist()
-# election_years = [pp.year_to_election_year(y) for y in years]
+ftz_dict = fips_to_zip_dict(path_to_fips_file)
+years = events_df['year'].tolist()
+election_years = [pp.year_to_election_year(y) for y in years]
 
-# # add fips, zip code, and party to events df 
-# latitude = events_df['latitude'].tolist()
-# longitude = events_df['longitude'].tolist()
-# cases = events_df['case'].tolist()
+# add fips, zip code, and party to events df 
+latitude = events_df['latitude'].tolist()
+longitude = events_df['longitude'].tolist()
+cases = events_df['case'].tolist()
 
-# countyFIPS = [lat_long_to_fips(lat, lon) for lat, lon in zip(latitude,longitude)]
-# zip_code = [ftz_dict[fips] for fips in countyFIPS]
-# party = [party_dictionary[(y,f)][1] for y, f in zip(election_years,countyFIPS)]
-# last_party = [party_dictionary[(y-4,f)][1] if y-4>=2000 else "n/a" for y, f in zip(election_years,countyFIPS)]
-# next_party = [party_dictionary[(y+4,f)][1] if y+4>=2000 else "n/a" for y, f in zip(election_years,countyFIPS)]
+countyFIPS = [lat_long_to_fips(lat, lon) for lat, lon in zip(latitude,longitude)]
+zip_code = [ftz_dict[fips] for fips in countyFIPS]
+party = [party_dictionary[(y,f)][1] for y, f in zip(election_years,countyFIPS)]
+last_party = [party_dictionary[(y-4,f)][1] if y-4>=2000 else "n/a" for y, f in zip(election_years,countyFIPS)]
+next_party = [party_dictionary[(y+4,f)][1] if y+4>=2000 else "n/a" for y, f in zip(election_years,countyFIPS)]
 
-# events_df['countyFIPS'] = countyFIPS
-# events_df['zip'] = zip_code
-# events_df['party'] = party
-# events_df['previous election'] = last_party
-# events_df['next election'] = next_party
+events_df['countyFIPS'] = countyFIPS
+events_df['zip'] = zip_code
+events_df['party'] = party
+events_df['previous election'] = last_party
+events_df['next election'] = next_party
 
 
 
-# events_df.to_csv("/home/madesai/hs-news/external-data/mother-jones-edited.csv")
-# print("wrote csv")
-# # see if any events are within some distance of one another
-# matches = set()
-# for i, latlon in enumerate(zip(latitude,longitude)):
-#     for j, latlon_other in enumerate(zip(latitude,longitude)):
-#         if i != j:
-#             d = geopy.distance.geodesic(latlon, latlon_other).km
-#             if d < distance and d > 0:
-#                 matches.add(frozenset((cases[i], cases[j])))
-# print(matches)
-# print("**")
+events_df.to_csv("/home/madesai/hs-news/external-data/mother-jones-edited.csv")
+print("wrote csv")
+# see if any events are within some distance of one another
+matches = set()
+for i, latlon in enumerate(zip(latitude,longitude)):
+    for j, latlon_other in enumerate(zip(latitude,longitude)):
+        if i != j:
+            d = geopy.distance.geodesic(latlon, latlon_other).km
+            if d < distance and d > 0:
+                matches.add(frozenset((cases[i], cases[j])))
+print(matches)
+print("**")
 
-# if matches:
-#     for m in matches:
-#         m = list(m)
-#         print("{} within 200km of  {}".format(m[0],m[1]))
-# else:
-#     print("no matches")
+if matches:
+    for m in matches:
+        m = list(m)
+        print("{} within 200km of  {}".format(m[0],m[1]))
+else:
+    print("no matches")
 
 
 
