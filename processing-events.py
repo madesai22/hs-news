@@ -82,11 +82,8 @@ longitude = events_df['longitude'].tolist()
 dates = events_df['date'].tolist()
 countyFIPS = [lat_long_to_fips(lat, lon) for lat, lon in zip(latitude,longitude)]
 zip_code = [ftz_dict[fips] for fips in countyFIPS]
-print(zip_code)
-print("**")
-print(countyFIPS)
 years = [get_year(d) for d in dates]
-party = [party_dictionary[y,] for y,f in zip(years,countyFIPS)]
+party = [party_dictionary[(y,f)] for y, f in zip(years,countyFIPS)]
 
 events_df['countyFIPS'] = countyFIPS
 events_df['zip'] = zip_code
