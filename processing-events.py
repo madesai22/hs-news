@@ -22,10 +22,7 @@ def fips_to_zip_dict(path_to_file):
             items = line.split(",")
             zipcode = items[0] # zip is first column 
             fips = items[1] # county is the next one 
-            if zipcode in ftz_dict:
-                ftz_dict[zipcode].add(fips)
-            else:
-                ftz_dict[zipcode] = set(fips)
+            ftz_dict[fips] = zipcode
     return ftz_dict
 
 def year_fips_to_party(csv_file):
@@ -103,6 +100,7 @@ else:
 # from there find the domains?
 # then find the articles with those zip codes
 # calculate a percent change? in gv coverage over that time? 
+# probably good to make a json file, or add to it? like
 
 
     
