@@ -97,7 +97,7 @@ def find_clusters(lat_list, lon_list,distance): # takes in a set of tuples with 
 path_to_events = "/home/madesai/hs-news/external-data/Mother_jones_Mass_Shootings_Database_1982_2023.csv"
 path_to_voting_data = "/home/madesai/hs-news/external-data/mit-election-lab/countypres_2000-2020.csv"
 path_to_fips_file = "/home/madesai/hs-news/external-data/ZIP_COUNTY_122021.csv"
-distance = 200 #km 
+distance = 100 #km 
 
 party_dictionary = year_fips_to_party(path_to_voting_data)
 events_df = pd.read_csv(path_to_events)
@@ -142,7 +142,8 @@ for c in clusters:
         date = years[idx]
         single_cluster_data.extend([name, date, latlon])
     all_cluster_data.append(single_cluster_data)
-for i in range(longest_cluster): columns.extend(["name"+str(i),"date"+str(i),"location"+str(i)]) 
+
+for i in range(longest_cluster): columns.extend(["name_"+str(i),"date_"+str(i),"location_"+str(i)]) 
 match_df = pd.DataFrame(columns=columns, data = all_cluster_data)
 match_df.to_csv("/home/madesai/hs-news/external-data/"+str(distance)+"km_event_matches.csv")
 
