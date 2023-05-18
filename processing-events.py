@@ -140,7 +140,7 @@ for c in clusters:
         idx, latlon = event[0], [event[1],event[2]]
         name = cases[idx]
         date = years[idx]
-        single_cluster_data.append(name, date, latlon)
+        single_cluster_data.extend([name, date, latlon])
     all_cluster_data.append(single_cluster_data)
 for i in range(longest_cluster): columns.extend(["name"+str(i),"date"+str(i),"location"+str(i)]) 
 match_df = pd.DataFrame(columns=columns, data = all_cluster_data)
