@@ -94,7 +94,7 @@ print(len(dates))
 
 countyFIPS = [lat_long_to_fips(lat, lon) for lat, lon in zip(latitude,longitude)]
 zip_code = [ftz_dict[fips] for fips in countyFIPS]
-party = [party_dictionary[(y,f)] for y, f in zip(good_years,countyFIPS)]
+party = [party_dictionary[(y,f)] for y, f in zip(pp.year_to_election_year(good_years),countyFIPS)]
 events_df['countyFIPS'] = countyFIPS
 events_df['zip'] = zip_code
 events_df['party'] = party

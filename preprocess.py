@@ -26,6 +26,17 @@ def df_slice(df, start, end, column):
     data = df[(df[column] >= start) & (df[column] <= end)].sort_values(by=column)
     return data
 
+def year_to_election_year(year):
+  election_years = range(1980,2024,4)
+  if year in election_years:
+    ey = year
+  else:
+    for i in range(1,4):
+      if year-i in election_years:
+        ey = year-i
+  return ey 
+
+
 def get_year(date_string):
     try:
         year = datetime.strptime(date_string, "%B %d, %Y").year
