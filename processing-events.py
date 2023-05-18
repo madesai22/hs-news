@@ -80,6 +80,7 @@ path_to_fips_file = "/home/madesai/hs-news/external-data/ZIP_COUNTY_122021.csv"
 distance = 200 #km 
 
 party_dictionary = year_fips_to_party(path_to_voting_data)
+print(party_dictionary)
 events_df = pd.read_csv(path_to_events)
 dates = events_df['date'].tolist()
 years = [get_year(d) for d in dates]
