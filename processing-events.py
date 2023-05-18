@@ -100,11 +100,7 @@ events_df['countyFIPS'] = countyFIPS
 events_df['zip'] = zip_code
 events_df['party'] = party
 
-# events_df['countyFIPS'] = events_df.apply(lambda row: lat_long_to_fips(row['latitude'], row['longitude']), axis=1)
-# print(events_df['countyFIPS'].to_string(index=False))
-# events_df['zip'] = events_df.apply(lambda row: ftz_dict[row['countyFIPS']], axis=1)
-# events_df['year'] = events_df.apply(lambda row: get_year(row['date']), axis=1)
-# events_df['party'] = events_df.apply(lambda row: party_dictionary[(row['year'],row['party'])], axis=1)
+
 events_df.to_csv("/home/madesai/hs-news/external-data/mother-jones-edited.csv")
 print("wrote csv")
 # see if any events are within some distance of one another
