@@ -125,7 +125,8 @@ print("**")
 
 if matches:
     for m in matches:
-        print("{} within 200km of  {}".format(next(iter(m)), next(iter(m))))
+        m = list(m)
+        print("{} within 200km of  {}".format(m[0],m[1]))
 else:
     print("no matches")
 
