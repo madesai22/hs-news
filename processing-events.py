@@ -81,7 +81,7 @@ events_df = pd.read_csv(path_to_events)
 dates = events_df['date'].tolist()
 years = [get_year(d) for d in dates]
 events_df['years'] = years
-events_df = pp.df_to_1999_2019(events_df)
+events_df = pp.df_slice(events_df,2000,2019,'years')
 ftz_dict = fips_to_zip_dict(path_to_fips_file)
 good_years = events_df['years'].tolist()
 
