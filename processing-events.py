@@ -10,9 +10,8 @@ import json
 def lat_long_to_fips(latitude, longitude):
     request_str = "https://geo.fcc.gov/api/census/block/find?lat={}&lon={}&format=json".format(latitude,longitude)
     response = requests.get(request_str)
-    print(request_str)
-    fips = response.json()['results'][0]['county_fips']
     try: 
+        fips = response.json()['results'][0]['county_fips']
         return int(fips)
     except:
         return -1
@@ -24,8 +23,8 @@ def fips_to_zip_dict(path_to_file):
         for line in lines[1:]: #skip heading
             items = line.split(",")
             zipcode = items[0] # zip is first column 
-            fips = items[1] # county is the next one 
-            ftz_dict[fips] = zipcode
+            fips = int(items[1]) # county is the next one 
+            ftz_dict[fips] = int(zipcode)
     return ftz_dict
 
 def year_fips_to_party(csv_file):
@@ -82,7 +81,6 @@ latitude = events_df['latitude'].tolist()
 longitude = events_df['longitude'].tolist()
 dates = events_df['date'].tolist()
 countyFIPS = [lat_long_to_fips(lat, lon) for lat, lon in zip(latitude,longitude)]
-print(countyFIPS)
 zip_code = [ftz_dict[fips] for fips in countyFIPS]
 years = [get_year(d) for d in dates]
 party = [party_dictionary[y,] for y,f in zip(years,countyFIPS)]
