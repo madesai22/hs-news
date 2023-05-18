@@ -83,41 +83,58 @@ distance = 200 #km
 party_dictionary = year_fips_to_party(path_to_voting_data)
 print(party_dictionary)
 events_df = pd.read_csv(path_to_events)
-dates = events_df['date'].tolist()
-years = [get_year(d) for d in dates]
-events_df['years'] = years
-events_df = pp.df_slice(events_df,2000,2019,'years')
+events_df = pp.df_slice(events_df,2000,2019,'year')
+
 ftz_dict = fips_to_zip_dict(path_to_fips_file)
-good_years = events_df['years'].tolist()
-election_years = [pp.year_to_election_year(y) for y in good_years]
+years = events_df['year'].tolist()
+years = [int(y) for y in years]
+election_years = [pp.year_to_election_year(y) for y in years]
 
 # add fips, zip code, and party to events df 
 latitude = events_df['latitude'].tolist()
 longitude = events_df['longitude'].tolist()
-
-print(len(dates))
-
+cases = events_df['case'].tolist()
 
 countyFIPS = [lat_long_to_fips(lat, lon) for lat, lon in zip(latitude,longitude)]
 zip_code = [ftz_dict[fips] for fips in countyFIPS]
 party = [party_dictionary[(y,f)][1] for y, f in zip(election_years,countyFIPS)]
+last_party = [party_dictionary[(y-4,f)][1] for y, f in zip(election_years,countyFIPS)]
+next_party = [party_dictionary[(y+4,f)][1] for y, f in zip(election_years,countyFIPS)]
 events_df['countyFIPS'] = countyFIPS
 events_df['zip'] = zip_code
 events_df['party'] = party
+events_df['previous election'] = last_party
+events_df['next election'] = next_party
+
 
 
 events_df.to_csv("/home/madesai/hs-news/external-data/mother-jones-edited.csv")
 print("wrote csv")
 # see if any events are within some distance of one another
 matches = []
-for row, idx in events_df:
-    row_match = get_matches(idx, row, distance, events_df)
-    if row_match:
-        matches.append(row_match)
+for i, latlon in enumerate(zip(latitude,longitude)):
+    for j, latlon_other in enumerate(zip(latitude,longitude)):
+        if i != j:
+            d = geopy.distance.geodesic(latlon, latlon_other)
+            if d < distance:
+                matches.add((cases[i], cases[j]))
+
 if matches:
-    print(matches)
+    for m in matches:
+        print("{} within 200km of  {}".format(m[0],m[1]))
 else:
     print("no matches")
+
+
+    
+# for row, idx in events_df:
+#     row_match = get_matches(idx, row, distance, events_df)
+#     if row_match:
+#         matches.append(row_match)
+# if matches:
+#     print(matches)
+# else:
+#     print("no matches")
 
 
 
