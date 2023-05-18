@@ -81,11 +81,9 @@ path_to_fips_file = "/home/madesai/hs-news/external-data/ZIP_COUNTY_122021.csv"
 distance = 200 #km 
 
 party_dictionary = year_fips_to_party(path_to_voting_data)
-print(party_dictionary)
 events_df = pd.read_csv(path_to_events)
 events_df = events_df.astype({'year': 'int'})
 events_df = pp.df_slice(events_df,2000,2019,'year')
-print(events_df)
 
 ftz_dict = fips_to_zip_dict(path_to_fips_file)
 years = events_df['year'].tolist()
@@ -123,7 +121,7 @@ for i, latlon in enumerate(zip(latitude,longitude)):
 
 if matches:
     for m in matches:
-        print("{} within 200km of  {}".format(m[0],m[1]))
+        print("{} within 200km of  {}".format(next(iter(m)), next(iter(m)))
 else:
     print("no matches")
 
