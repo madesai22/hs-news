@@ -33,6 +33,7 @@ def year_fips_to_party(csv_file):
     with open(csv_file, 'r') as f:
         reader = csv.DictReader(f)
         for row in reader:
+            print(row['county_fips'])
             year = int(row['year'])
             county_fips = int(row['county_fips'])
             party = row['party']
