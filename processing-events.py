@@ -49,8 +49,8 @@ def year_fips_to_party(csv_file):
                         max_votes_per_year[key] = [party_votes,party]
                 else:
                     max_votes_per_year[key] = [party_votes,party]
-                    print(key, max_votes_per_year[key])   
-            except:
+            except Exception as error:
+                print("An exception occurred:", error)
                 pass
 
     return max_votes_per_year
