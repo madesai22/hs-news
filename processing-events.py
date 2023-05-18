@@ -97,7 +97,7 @@ def find_clusters(lat_list, lon_list,distance): # takes in a set of tuples with 
 path_to_events = "/home/madesai/hs-news/external-data/Mother_jones_Mass_Shootings_Database_1982_2023.csv"
 path_to_voting_data = "/home/madesai/hs-news/external-data/mit-election-lab/countypres_2000-2020.csv"
 path_to_fips_file = "/home/madesai/hs-news/external-data/ZIP_COUNTY_122021.csv"
-distance = 100 #km 
+distance = 50 #km 
 
 def make_edited_csv(path_to_events,path_to_voting_data, path_to_fips_file):
 
@@ -113,7 +113,6 @@ def make_edited_csv(path_to_events,path_to_voting_data, path_to_fips_file):
     # add fips, zip code, and party to events df 
     latitude = events_df['latitude'].tolist()
     longitude = events_df['longitude'].tolist()
-    cases = events_df['case'].tolist()
 
     countyFIPS = [lat_long_to_fips(lat, lon) for lat, lon in zip(latitude,longitude)]
     zip_code = [ftz_dict[fips] for fips in countyFIPS]
@@ -132,6 +131,7 @@ def make_edited_csv(path_to_events,path_to_voting_data, path_to_fips_file):
     print("wrote csv")
 
 events_df = pd.read_csv("/home/madesai/hs-news/external-data/mother-jones-edited.csv")
+events_df = events_df.astype({'year': 'int'})
 cases = events_df['case'].tolist()
 latitude = events_df['latitude'].tolist()
 longitude = events_df['longitude'].tolist()
@@ -156,9 +156,6 @@ match_df = pd.DataFrame(columns=columns, data = all_cluster_data)
 match_df.to_csv("/home/madesai/hs-news/external-data/"+str(distance)+"km_event_matches.csv")
 
         
-
-
-
 
 
 
