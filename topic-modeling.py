@@ -35,17 +35,17 @@ def topic_model(path_to_file, ntopics):
 
 def main():
     path = "/data/madesai/gv-topic-data/"
-    data =["all_content.pkl","all_headlines.pkl"]
+    data =["all_headlines.pkl"]
     gv_data = "gv_content_by_headline.pkl"
-    ntopics = [25,40,55]
+    ntopics = [25]#,40,55]
     gv_topics = [5,10,15]
 
     for p in data:
         for nt in ntopics:
             print("Finding {} topics in {} file".format(nt, p))
             topic_model(path+p,nt)
-    for g in gv_topics:
-        topic_model(path+gv_data, g)
+    #for g in gv_topics:
+    #    topic_model(path+gv_data, g)
 
 
 if __name__ == '__main__':
