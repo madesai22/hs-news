@@ -39,8 +39,6 @@ def year_fips_to_party(csv_file):
                 party_votes = float(row['candidatevotes'])
                 year = int(row['year'])
                 key = (year, county_fips)
-              #  if county_fips == 21101:
-              #      print(key, party, party_votes)
                 if key == (2000, 21101):
                     print((party, party_votes))
                 if key in max_votes_per_year:
@@ -50,7 +48,8 @@ def year_fips_to_party(csv_file):
                             print("update! {} {} {}".format(year, party, party_votes))
                         max_votes_per_year[key] = [party_votes,party]
                 else:
-                    max_votes_per_year[key] = [party_votes,party]    
+                    max_votes_per_year[key] = [party_votes,party]
+                    print(key, max_votes_per_year[key])   
             except:
                 pass
 
