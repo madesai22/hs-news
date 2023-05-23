@@ -6,6 +6,7 @@ from datetime import datetime
 import requests
 import json
 import preprocess as pp
+import requests
 
 
 def lat_long_to_fips(latitude, longitude):
@@ -60,10 +61,14 @@ def km_between_zip(zip1,zip2):
     return geopy.distance.geodesic(z1, z2).km
     
 def lat_long_to_zip(latitude, longitude):
-    geolocator = Nominatim(user_agent="madesasi@umich.edu")
-    p = geopy.point.Point(latitude,longitude)
-    location = geolocator.reverse(p, exactly_one=True)
-    zip = location.raw['address']['postcode']
+    #geolocator = Nominatim(user_agent="madesasi@umich.edu")
+    #p = geopy.point.Point(latitude,longitude)
+    #location = geolocator.reverse(p, exactly_one=True)
+    #zip = location.raw['address']['postcode']
+    string_request = "https://nominatim.openstreetmap.org/reverse?lat={}&lon={}&format=json&accept-language=en".format(latitude, longitude)
+    result = requests.get(url = string_request)
+    zip = result.json()['address']['postcode']
+
     return zip
 
 def get_date(date_string):
