@@ -49,6 +49,7 @@ def get_year(date_string):
         else:
             return 3000 
 
+
 def remove_whitespaces(text):
     return re.sub(' +|\n+|\t+', ' ', text)
 
