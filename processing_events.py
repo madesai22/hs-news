@@ -46,14 +46,14 @@ def make_edited_csv(path_to_events,path_to_voting_data, path_to_fips_file):
     return events_df
 
 def main():
-
-    path_to_events = "/home/madesai/hs-news/external-data/Mother_jones_Mass_Shootings_Database_1982_2023.csv"
-    path_to_voting_data = "/home/madesai/hs-news/external-data/mit-election-lab/countypres_2000-2020.csv"
-    path_to_fips_file = "/home/madesai/hs-news/external-data/ZIP_COUNTY_122021.csv"
+    path = "/home/madesai/hs-news/external-data/"
+    path_to_events = path+"/Mother_jones_Mass_Shootings_Database_1982_2023.csv"
+    path_to_voting_data = path+"mit-election-lab/countypres_2000-2020.csv"
+    path_to_fips_file = path+"/ZIP_COUNTY_122021.csv"
     distance = 50 #km 
 
-    if os.path.exists("/home/madesai/hs-news/external-data/mother-jones-edited.csv"):
-        events_df = pd.read_csv("/home/madesai/hs-news/external-data/mother-jones-edited.csv")
+    if os.path.exists(path+"/mother-jones-edited.csv"):
+        events_df = pd.read_csv(path+"/mother-jones-edited.csv")
     else: 
         events_df = make_edited_csv(path_to_events,path_to_voting_data,path_to_fips_file)
 
