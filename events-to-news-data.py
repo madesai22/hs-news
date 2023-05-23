@@ -22,7 +22,7 @@ def domain_to_event(schools_data, zip_codes, zip_to_date, max_distance = 0):
                     print(school_zipcode, school['school_type'])
                     event = (event_zip, zip_to_date[event_zip])
                     event_domains.update({school['domain']: event})
-    fh.pickle_data(event_domains,"/data/madesai/schools_to_events/rs_domain_to_event_distance_"+str(max_distance)+".pkl")
+    
     return event_domains
 
 
@@ -43,7 +43,7 @@ def event_to_domain_to_article_list(event_domains, articles, zip_to_date, max_di
             else:
                 events_to_hlines_by_domain[event].update({article_domain:(headline, article_date)})
 
-    fh.pickle_data(event_domains,"/data/madesai/schools_to_events/rs_events_to_hlines_distance_"+str(max_distance)+".pkl")
+    
     return events_to_hlines_by_domain
     
 
@@ -69,12 +69,14 @@ def main():
         event_domains = fh.unpickle_data('/data/madesai/schools_to_events/rs_domain_to_event_distance_'+str(max_distance)+".pkl")
     else:
         event_domains = domain_to_event(schools_data,zip_codes,zip_to_date, max_distance=24)
+        fh.pickle_data(event_domains,"/data/madesai/schools_to_events/rs_domain_to_event_distance_"+str(max_distance)+".pkl")
     print("calculated distances")
     
     if os.path.exists("/data/madesai/schools_to_events/rs_events_to_hlines_distance_"+str(max_distance)+".pkl"):
         events_to_hlines_by_domain = fh.unpickle_data("/data/madesai/schools_to_events/rs_events_to_hlines_distance_"+str(max_distance)+".pkl")
     else:
         events_to_hlines_by_domain = event_to_domain_to_article_list(event_domains,articles,zip_to_date,max_distance)
+        fh.pickle_data(events_to_hlines_by_domain,"/data/madesai/schools_to_events/rs_events_to_hlines_distance_"+str(max_distance)+".pkl")
     print("found headlines")
     
     # print data
