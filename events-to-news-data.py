@@ -1,6 +1,7 @@
 from dateutil.parser import parse
 import pandas as pd
 import file_handling as fh 
+import preprocess as pp
 
 def domain_to_event(schools_data, zip_codes, zip_to_date): 
     # creates a dictionary of {domain:(zip code, date)} for domains which have the same zip code as an event 
@@ -21,7 +22,10 @@ def event_to_domain_to_article_list(event_domains, articles, zip_to_date):
         events_to_hlines_by_domain.update({(z,zip_to_date[z]) : [] } )
     for a in articles:
         article_domain = a['domain']
-        article_date = parse(a['date']).strftime("%m/%d/%Y")
+        date = pp.get_date(a['date'])
+        if date:
+            article_date = date.strftime("%m/%d/%Y")
+            
         if article_domain in event_domains.keys():
             headline = a['headline']
             event = event_domains[article_domain] 
