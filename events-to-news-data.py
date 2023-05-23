@@ -47,7 +47,7 @@ def main():
     dates = [parse(d).strftime("%m/%d/%Y") for d in events_df['date']] # list of datetime objects
     #events = [(z,parse(d)) for z, d in zip(zip_codes,dates)]
     zip_to_date = {zip_codes[i]: dates[i] for i in range(len(zip_codes))}
-    print(zip_to_date['1703'])
+    #print(zip_to_date['1703'])
     print(zip_to_date[1703])
 
 
