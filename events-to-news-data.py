@@ -51,7 +51,7 @@ def main():
 
 
     event_domains = domain_to_event(schools_data,zip_codes,zip_to_date)
-    events_to_hlines_by_domain = event_to_domain_to_article_list(event_domains,articles,zip_codes)
+    events_to_hlines_by_domain = event_to_domain_to_article_list(event_domains,articles,zip_to_date)
     for e in events_to_hlines_by_domain:
         domains = events_to_hlines_by_domain[e]
         print("event: {}, ndomains: {}".format(e, len(domains)))
