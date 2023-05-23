@@ -36,14 +36,14 @@ def read_jsonlist(input_filename):
                 data.append(json.loads(line))
     return data
 
-def read_jsonlist_random_sample(input_filename, percent, totalfiles):
+def read_jsonlist_random_sample(input_filename, percent):
     all_data = read_jsonlist(input_filename)
     data = []
     random.shuffle(all_data)
     nsamples = percent * len(all_data)
     for i, line in enumerate(all_data):
         if i < nsamples:
-            data.append(json.loads(line))
+            data.append(line)
         else:
             break
     return data

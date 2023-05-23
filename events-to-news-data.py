@@ -1,4 +1,3 @@
-import processing_events as pe 
 from dateutil.parser import parse
 import pandas as pd
 import file_handling as fh 
@@ -33,7 +32,9 @@ def event_to_domain_to_article_list(event_domains, articles, zip_to_date):
 
 def main():
     events_df = pd.read_csv("/home/madesai/hs-news/external-data/mother-jones-edited.csv")
-    articles = fh.read_jsonlist_random_sample("/data/madesai/articles_clean.jsonlist",.2, 1951844)
+    articles = fh.read_jsonlist_random_sample("/data/madesai/articles_clean.jsonlist",.2)
+    fh.pickle_data(articles,'/data/madesai/twenty_percent_articles.pkl')
+    print("random sample generated")
     schools_data = fh.read_jsonlist("/data/madesai/school_full_info_with_votes.jsonlist")
 
     zip_codes = events_df['zip']
