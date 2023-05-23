@@ -142,7 +142,7 @@ def make_edited_csv(path_to_events,path_to_voting_data, path_to_fips_file):
 
 
 events_df = pd.read_csv("/home/madesai/hs-news/external-data/mother-jones-edited.csv")
-events_df.drop(['zip'])
+events_df.drop(columns=['zip'])
 events_df = events_df.astype({'year': 'int'})
 cases = events_df['case'].tolist()
 latitude = events_df['latitude'].tolist()
