@@ -59,7 +59,7 @@ def get_date(date_string):
       if match:
          return parse(match[0])
       else:
-         return datetime.datetime(3000, 1, 1, 0, 0)
+         return datetime(3000, 1, 1, 0, 0)
 
 def remove_whitespaces(text):
     return re.sub(' +|\n+|\t+', ' ', text)
