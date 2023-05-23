@@ -140,11 +140,19 @@ def make_edited_csv(path_to_events,path_to_voting_data, path_to_fips_file):
     events_df.to_csv("/home/madesai/hs-news/external-data/mother-jones-edited.csv")
     print("wrote csv")
 
+
 events_df = pd.read_csv("/home/madesai/hs-news/external-data/mother-jones-edited.csv")
+events_df.drop(['zip'])
 events_df = events_df.astype({'year': 'int'})
 cases = events_df['case'].tolist()
 latitude = events_df['latitude'].tolist()
 longitude = events_df['longitude'].tolist()
+zip_code = [lat_long_to_zip(lat,lon) for lat, lon in zip(latitude,longitude)]
+events_df['zip'] = zip_code
+events_df.to_csv("/home/madesai/hs-news/external-data/mother-jones-edited.csv")
+
+
+
 years = events_df['year'].tolist()
 
 clusters = find_clusters(latitude,longitude,distance)
