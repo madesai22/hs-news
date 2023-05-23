@@ -17,7 +17,7 @@ def domain_to_event(schools_data, zip_codes, zip_to_date):
 
 def event_to_domain_to_article_list(event_domains, articles, zip_to_date):
     events_to_hlines_by_domain = {}
-    for z in zip_to_date: 
+    for z in zip_to_date.keys(): 
         print(z, zip_to_date[z])
         events_to_hlines_by_domain.update({(z,zip_to_date[z]) : [] } )
     for a in articles:
@@ -47,8 +47,7 @@ def main():
     dates = [parse(d).strftime("%m/%d/%Y") for d in events_df['date']] # list of datetime objects
     #events = [(z,parse(d)) for z, d in zip(zip_codes,dates)]
     zip_to_date = {zip_codes[i]: dates[i] for i in range(len(zip_codes))}
-    #print(zip_to_date['1703'])
-    print(zip_to_date[1703])
+
 
 
     event_domains = domain_to_event(schools_data,zip_codes,zip_to_date)
