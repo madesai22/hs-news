@@ -2,6 +2,7 @@ from unidecode import unidecode
 import string
 import re
 from datetime import datetime
+from dateutil.parser import parse
 import file_handling as fh
 
 def match_gun_violence(text):
@@ -49,6 +50,11 @@ def get_year(date_string):
         else:
             return 3000 
 
+def get_date(date_string):
+   try:
+      return parse(date_string)
+   except:
+      print(date_string)
 
 def remove_whitespaces(text):
     return re.sub(' +|\n+|\t+', ' ', text)
