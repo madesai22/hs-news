@@ -2,7 +2,7 @@ from dateutil.parser import parse
 import pandas as pd
 import file_handling as fh 
 import preprocess as pp
-from processing_events import km_between_zip
+import geography_functions as gf
 import os
 
 def domain_to_event(schools_data, zip_codes, zip_to_date, max_distance = 0): 
@@ -17,9 +17,9 @@ def domain_to_event(schools_data, zip_codes, zip_to_date, max_distance = 0):
                 event_domains.update({school['domain']: event})
         else:
             for event_zip in zip_codes:
-                distance = km_between_zip(school_zipcode, event_zip)
+                distance = gf.km_between_zip(school_zipcode, event_zip)
                 if distance < max_distance:
-                    print(school_zipcode, school['type'])
+                    print(school_zipcode, school['school_type'])
                     event = (event_zip, zip_to_date[event_zip])
                     event_domains.update({school['domain']: event})
     return event_domains
