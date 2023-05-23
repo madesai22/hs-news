@@ -53,8 +53,8 @@ def quick_look(path_to_file, column, condition=None, printn=True, printexamples 
     count = 0 
     with open(path_to_file) as f:
         for line in f:
+            data = json.loads(line)[column]
             if condition:
-                data = json.loads(line)[column]
                 if  data == condition:
                     if printn: 
                         n_condition+=1
