@@ -14,34 +14,33 @@ def group_data_by_year(path_to_data, out_file_path, column = None, condition = N
     with open(path_to_data) as f:
         
         for line in f: 
-            if count <500:
-                sys.stdout.write("Seen {} articles\r".format(count))
-                #sys.stdout.write("Seen %.2f percent of articles\r" %(count/nfiles*100))
-                sys.stdout.flush()
-                count +=1
-                
-                data = json.loads(line)
-                if condition and column:
-                    take_file = data[column] == condition
-                else:
-                    take_file == True
+            sys.stdout.write("Seen {} articles\r".format(count))
+            #sys.stdout.write("Seen %.2f percent of articles\r" %(count/nfiles*100))
+            sys.stdout.flush()
+            count +=1
+            
+            data = json.loads(line)
+            if condition and column:
+                take_file = data[column] == condition
+            else:
+                take_file == True
 
-                if data['date']:
-                    year = pp.get_year(data['date'])
+            if data['date']:
+                year = pp.get_year(data['date'])
+            else:
+                year =  3000
+            
+            if year in year_dict:
+                year_dict[year][total_idx] += 1
+                if take_file:
+                    year_dict[year][nfile_idx] += 1
                 else:
-                    year =  3000
-                
-                if year in year_dict:
-                    year_dict[year][total_idx] += 1
-                    if take_file:
-                        year_dict[year][nfile_idx] += 1
-                    else:
-                        year_dict[year][nother_idx] += 1
+                    year_dict[year][nother_idx] += 1
+            else:
+                if take_file:
+                    year_dict[year] = [1,0,1]
                 else:
-                    if take_file:
-                        year_dict[year] = [1,0,1]
-                    else:
-                        year_dict[year] = [0,1,1]
+                    year_dict[year] = [0,1,1]
     for y in year_dict:
         num, denom  = year_dict[y][nfile_idx], year_dict[y][total_idx]
         pcent = num/denom*100
