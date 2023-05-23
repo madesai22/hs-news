@@ -20,7 +20,7 @@ def group_data_by_year(path_to_data, out_file_path, column = None, condition = N
             
             data = json.loads(line)
             if condition and column:
-                take_file = line[column] == condition
+                take_file = data[column] == condition
             else:
                 take_file == True
 
