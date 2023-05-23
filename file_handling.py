@@ -36,7 +36,7 @@ def read_jsonlist(input_filename):
                 data.append(json.loads(line))
     return data
 
-def read_jsonlist_random_sample(input_filename, percent):
+def read_jsonlist_random_sample(input_filename, percent, totalfiles):
     data = []
     if input_filename[-3:] == '.gz':
         with gzip.open(input_filename, 'rt') as input_file:
@@ -44,7 +44,7 @@ def read_jsonlist_random_sample(input_filename, percent):
                 data.append(json.loads(line))
     else:
         with codecs.open(input_filename) as input_file:
-            nsamples = percent * len(input_file)
+            nsamples = percent * totalfiles
             random.shuffle(input_file)
             # create list of random indecies of length percent * total 
             for i, line in enumerate(input_file):
