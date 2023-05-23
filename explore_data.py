@@ -12,9 +12,9 @@ def group_data_by_year(path_to_data, out_file_path, column = None, condition = N
     count = 0
     nfile_idx, nother_idx, total_idx = range(0,3)
     with open(path_to_data) as f:
-        nfiles = len(f)
         for line in f: 
-            sys.stdout.write("Seen %.2f percent of articles\r" %(count/nfiles*100))
+            sys.stdout.write("Seen {} articles\r" %(count))
+            #sys.stdout.write("Seen %.2f percent of articles\r" %(count/nfiles*100))
             sys.stdout.flush()
             count +=1
             
