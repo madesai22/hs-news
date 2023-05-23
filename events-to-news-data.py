@@ -4,13 +4,13 @@ import file_handling as fh
 
 def domain_to_event(schools_data, zip_codes, zip_to_date): 
     # creates a dictionary of {domain:(zip code, date)} for domains which have the same zip code as an event 
-    event_domains = []
+    event_domains = {}
     for school in schools_data:
         zipcode = school['zipcode']
         if zipcode in zip_codes:
             print(zipcode, school['type'])
             event = (zipcode, zip_to_date[zipcode])
-            event_domains.append({school['domain']: event}) 
+            event_domains.update({school['domain']: event}) 
     return event_domains
 
 # json style thing of like {(zip code, date): {domain:article list}}
@@ -18,7 +18,6 @@ def domain_to_event(schools_data, zip_codes, zip_to_date):
 def event_to_domain_to_article_list(event_domains, articles, zip_to_date):
     events_to_hlines_by_domain = {}
     for z in zip_to_date.keys(): 
-        print(z, zip_to_date[z])
         events_to_hlines_by_domain.update({(z,zip_to_date[z]) : [] } )
     for a in articles:
         article_domain = a['domain']
