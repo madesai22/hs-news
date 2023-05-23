@@ -54,7 +54,12 @@ def get_date(date_string):
    try:
       return parse(date_string)
    except:
-      print(date_string)
+      date_pattern = r"(Jan(uary)?|Feb(ruary)?|Mar(ch)?|Apr(il)?|May|Jun(e)?|Jul(y)?|Aug(ust)?|Sep(tember)?|Oct(ober)?|Nov(ember)?|Dec(ember)?)\s+\d{1,2},\s+\d{4}"
+      match = re.search(date_pattern, date_string)
+      if match:
+         return parse(match[0])
+      else:
+         return datetime.datetime(3000, 1, 1, 0, 0)
 
 def remove_whitespaces(text):
     return re.sub(' +|\n+|\t+', ' ', text)

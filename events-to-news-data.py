@@ -22,10 +22,8 @@ def event_to_domain_to_article_list(event_domains, articles, zip_to_date):
         events_to_hlines_by_domain.update({(z,zip_to_date[z]) : [] } )
     for a in articles:
         article_domain = a['domain']
-        date = pp.get_date(a['date'])
-        if date:
-            article_date = date.strftime("%m/%d/%Y")
-            
+        article_date = pp.get_date(a['date'])
+
         if article_domain in event_domains.keys():
             headline = a['headline']
             event = event_domains[article_domain] 
