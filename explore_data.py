@@ -43,9 +43,8 @@ def group_data_by_year(path_to_data, out_file_path, column = None, condition = N
                     else:
                         year_dict[year] = [0,1,1]
     for y in year_dict:
-        print(year_dict[y][nfile_idx])
-        print(year_dict[y][total_idx])
-        pcent = (year_dict[y][nfile_idx])(year_dict[y][total_idx])*100
+        num, denom  = year_dict[y][nfile_idx], year_dict[y][total_idx]
+        pcent = num/denom*100
         year_dict[y].append(pcent)
     df = pd.DataFrame.from_dict(year_dict, orient='index', columns = ['nfiles','nother','total','percent'])
     df.to_csv(out_file_path)
