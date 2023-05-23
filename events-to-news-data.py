@@ -2,19 +2,29 @@ from dateutil.parser import parse
 import pandas as pd
 import file_handling as fh 
 import preprocess as pp
+from processing_events import km_between_zip
+import os
 
-def domain_to_event(schools_data, zip_codes, zip_to_date): 
+def domain_to_event(schools_data, zip_codes, zip_to_date, max_distance = 0): 
     # creates a dictionary of {domain:(zip code, date)} for domains which have the same zip code as an event 
     event_domains = {}
     for school in schools_data:
-        zipcode = school['zipcode']
-        if zipcode in zip_codes:
-            print(zipcode, school['type'])
-            event = (zipcode, zip_to_date[zipcode])
-            event_domains.update({school['domain']: event}) 
+        school_zipcode = int(school['zipcode'])
+        if max_distance == 0:
+            if school_zipcode in zip_codes:
+                event_zip = school_zipcode
+                event = (event_zip, zip_to_date[event_zip])
+                event_domains.update({school['domain']: event})
+        else:
+            for event_zip in zip_codes:
+                distance = km_between_zip(school_zipcode, event_zip)
+                if distance < max_distance:
+                    print(school_zipcode, school['type'])
+                    event = (event_zip, zip_to_date[event_zip])
+                    event_domains.update({school['domain']: event})
     return event_domains
 
-# json style thing of like {(zip code, date): {domain:article list}}
+
 
 def event_to_domain_to_article_list(event_domains, articles, zip_to_date):
     events_to_hlines_by_domain = {}
@@ -35,23 +45,22 @@ def event_to_domain_to_article_list(event_domains, articles, zip_to_date):
     
 
 def main():
-    events_df = pd.read_csv("/home/madesai/hs-news/external-data/mother-jones-edited.csv")
-    #articles = fh.read_jsonlist_random_sample("/data/madesai/articles_clean.jsonlist",.2)
-    #fh.pickle_data(articles,'/data/madesai/twenty_percent_articles.pkl')
-    #print("random sample generated")
+    if os.path.exists('/data/madesai/twenty_percent_articles.pkl'):
+        articles = fh.unpickle_data('/data/madesai/twenty_percent_articles.pkl')
+        print("read random sample")
+    else:
+        articles = fh.read_jsonlist_random_sample("/data/madesai/articles_clean.jsonlist",.2)
+        fh.pickle_data(articles,'/data/madesai/twenty_percent_articles.pkl')
+        print("random sample generated")
 
-    articles = fh.unpickle_data('/data/madesai/twenty_percent_articles.pkl')
-    print("read random sample")
+    events_df = pd.read_csv("/home/madesai/hs-news/external-data/mother-jones-edited.csv")
     schools_data = fh.read_jsonlist("/data/madesai/school_full_info_with_votes.jsonlist")
 
     zip_codes = events_df['zip'].tolist()
     dates = [parse(d).strftime("%m/%d/%Y") for d in events_df['date']] # list of datetime objects
-    #events = [(z,parse(d)) for z, d in zip(zip_codes,dates)]
     zip_to_date = {zip_codes[i]: dates[i] for i in range(len(zip_codes))}
 
-
-
-    event_domains = domain_to_event(schools_data,zip_codes,zip_to_date)
+    event_domains = domain_to_event(schools_data,zip_codes,zip_to_date, max_distance=24)
     events_to_hlines_by_domain = event_to_domain_to_article_list(event_domains,articles,zip_to_date)
     for e in events_to_hlines_by_domain:
         domains = events_to_hlines_by_domain[e]
