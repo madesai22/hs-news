@@ -32,12 +32,15 @@ def event_to_domain_to_article_list(event_domains, articles, zip_to_date):
 
 def main():
     events_df = pd.read_csv("/home/madesai/hs-news/external-data/mother-jones-edited.csv")
-    articles = fh.read_jsonlist_random_sample("/data/madesai/articles_clean.jsonlist",.2)
-    fh.pickle_data(articles,'/data/madesai/twenty_percent_articles.pkl')
-    print("random sample generated")
+    #articles = fh.read_jsonlist_random_sample("/data/madesai/articles_clean.jsonlist",.2)
+    #fh.pickle_data(articles,'/data/madesai/twenty_percent_articles.pkl')
+    #print("random sample generated")
+
+    articles = fh.unpickle_data('/data/madesai/twenty_percent_articles.pkl')
+    print("read random sample")
     schools_data = fh.read_jsonlist("/data/madesai/school_full_info_with_votes.jsonlist")
 
-    zip_codes = events_df['zip']
+    zip_codes = events_df['zip'].tolist()
     dates = [parse(d) for d in events_df['date']] # list of datetime objects
     #events = [(z,parse(d)) for z, d in zip(zip_codes,dates)]
     zip_to_date = {zip_codes[i]: dates[i] for i in range(len(zip_codes))}
