@@ -56,6 +56,14 @@ def zip_to_lat_lon(zip_code):
     return (location.latitude, location.longitude)
 
 
+def lat_long_to_zip(latitude, longitude):
+    geolocator = Nominatim(user_agent="madesasi@umich.edu")
+    p = geopy.point.Point(latitude,longitude)
+    location = geolocator.reverse(p, exactly_one=True)
+    zip = location.raw['address']['postcode']
+    return zip
+
+
 def get_date(date_string):
     if len(date_string.split('/')[-1])==2:
         d = datetime.strptime(date_string, "%m/%d/%y").year
@@ -116,7 +124,8 @@ def make_edited_csv(path_to_events,path_to_voting_data, path_to_fips_file):
     longitude = events_df['longitude'].tolist()
 
     countyFIPS = [lat_long_to_fips(lat, lon) for lat, lon in zip(latitude,longitude)]
-    zip_code = [ftz_dict[fips] for fips in countyFIPS]
+    zip_code = [lat_long_to_zip(lat,lon) for lat, lon in zip(latitude,longitude)]
+    #zip_code = [ftz_dict[fips] for fips in countyFIPS]
     party = [party_dictionary[(y,f)][1] for y, f in zip(election_years,countyFIPS)]
     last_party = [party_dictionary[(y-4,f)][1] if y-4>=2000 else "n/a" for y, f in zip(election_years,countyFIPS)]
     next_party = [party_dictionary[(y+4,f)][1] if y+4>=2000 else "n/a" for y, f in zip(election_years,countyFIPS)]
@@ -155,48 +164,3 @@ for c in clusters:
 for i in range(longest_cluster): columns.extend(["name_"+str(i),"date_"+str(i),"location_"+str(i)]) 
 match_df = pd.DataFrame(columns=columns, data = all_cluster_data)
 match_df.to_csv("/home/madesai/hs-news/external-data/"+str(distance)+"km_event_matches.csv")
-
-        
-
-
-
-# # see if any events are within some distance of one another
-# matches = set()
-# for i, latlon in enumerate(zip(latitude,longitude)):
-#     for j, latlon_other in enumerate(zip(latitude,longitude)):
-#         if i != j:
-#             d = geopy.distance.geodesic(latlon, latlon_other).km
-#             if d < distance and d > 0:
-#                 matches.add(frozenset((cases[i], cases[j])))
-# print(matches)
-# print("**")
-
-# if matches:
-#     for m in matches:
-#         m = list(m)
-#         print("{} within 200km of  {}".format(m[0],m[1]))
-# else:
-#     print("no matches")
-
-
-
-
-
-
-# collect articles that are within boundary of events? 
-# loop through the event list
-# find the zip code
-# find the schools with that zip code in school_full_info later we can do distance
-# from there find the domains?
-# then find the articles with those zip codes
-# calculate a percent change? in gv coverage over that time? 
-# probably good to make a json file, or add to it? maybe do with a random sample 
-
-
-    
-
-
-
-
-
-
