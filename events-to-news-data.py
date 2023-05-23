@@ -56,8 +56,9 @@ def main():
         fh.pickle_data(articles,'/data/madesai/twenty_percent_articles.pkl')
         print("random sample generated")
 
-    events_df = pd.read_csv("/home/madesai/hs-news/external-data/mother-jones-edited.csv")
+    events_df = pd.read_csv("/home/madesai/hs-news/external-data/mother-jones-edited.csv",usecols=['zip','date'])
     schools_data = fh.read_jsonlist("/data/madesai/school_full_info_with_votes.jsonlist")
+    print("read school data")
 
     zip_codes = events_df['zip'].tolist()
     dates = [parse(d).strftime("%m/%d/%Y") for d in events_df['date']] # list of datetime objects
