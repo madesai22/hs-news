@@ -16,7 +16,8 @@ def domain_to_event(schools_data, zip_codes, zip_to_date):
 # json style thing of like {(zip code, date): {domain:article list}}
 
 def event_to_domain_to_article_list(event_domains, articles, zip_to_date):
-    events_to_hlines_by_domain = {(z,zip_to_date[z]) : [] for z in zip_to_date} 
+    events_to_hlines_by_domain = {}
+    for z in zip_to_date: events_to_hlines_by_domain.update({(z,zip_to_date[z]) : [] } )
     for a in articles:
         article_domain = a['domain']
         article_date = parse(a['date'])
