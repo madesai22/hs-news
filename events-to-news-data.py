@@ -23,7 +23,7 @@ def event_to_domain_to_article_list(event_domains, articles, zip_to_date):
         events_to_hlines_by_domain.update({(z,zip_to_date[z]) : [] } )
     for a in articles:
         article_domain = a['domain']
-        article_date = parse(a['date'])
+        article_date = parse(a['date']).strftime("%m/%d/%Y")
         if article_domain in event_domains.keys():
             headline = a['headline']
             event = event_domains[article_domain] 
@@ -45,7 +45,7 @@ def main():
     schools_data = fh.read_jsonlist("/data/madesai/school_full_info_with_votes.jsonlist")
 
     zip_codes = events_df['zip'].tolist()
-    dates = [parse(d) for d in events_df['date']] # list of datetime objects
+    dates = [parse(d).strftime("%m/%d/%Y") for d in events_df['date']] # list of datetime objects
     #events = [(z,parse(d)) for z, d in zip(zip_codes,dates)]
     zip_to_date = {zip_codes[i]: dates[i] for i in range(len(zip_codes))}
     print(zip_to_date)
