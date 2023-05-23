@@ -48,23 +48,37 @@ def group_data_by_year(path_to_data, out_file_path, column = None, condition = N
     df = pd.DataFrame.from_dict(year_dict, orient='index', columns = ['nfiles','nother','total','percent'])
     df.to_csv(out_file_path)
 
-def quick_look(path_to_file, column, condition):
+def quick_look(path_to_file, column, condition=None, printn=True, printexamples = False, nexamples = 1000):
     n_condition = 0 
+    count = 0 
     with open(path_to_file) as f:
         for line in f:
-            if json.loads(line)[column] == condition:
-                n_condition+=1
-
-    print("{} {}".format(n_condition, condition))
+            if condition:
+                data = json.loads(line)[column]
+                if  data == condition:
+                    if printn: 
+                        n_condition+=1
+                    if printexamples and n_condition < nexamples:
+                        print(data)
+            else:
+                if printn: 
+                    n_condition+=1
+                if printexamples and count < nexamples:
+                    print(data)
+            count +=1
+    if printn:
+        print("{} {}".format(n_condition, condition))
 
 def main():
     path = '/data/madesai/articles_clean.jsonlist'
-    json_column = 'school_type'
-    select_for = ['high','middle','college']
-    for c in select_for:
-        path_to_outfile = '/data/madesai/descriptive-statistics/n_'+c+'l_articles_by_year.csv'
-        print(c)
-        group_data_by_year(path,path_to_outfile,column=json_column,condition=c)
+    # json_column = 'school_type'
+    # select_for = ['high','middle','college']
+    # for c in select_for:
+    #     path_to_outfile = '/data/madesai/descriptive-statistics/n_'+c+'l_articles_by_year.csv'
+    #     print(c)
+    #     group_data_by_year(path,path_to_outfile,column=json_column,condition=c)
+
+    quick_look(path,'date',printexamples=True,printn=False,)
 
 
 
