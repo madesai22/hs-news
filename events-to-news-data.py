@@ -20,8 +20,9 @@ def domain_to_event(schools_data, event_states, zip_codes, zip_to_date, max_dist
                 event_domains.update({school['domain']: event})
         else:
             for i, e_state in enumerate(event_states):
-                if re.findall(school_state,e_state):
-                    print(school_state,e_state)
+                print(e_state, school_state)
+                if school_state == e_state.strip():
+                    print('match')
                     event_zip = zip_codes[i]
                     distance = gf.km_between_zip(school_zipcode, event_zip)
                     if distance < max_distance and distance > 0:
