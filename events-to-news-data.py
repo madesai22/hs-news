@@ -80,7 +80,7 @@ def main():
     zip_to_date = {zip_codes[i]: dates[i] for i in range(len(zip_codes))}
 
     max_distance = 24 
-    if os.path.exists(out_path+'rs_domain_to_event_distance_'+str(max_distance)+".pkl"):
+    if 1>2:#os.path.exists(out_path+'rs_domain_to_event_distance_'+str(max_distance)+".pkl"):
         event_domains = fh.unpickle_data(out_path+'/rs_domain_to_event_distance_'+str(max_distance)+".pkl")
     else:
         event_domains = domain_to_event(schools_data,states,zip_codes,zip_to_date, max_distance=24)
