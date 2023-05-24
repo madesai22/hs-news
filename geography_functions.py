@@ -61,8 +61,11 @@ def zip_to_lat_lon(zip_code):
     return (lat, lon)
 
 def km_between_zip(zip1,zip2):
-    z1, z2 = zip_to_lat_lon(zip1), zip_to_lat_lon(zip2)
-    return geopy.distance.geodesic(z1, z2).km
+    try: 
+        z1, z2 = zip_to_lat_lon(zip1), zip_to_lat_lon(zip2)
+        return geopy.distance.geodesic(z1, z2).km
+    except:
+        return -1000
     
 def lat_long_to_zip(latitude, longitude):
     #geolocator = Nominatim(user_agent="madesasi@umich.edu")
