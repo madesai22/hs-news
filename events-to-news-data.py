@@ -9,6 +9,7 @@ import re
 def domain_to_event(schools_data, event_states, zip_codes, zip_to_date, max_distance = 0): 
     # creates a dictionary of {domain:(zip code, date)} for domains which have the same zip code as an event 
     event_domains = {}
+    state_domains = {}
     for school in schools_data: 
         school_state = school['state']
         
@@ -21,13 +22,15 @@ def domain_to_event(schools_data, event_states, zip_codes, zip_to_date, max_dist
         else:
             for i, e_state in enumerate(event_states):
                 if school_state == e_state.strip():
+                    event = (event_zip, zip_to_date[event_zip])
                     event_zip = zip_codes[i]
                     distance = gf.km_between_zip(school_zipcode, event_zip)
+                    state_domains.update({school['domain']: event})
                     if distance < max_distance and distance > 0:
                         print(event_zip, school_zipcode, school['school_type'], school['domain'])
-                        event = (event_zip, zip_to_date[event_zip])
+                        
                         event_domains.update({school['domain']: event})
-    
+    fh.pickle_data(state_domains,'/data/madesai/schools_to_events/state_domains.pkl')
     return event_domains
 
 
@@ -79,7 +82,7 @@ def main():
     if 1>2:#os.path.exists(out_path+'rs_domain_to_event_distance_'+str(max_distance)+".pkl"):
         event_domains = fh.unpickle_data(out_path+'/rs_domain_to_event_distance_'+str(max_distance)+".pkl")
     else:
-        event_domains = domain_to_event(schools_data,states,zip_codes,zip_to_date, max_distance=24)
+        event_domains = domain_to_event(schools_data,states,zip_codes,zip_to_date, max_distance=32)
         fh.pickle_data(event_domains,out_path+"/rs_domain_to_event_distance_"+str(max_distance)+".pkl")
     print("calculated distances")
     
