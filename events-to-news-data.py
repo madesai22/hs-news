@@ -9,9 +9,7 @@ import re
 def domain_to_event(schools_data, event_states, zip_codes, zip_to_date, max_distance = 0): 
     # creates a dictionary of {domain:(zip code, date)} for domains which have the same zip code as an event 
     event_domains = {}
-    for school in schools_data[:3]: 
-        print(school)
-        print("something")
+    for school in schools_data[:25]: 
         school_state = school['state']
         
         school_zipcode = int(school['zipcode'])
@@ -22,7 +20,6 @@ def domain_to_event(schools_data, event_states, zip_codes, zip_to_date, max_dist
                 event_domains.update({school['domain']: event})
         else:
             for i, e_state in enumerate(event_states):
-                print(e_state, school_state)
                 if school_state == e_state.strip():
                     print('match')
                     event_zip = zip_codes[i]
