@@ -52,9 +52,13 @@ def year_fips_to_party(csv_file):
     return max_votes_per_year
 
 def zip_to_lat_lon(zip_code):
-    geolocator = Nominatim(user_agent="madesasi@umich.edu")
-    location = geolocator.geocode(zip_code)
-    return (location.latitude, location.longitude)
+    #geolocator = Nominatim(user_agent="madesasi@umich.edu")
+    # location = geolocator.geocode(zip_code)
+    string_request = "https://nominatim.openstreetmap.org/search?postalcode={}&format=json&accept-language=en".format(95472)
+    result = requests.get(url = string_request)
+    result_json = result.json()
+    lat,lon = float(result_json[0]['lat']),float(result_json[0]['lon'])
+    return (lat, lon)
 
 def km_between_zip(zip1,zip2):
     z1, z2 = zip_to_lat_lon(zip1), zip_to_lat_lon(zip2)
