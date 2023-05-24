@@ -54,7 +54,7 @@ def year_fips_to_party(csv_file):
 def zip_to_lat_lon(zip_code):
     #geolocator = Nominatim(user_agent="madesasi@umich.edu")
     # location = geolocator.geocode(zip_code)
-    string_request = "https://nominatim.openstreetmap.org/search?postalcode={}&format=json&accept-language=en".format(95472)
+    string_request = "https://nominatim.openstreetmap.org/search?postalcode={}&format=json&accept-language=en".format(zip_code)
     result = requests.get(url = string_request)
     result_json = result.json()
     lat,lon = float(result_json[0]['lat']),float(result_json[0]['lon'])
