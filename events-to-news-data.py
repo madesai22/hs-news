@@ -5,11 +5,12 @@ import preprocess as pp
 import geography_functions as gf
 import os
 
-def domain_to_event(schools_data, zip_codes, zip_to_date, max_distance = 0): 
+def domain_to_event(schools_data, event_states, zip_codes, zip_to_date, max_distance = 0): 
     # creates a dictionary of {domain:(zip code, date)} for domains which have the same zip code as an event 
     event_domains = {}
     for school in schools_data[:3]: 
-        print(school)
+        school_state = school['state']
+        print(school_state)
         school_zipcode = int(school['zipcode'])
         if max_distance == 0:
             if school_zipcode in zip_codes:
@@ -17,12 +18,14 @@ def domain_to_event(schools_data, zip_codes, zip_to_date, max_distance = 0):
                 event = (event_zip, zip_to_date[event_zip])
                 event_domains.update({school['domain']: event})
         else:
-            for event_zip in zip_codes:
-                distance = gf.km_between_zip(school_zipcode, event_zip)
-                if distance < max_distance and distance > 0:
-                    print(event_zip, school_zipcode, school['school_type'], school['domain'])
-                    event = (event_zip, zip_to_date[event_zip])
-                    event_domains.update({school['domain']: event})
+            for i, e_state in enumerate(event_states):
+                if school_state == e_state:
+                    event_zip = zip_codes[i]
+                    distance = gf.km_between_zip(school_zipcode, event_zip)
+                    if distance < max_distance and distance > 0:
+                        print(event_zip, school_zipcode, school['school_type'], school['domain'])
+                        event = (event_zip, zip_to_date[event_zip])
+                        event_domains.update({school['domain']: event})
     
     return event_domains
 
@@ -65,6 +68,9 @@ def main():
     print("read school data")
 
     zip_codes = events_df['zip'].tolist()
+    states = [l.split(',')[1] for l in events_df['location']]
+    print(states)
+
     dates = [parse(d).strftime("%m/%d/%Y") for d in events_df['date']] # list of datetime objects
     zip_to_date = {zip_codes[i]: dates[i] for i in range(len(zip_codes))}
 
@@ -72,7 +78,7 @@ def main():
     if os.path.exists(out_path+'rs_domain_to_event_distance_'+str(max_distance)+".pkl"):
         event_domains = fh.unpickle_data(out_path+'/rs_domain_to_event_distance_'+str(max_distance)+".pkl")
     else:
-        event_domains = domain_to_event(schools_data,zip_codes,zip_to_date, max_distance=24)
+        event_domains = domain_to_event(schools_data,states,zip_codes,zip_to_date, max_distance=24)
         fh.pickle_data(event_domains,out_path+"/rs_domain_to_event_distance_"+str(max_distance)+".pkl")
     print("calculated distances")
     
