@@ -8,7 +8,7 @@ import os
 def domain_to_event(schools_data, zip_codes, zip_to_date, max_distance = 0): 
     # creates a dictionary of {domain:(zip code, date)} for domains which have the same zip code as an event 
     event_domains = {}
-    for school in schools_data:
+    for school in schools_data[:10]: 
         school_zipcode = int(school['zipcode'])
         if max_distance == 0:
             if school_zipcode in zip_codes:
@@ -28,6 +28,7 @@ def domain_to_event(schools_data, zip_codes, zip_to_date, max_distance = 0):
 
 
 def event_to_domain_to_article_list(event_domains, articles, zip_to_date, max_distance=0):
+    # creates dictionary of {(zip code, date): {domain: [headlines]}}
     events_to_hlines_by_domain = {}
     for z in zip_to_date.keys(): 
         events_to_hlines_by_domain.update({(z,zip_to_date[z]) : [] } )
