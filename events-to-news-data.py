@@ -11,7 +11,7 @@ def domain_to_event(schools_data, event_states, zip_codes, zip_to_date, max_dist
     event_domains = {}
     for school in schools_data[:3]: 
         school_state = school['state']
-        print(school_state)
+        print(school)
         school_zipcode = int(school['zipcode'])
         if max_distance == 0:
             if school_zipcode in zip_codes:
