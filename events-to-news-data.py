@@ -68,7 +68,7 @@ def main():
     print("read school data")
 
     zip_codes = events_df['zip'].tolist()
-    states = [l.split(',')[1] for l in events_df['location']]
+    states = [l.strip().split(',')[1] for l in events_df['location']]
     print(states)
 
     dates = [parse(d).strftime("%m/%d/%Y") for d in events_df['date']] # list of datetime objects
