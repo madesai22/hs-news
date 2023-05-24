@@ -19,7 +19,7 @@ def domain_to_event(schools_data, zip_codes, zip_to_date, max_distance = 0):
             for event_zip in zip_codes:
                 distance = gf.km_between_zip(school_zipcode, event_zip)
                 if distance < max_distance:
-                    print(school_zipcode, school['school_type'])
+                    print(school_zipcode, school['school_type'], school['domain'])
                     event = (event_zip, zip_to_date[event_zip])
                     event_domains.update({school['domain']: event})
     
