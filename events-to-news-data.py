@@ -63,7 +63,7 @@ def main():
         fh.pickle_data(articles,'/data/madesai/twenty_percent_articles.pkl')
         print("random sample generated")
 
-    events_df = pd.read_csv("/home/madesai/hs-news/external-data/mother-jones-edited.csv",usecols=['zip','date'])
+    events_df = pd.read_csv("/home/madesai/hs-news/external-data/mother-jones-edited.csv",usecols=['zip','date','location'])
     schools_data = fh.read_jsonlist("/data/madesai/school_full_info_with_votes.jsonlist")
     print("read school data")
 
