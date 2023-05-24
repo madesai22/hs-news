@@ -11,26 +11,29 @@ def domain_to_event(schools_data, event_states, zip_codes, zip_to_date, max_dist
     event_domains = {}
     state_domains = {}
     for school in schools_data: 
-        school_state = school['state']
-        
-        school_zipcode = int(school['zipcode'])
-        if max_distance == 0:
-            if school_zipcode in zip_codes:
-                event_zip = school_zipcode
-                event = (event_zip, zip_to_date[event_zip])
-                event_domains.update({school['domain']: event})
+        if school['school_type'] == 'middle':
+            pass
         else:
-            for i, e_state in enumerate(event_states):
-                if school_state == e_state.strip():
+            school_state = school['state']
+        
+            school_zipcode = int(school['zipcode'])
+            if max_distance == 0:
+                if school_zipcode in zip_codes:
+                    event_zip = school_zipcode
                     event = (event_zip, zip_to_date[event_zip])
-                    event_zip = zip_codes[i]
-                    distance = gf.km_between_zip(school_zipcode, event_zip)
-                    state_domains.update({school['domain']: event})
-                    if distance < max_distance and distance > 0:
-                        print(event_zip, school_zipcode, school['school_type'], school['domain'])
-                        
-                        event_domains.update({school['domain']: event})
-    fh.pickle_data(state_domains,'/data/madesai/schools_to_events/state_domains.pkl')
+                    event_domains.update({school['domain']: event})
+            else:
+                for i, e_state in enumerate(event_states):
+                    if school_state == e_state.strip():
+                        event = (event_zip, zip_to_date[event_zip])
+                        event_zip = zip_codes[i]
+                        distance = gf.km_between_zip(school_zipcode, event_zip)
+                        state_domains.update({school['domain']: event})
+                        if distance < max_distance and distance > 0:
+                            print(event_zip, school_zipcode, school['school_type'], school['domain'])
+                            
+                            event_domains.update({school['domain']: event})
+            fh.pickle_data(state_domains,'/data/madesai/schools_to_events/state_domains.pkl')
     return event_domains
 
 
