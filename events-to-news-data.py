@@ -4,6 +4,7 @@ import file_handling as fh
 import preprocess as pp
 import geography_functions as gf
 import os
+import re
 
 def domain_to_event(schools_data, event_states, zip_codes, zip_to_date, max_distance = 0): 
     # creates a dictionary of {domain:(zip code, date)} for domains which have the same zip code as an event 
@@ -19,7 +20,8 @@ def domain_to_event(schools_data, event_states, zip_codes, zip_to_date, max_dist
                 event_domains.update({school['domain']: event})
         else:
             for i, e_state in enumerate(event_states):
-                if school_state == e_state:
+                if re.findall(school_state,e_state):
+                    print(school_state,e_state)
                     event_zip = zip_codes[i]
                     distance = gf.km_between_zip(school_zipcode, event_zip)
                     if distance < max_distance and distance > 0:
