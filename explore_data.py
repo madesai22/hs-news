@@ -128,6 +128,7 @@ def main():
     dev = pd.read_json(path, lines=True)
     tqdm.pandas()
     dev.loc[dev.label == 0].text.progress_apply(lambda x: len(x.split())).sum()
+    print(dev.head(10))
 
     # json_column = 'school_type'
     # select_for = ['high','middle','college']
