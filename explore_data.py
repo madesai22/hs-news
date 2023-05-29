@@ -105,19 +105,24 @@ def quick_look_column_jsonlist(path_to_file, column, condition=None, printn=True
         print("{} {}".format(n_condition, condition))
 
 def quick_look_json(path_to_file, column, condition=None, printn=True, printexamples = False, nexamples = 1000):
-    d = fh.read_jsonlist(path_to_file)
-    i = 0 
+    d = fh.read_json(path_to_file)
+    good_articles = 0 
+    bad_articles = 0
     for item in d:
-        print(item)
-        i += 1
+        article = d[item]
+        if article[column] == condition:
+            good_articles += 1
+        else:
+            bad_articles += 1
+    print("{} good and {} bad articles".format(good_articles,bad_articles))
         #if i <nexamples:
         #    print(d[item])
             
 
 def main():
     # path = '/data/madesai/articles_clean.jsonlist'
-    #path = "/data/madesai/mfc_v4.0/guncontrol/guncontrol_labeled.json"
-    path = "/data/madesai/filter_data/test.jsonl"
+    path = "/data/madesai/mfc_v4.0/guncontrol/guncontrol_labeled.json"
+    #path = "/data/madesai/filter_data/test.jsonl"
     # json_column = 'school_type'
     # select_for = ['high','middle','college']
     # for c in select_for:
@@ -125,7 +130,7 @@ def main():
     #     print(c)
     #     group_data_by_year(path,path_to_outfile,column=json_column,condition=c)
 
-    quick_look_json(path,'date',printexamples=False,printn=False,nexamples=5)
+    quick_look_json(path,'date',column = 'irrelevant', condition = 0, printexamples=False,printn=False,nexamples=5)
 
 
 
