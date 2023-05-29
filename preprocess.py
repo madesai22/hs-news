@@ -37,6 +37,9 @@ def year_to_election_year(year):
         ey = year-i
   return ey 
 
+def get_invalid_year_value():
+   return 3000
+
 
 def get_year(date_string):
     try:
@@ -48,7 +51,7 @@ def get_year(date_string):
         if year_string:
             return int(year_string[0])
         else:
-            return 3000 
+            return get_invalid_year_value() 
 
 def get_date(date_string):
    try:

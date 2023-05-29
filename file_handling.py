@@ -36,6 +36,8 @@ def read_jsonlist(input_filename):
                 data.append(json.loads(line))
     return data
 
+
+
 def read_jsonlist_random_sample(input_filename, percent):
     all_data = read_jsonlist(input_filename)
     data = []

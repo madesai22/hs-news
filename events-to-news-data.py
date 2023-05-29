@@ -14,9 +14,15 @@ def domain_to_event(schools_data, event_states, zip_codes, zip_to_date, max_dist
         if school['school_type'] == 'middle':
             pass
         else:
-            school_state = school['state']
-        
-            school_zipcode = int(school['zipcode'])
+            try: # fix this!! 
+                school_state = school['state']
+                school_zipcode = int(school['zipcode'])
+            except:
+                try: 
+                    school_zipcode = int(school['zipcode'])
+                    school_state = 'no-state'
+                except:
+                    pass
             if max_distance == 0:
                 if school_zipcode in zip_codes:
                     event_zip = school_zipcode
@@ -24,10 +30,10 @@ def domain_to_event(schools_data, event_states, zip_codes, zip_to_date, max_dist
                     event_domains.update({school['domain']: event})
             else:
                 for i, e_state in enumerate(event_states):
-                    if school_state == e_state.strip():
+                    if school_state == e_state.strip() or school_state == 'no-state':
                         event_zip = zip_codes[i]
                         event = (event_zip, zip_to_date[event_zip])
-                        distance = gf.km_between_zip(school_zipcode, event_zip)
+                        distance = gf.km_between_zip(school_zipcode, event_zip) # only calculating distances for zips in the same state
                         state_domains.update({school['domain']: event})
                         if distance < max_distance and distance > 0:
                             print(event_zip, school_zipcode, school['school_type'], school['domain'])

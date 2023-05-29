@@ -45,6 +45,7 @@ def plot_articles_by_year(path_to_csv): # this works for gv-articles-by-year.csv
 
 def plot_headline_types(path_to_file):
     data = path_to_file.readlines()
+    
 
     for d in data:
         line = d.strip().split(",")
