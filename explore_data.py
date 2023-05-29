@@ -128,7 +128,7 @@ def main():
     i = 0
     for d in data:
         if i <10:
-            print(data[d])
+            print(d)
     # json_column = 'school_type'
     # select_for = ['high','middle','college']
     # for c in select_for:
