@@ -19,8 +19,9 @@ def select_relevant_articles(data, label): # works for the mfc data
         article = data[a]
         if article['irrelevant'] == 0: # releavant article
             text = article['text']
-            print(text)
+            text = pp.pre_process(text)
             clean.append({'key':a, 'text': text, 'label': label})
+            print(clean)
     return clean
 
 def clean_random_sample(data, label): # works for student news articles
@@ -125,7 +126,7 @@ def main():
             print("saving random sample")
         else:
             random_student_sample = fh.unpickle_data(path+"random_sample.pkl")
-            print("reading random sample")
+            print("read in random sample")
             
 
         non_gv_articles = random.shuffle(clean_random_sample(random_student_sample, label=0))
