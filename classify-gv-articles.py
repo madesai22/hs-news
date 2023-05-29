@@ -114,7 +114,7 @@ def main():
     test_file = path+"test.jsonlist"
     train_file = path+"/train.jsonlist"
 
-    if 1<0 and not os.path.exists(test_file) or not os.path.exists(train_file):
+    if 1<0: #and not os.path.exists(test_file) or not os.path.exists(train_file):
         gv_file = fh.read_json("/data/madesai/mfc_v4.0/guncontrol/guncontrol_labeled.json")
         gv_articles = select_relevant_articles(gv_file, label=1)
         random.shuffle(gv_articles)
