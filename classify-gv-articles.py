@@ -28,7 +28,10 @@ def clean_random_sample(data, label): # works for student news articles
     word_lengths = []
     clean = []
     for line in data:
-        text = line['headline'].split()
+        headline = line['headline']
+        headline = pp.remove_whitespaces(headline)
+        headline = pp.strip_punctuation(headline).lower().strip()
+        text = headline.split()
         #paragraphs = pp.pre_process_paragraph(line['content'])
         paragraphs = pp.pre_process_sentence(line['content']) # really this is sentences 
         n_paragraphs = len(paragraphs)
