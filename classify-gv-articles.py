@@ -113,7 +113,7 @@ def main():
     path = "/data/madesai/student-news-full/classifier/"
     test_file = path+"test.jsonlist"
     train_file = path+"/train.jsonlist"
-    b = False
+    b = True
 
     if b: #and not os.path.exists(test_file) or not os.path.exists(train_file):
         gv_file = fh.read_json("/data/madesai/mfc_v4.0/guncontrol/guncontrol_labeled.json")
