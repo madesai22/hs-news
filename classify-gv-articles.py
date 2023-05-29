@@ -61,7 +61,7 @@ def train_lr(train,
     else:
         binary = False
     ngram_range = sample.pop('ngram_range')
-    ngram_range = sorted([int(x) for x in ngram_range.split()])
+    ngram_range = sorted((int(x) for x in ngram_range.split()))
     if weight == 'tf-idf':
         vect = TfidfVectorizer(stop_words=stop_words,
                                lowercase=True,
