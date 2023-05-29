@@ -21,7 +21,6 @@ def select_relevant_articles(data, label): # works for the mfc data
             text = article['text']
             text = pp.pre_process(text)
             clean.append({'key':a, 'text': text, 'label': label})
-    print(clean)
     return clean
 
 def clean_random_sample(data, label): # works for student news articles
@@ -62,6 +61,7 @@ def train_lr(train,
         binary = False
     ngram_range = sample.pop('ngram_range')
     ngram_range = sorted((int(x) for x in ngram_range.split()))
+    print(ngram_range)
     if weight == 'tf-idf':
         vect = TfidfVectorizer(stop_words=stop_words,
                                lowercase=True,
