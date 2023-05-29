@@ -83,7 +83,7 @@ def group_data_by_year(path_to_data, out_file_path, column = None, condition = N
     df = pd.DataFrame.from_dict(year_dict, orient='index', columns = ['nfiles','nother','total','percent'])
     df.to_csv(out_file_path)
 
-def quick_look_json_list(path_to_file, column, condition=None, printn=True, printexamples = False, nexamples = 1000):
+def quick_look_column_jsonlist(path_to_file, column, condition=None, printn=True, printexamples = False, nexamples = 1000):
     n_condition = 0 
     count = 0 
     with open(path_to_file) as f:
@@ -123,7 +123,7 @@ def main():
     #     print(c)
     #     group_data_by_year(path,path_to_outfile,column=json_column,condition=c)
 
-    quick_look_json_list(path,'date',printexamples=False,printn=False,nexamples=5)
+    quick_look_json(path,'date',printexamples=False,printn=False,nexamples=5)
 
 
 
