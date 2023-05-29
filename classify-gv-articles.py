@@ -5,7 +5,7 @@ import pandas as pd
 from tqdm import tqdm
 import random
 import os
-
+import re
 from hyperparameters import (SEARCH_SPACE,BEST_HPS, HyperparameterSearch,
                              RandomSearch)
 from sklearn.feature_extraction.text import (CountVectorizer, TfidfVectorizer, HashingVectorizer)
@@ -19,6 +19,8 @@ def select_relevant_articles(data, label): # works for the mfc data
         article = data[a]
         if article['irrelevant'] == 0: # releavant article
             text = article['text']
+            pattern = r"gun[123456789]+"
+            text = re.sub(pattern, "",text)
             text = pp.remove_whitespaces(text)
             text = pp.strip_punctuation(text).lower().strip()
             clean.append({'key':a, 'text': text, 'label': label})
