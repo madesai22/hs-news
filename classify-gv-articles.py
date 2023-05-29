@@ -104,30 +104,32 @@ def main():
     TOTAL_GV_IN_MFC = 9018
     TEST_SPLIT = 0.2
     N_TEST = int(TOTAL_GV_IN_MFC*TEST_SPLIT)
-    N_TRAIN = TOTAL_GV_IN_MFC - N_TEST
     test_file = "/data/madesai/student-news-full/classifier/test.jsonlist"
     train_file = "/data/madesai/student-news-full/classifier/train.jsonlist"
 
     if not os.path.exists(test_file) or not os.path.exists(train_file):
         gv_file = fh.read_json("/data/madesai/mfc_v4.0/guncontrol/guncontrol_labeled.json")
         gv_articles = random.shuffle(select_relevant_articles(gv_file, label=1))
+        print("read in gun control articles")
 
         random_student_sample = fh.read_jsonlist_random_sample("/data/madesai/student-news-full/articles_clean_ids.jsonlist",size = TOTAL_GV_IN_MFC)
         non_gv_articles = random.shuffle(clean_random_sample(random_student_sample, label=0))
-
+        print("read in random sample")
 
         test = gv_articles[:N_TEST] +  non_gv_articles[:N_TEST]
         train = gv_articles[N_TEST:] + non_gv_articles[N_TEST:]
         fh.pickle_data(test, test_file)
         fh.pickle_data(train, train_file)
+        
     else:
         train = fh.unpickle_data(train_file)
         test = fh.unpickle_data(test_file)
     
+    print("training model ...")
     clf, vectorizer, results = train_lr(test,train,SEARCH_SPACE)
     fh.pickle_data(clf,"/data/madesai/student-news-full/classifier/clf.pkl")
     fh.pickle_data(vectorizer, "/data/madesai/student-news-full/classifier/vectorizer.pkl")
-    fh.pickle_data(results)
+    fh.pickle_data(results,"/data/madesai/student-news-full/classifier/results.pkl")
     print(results)
 
 
