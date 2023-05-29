@@ -114,7 +114,7 @@ def quick_look_json(path_to_file, column, condition=None, printn=True, printexam
             good_articles += 1
         else:
             bad_articles += 1
-            print(item)
+            print(article['text'])
     print("{} good and {} bad articles".format(good_articles,bad_articles))
         #if i <nexamples:
         #    print(d[item])
