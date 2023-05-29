@@ -64,8 +64,11 @@ def get_date(date_string):
       else:
          return datetime(3000, 1, 1, 0, 0)
 
-def remove_whitespaces(text):
-    return re.sub(' +|\n+|\t+', ' ', text)
+def remove_whitespaces(text,paragraph=False):
+    if paragraph:
+       return re.sub(' +|\t+', ' ', text)
+    else:
+       return re.sub(' +|\n+|\t+', ' ', text)
 
 def strip_punctuation(text):
     text =  unidecode(text)
@@ -80,7 +83,11 @@ def tokenize(text, stopwords=None):
 
 def pre_process_paragraph(text, stopwords=None):
     text = strip_punctuation(text).lower().strip()
-    text = text.split("\n")
+    text = remove_whitespaces(text,paragraph=True)
+    
+    pattern = "\n(\s)?\n"
+    text = re.split(pattern, text)
+    text = list(filter(lambda item: item is not None, text))
     return text
    
 

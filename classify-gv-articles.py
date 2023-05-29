@@ -26,8 +26,8 @@ def clean_random_sample(data, label): # works for student news articles
     clean = []
     for line in data:
         text = line['headline'].split()
-        #paragraphs = pp.pre_process_paragraph(line['content'])
-        paragraphs = [line['content']]
+        paragraphs = pp.pre_process_paragraph(line['content'])
+        #paragraphs = [line['content']]
         print(paragraphs)
         n_paragraphs = len(paragraphs)
         key = line['article_id']
