@@ -28,11 +28,12 @@ def clean_random_sample(data, label): # works for student news articles
         text = line['headline'].split()
         content = line['content']
         paragraphs = content.split('\n\n')
+        print(paragraphs)
         n_paragraphs = len(paragraphs)
         key = line['article_id']
   
         paragraph_count = 0 
-        while len(text) < 225 and paragraph_count <= n_paragraphs:
+        while len(text) < 225 and paragraph_count < n_paragraphs:
             next_paragraph = paragraphs[paragraph_count]
             paragraph_count += 1 
             text.append(next_paragraph.split())
