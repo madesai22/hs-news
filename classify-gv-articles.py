@@ -27,7 +27,7 @@ def clean_random_sample(data, label): # works for student news articles
     for line in data:
         text = line['headline'].split()
         #paragraphs = pp.pre_process_paragraph(line['content'])
-        pargraphs = [line['content']]
+        paragraphs = [line['content']]
         print(paragraphs)
         n_paragraphs = len(paragraphs)
         key = line['article_id']
@@ -108,15 +108,25 @@ def main():
     TOTAL_GV_IN_MFC = 9018
     TEST_SPLIT = 0.2
     N_TEST = int(TOTAL_GV_IN_MFC*TEST_SPLIT)
-    test_file = "/data/madesai/student-news-full/classifier/test.jsonlist"
-    train_file = "/data/madesai/student-news-full/classifier/train.jsonlist"
+    path = "/data/madesai/student-news-full/classifier/"
+    test_file = path+"test.jsonlist"
+    train_file = path+"/train.jsonlist"
 
     if not os.path.exists(test_file) or not os.path.exists(train_file):
         gv_file = fh.read_json("/data/madesai/mfc_v4.0/guncontrol/guncontrol_labeled.json")
         gv_articles = random.shuffle(select_relevant_articles(gv_file, label=1))
         print("read in gun control articles")
 
-        random_student_sample = fh.read_jsonlist_random_sample("/data/madesai/student-news-full/articles_clean_ids.jsonlist",size = TOTAL_GV_IN_MFC)
+        
+        if not os.path.exists(path+"random_sample.pkl"):
+            random_student_sample = fh.read_jsonlist_random_sample(path+"/articles_clean_ids.jsonlist",size = TOTAL_GV_IN_MFC)
+            fh.pickle_data(random_student_sample,path+"random_sample.pkl")
+            print("saving random sample")
+        else:
+            random_student_sample = fh.unpickle_data(path+"random_sample.pkl")
+            print("rading random sample")
+            
+
         non_gv_articles = random.shuffle(clean_random_sample(random_student_sample, label=0))
         print("read in random sample")
 
@@ -131,9 +141,9 @@ def main():
     
     print("training model ...")
     clf, vectorizer, results = train_lr(test,train,SEARCH_SPACE)
-    fh.pickle_data(clf,"/data/madesai/student-news-full/classifier/clf.pkl")
-    fh.pickle_data(vectorizer, "/data/madesai/student-news-full/classifier/vectorizer.pkl")
-    fh.pickle_data(results,"/data/madesai/student-news-full/classifier/results.pkl")
+    fh.pickle_data(clf,path+"/clf.pkl")
+    fh.pickle_data(vectorizer, path+"/vectorizer.pkl")
+    fh.pickle_data(results,path+"/results.pkl")
     print(results)
 
 
