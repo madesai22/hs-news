@@ -130,7 +130,7 @@ def main():
     #     print(c)
     #     group_data_by_year(path,path_to_outfile,column=json_column,condition=c)
 
-    quick_look_json(path,'date',column = 'irrelevant', condition = 0, printexamples=False,printn=False,nexamples=5)
+    quick_look_json(path,column = 'irrelevant', condition = 0, printexamples=False,printn=False,nexamples=5)
 
 
 
