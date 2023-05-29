@@ -80,7 +80,7 @@ class HyperparameterSearch:
             
         if isinstance(val, (int)):
             return int(val)
-        elif isinstance(val, (float, np.float)):
+        elif isinstance(val, (float)):
             return val
         elif isinstance(val, (np.ndarray, list)):
             return " ".join(val)
