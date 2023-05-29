@@ -119,7 +119,7 @@ def main():
 
         
         if not os.path.exists(path+"random_sample.pkl"):
-            random_student_sample = fh.read_jsonlist_random_sample(path+"/articles_clean_ids.jsonlist",size = TOTAL_GV_IN_MFC)
+            random_student_sample = fh.read_jsonlist_random_sample("/data/madesai/student-news-full//articles_clean_ids.jsonlist",size = TOTAL_GV_IN_MFC)
             fh.pickle_data(random_student_sample,path+"random_sample.pkl")
             print("saving random sample")
         else:
