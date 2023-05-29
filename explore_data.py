@@ -143,7 +143,9 @@ def main():
     #quick_look_column_jsonlist(out_path,column = 'article_id',printexamples=True)
     path = "/data/madesai/student-news-full/classifier/results.pkl"
     results = fh.unpickle_data(path)
-    print(results)
+    test_acc = results['test_accuracy']
+    test_f1 = results['test_f1']
+    print(test_acc, test_f1)
     # path = "/data/madesai/mfc_v4.0/guncontrol/guncontrol_labeled.json"
     # path = "/data/madesai/filter_data/test.jsonl"
     # dev = pd.read_json(path, lines=True)
