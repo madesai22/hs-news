@@ -36,6 +36,8 @@ def clean_random_sample(data, label): # works for student news articles
             next_paragraph = paragraphs[paragraph_count]
             paragraph_count += 1 
             text.append(next_paragraph.split())
+        print(text) 
+        print("\n\n\n")
         clean.append({'key':key, 'text': text, 'label': label})    
 
 
