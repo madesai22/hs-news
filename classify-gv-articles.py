@@ -60,8 +60,8 @@ def train_lr(train,
     else:
         binary = False
     ngram_range = sample.pop('ngram_range')
-    #ngram_range = sorted((int(x) for x in ngram_range.split()))
-    print(ngram_range)
+    ngram_range = sorted((int(x) for x in ngram_range.split()))
+    ngram_range = tuple(ngram_range)
     if weight == 'tf-idf':
         vect = TfidfVectorizer(stop_words=stop_words,
                                lowercase=True,
@@ -113,9 +113,9 @@ def main():
     path = "/data/madesai/student-news-full/classifier/"
     test_file = path+"test.jsonlist"
     train_file = path+"/train.jsonlist"
-    b = True
 
-    if b: #and not os.path.exists(test_file) or not os.path.exists(train_file):
+
+    if not os.path.exists(test_file) or not os.path.exists(train_file):
         gv_file = fh.read_json("/data/madesai/mfc_v4.0/guncontrol/guncontrol_labeled.json")
         gv_articles = select_relevant_articles(gv_file, label=1)
         random.shuffle(gv_articles)
