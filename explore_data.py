@@ -106,7 +106,10 @@ def quick_look_json_list(path_to_file, column, condition=None, printn=True, prin
 
 def quick_look_json(path_to_file, column, condition=None, printn=True, printexamples = False, nexamples = 1000):
     d = fh.read_json(path_to_file)
-    print(d.keys())
+    i = 0 
+    for item in d:
+        if i <nexamples:
+            print(item)
 
 def main():
     # path = '/data/madesai/articles_clean.jsonlist'
