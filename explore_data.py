@@ -126,9 +126,9 @@ def main():
     # path = "/data/madesai/mfc_v4.0/guncontrol/guncontrol_labeled.json"
     path = "/data/madesai/filter_data/test.jsonl"
     dev = pd.read_json(path, lines=True)
-    print(dev.head(10))
     tqdm.pandas()
-    dev.loc[dev.label == 0].text.progress_apply(lambda x: len(x.split())).sum()
+    a = dev.loc[dev.label == 0].text.progress_apply(lambda x: len(x.split())).sum()
+    print(a)
     print(dev.head(10))
 
     # json_column = 'school_type'
