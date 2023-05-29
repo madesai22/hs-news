@@ -125,7 +125,7 @@ def main():
     # path = '/data/madesai/articles_clean.jsonlist'
     # path = "/data/madesai/mfc_v4.0/guncontrol/guncontrol_labeled.json"
     path = "/data/madesai/filter_data/test.jsonl"
-    dev = pd.read_json(path)
+    dev = pd.read_json(path, lines=True)
     tqdm.pandas()
     dev.loc[dev.label == 0].text.progress_apply(lambda x: len(x.split())).sum()
 
