@@ -38,16 +38,20 @@ def read_jsonlist(input_filename):
 
 
 
-def read_jsonlist_random_sample(input_filename, percent):
+def read_jsonlist_random_sample(input_filename, size, percent = False, ignore_middle = True): #if percent = False, return size number of random articles 
     all_data = read_jsonlist(input_filename)
     data = []
     random.shuffle(all_data)
-    nsamples = percent * len(all_data)
+    if percent: 
+        nsamples = size * len(all_data)
+    else: 
+        nsamples = size
     for i, line in enumerate(all_data):
-        if i < nsamples:
-            data.append(line)
-        else:
-            break
+        if line['school_type'] != 'middle': 
+            if i < nsamples:
+                data.append(line)
+            else:
+                break
     return data
     
 

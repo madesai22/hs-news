@@ -119,17 +119,35 @@ def quick_look_json(path_to_file, column, condition=None, printn=True, printexam
     print("{} good and {} bad articles".format(good_articles,bad_articles))
         #if i <nexamples:
         #    print(d[item])
+
+def add_id(path_to_file, path_to_out_file):
+    new_json = []
+    article_id = 0
+    with open(path_to_file) as f:
+        for line in f:
+            data = json.loads(line)
+            article_id += 1 
+            data.update({'article_id':article_id})
+            new_json.append(data)
+    fh.write_to_jsonlist(new_json,path_to_out_file)
+
+
+
             
 
 def main():
-    # path = '/data/madesai/articles_clean.jsonlist'
+    path = '/data/madesai/student-news-full/articles_clean.jsonlist'
+    out_path = '/data/madesai/student-news-full/articles_clean_ids.jsonlist'
+    add_id(path, out_path)
+
+    
     # path = "/data/madesai/mfc_v4.0/guncontrol/guncontrol_labeled.json"
-    path = "/data/madesai/filter_data/test.jsonl"
-    dev = pd.read_json(path, lines=True)
-    tqdm.pandas()
-    a = dev.loc[dev.label == 0].text.progress_apply(lambda x: len(x.split())).sum()
-    print(a)
-    print(dev.head(10))
+    # path = "/data/madesai/filter_data/test.jsonl"
+    # dev = pd.read_json(path, lines=True)
+    # tqdm.pandas()
+    # a = dev.loc[dev.label == 0].text.progress_apply(lambda x: len(x.split())).sum()
+    # print(a)
+    # print(dev.head(10))
 
     # json_column = 'school_type'
     # select_for = ['high','middle','college']
