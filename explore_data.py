@@ -105,7 +105,7 @@ def quick_look_column_jsonlist(path_to_file, column, condition=None, printn=True
         print("{} {}".format(n_condition, condition))
 
 def quick_look_json(path_to_file, column, condition=None, printn=True, printexamples = False, nexamples = 1000):
-    d = fh.read_json(path_to_file)
+    d = fh.read_jsonlist(path_to_file)
     i = 0 
     for item in d:
         if i <nexamples:
