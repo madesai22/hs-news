@@ -110,6 +110,7 @@ def quick_look_json(path_to_file, column, condition=None, printn=True, printexam
     for item in d:
         if i <nexamples:
             print(d[item])
+            i += 1
 
 def main():
     # path = '/data/madesai/articles_clean.jsonlist'
