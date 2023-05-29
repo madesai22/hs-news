@@ -135,7 +135,12 @@ def main():
         print("read in random sample")
 
         test = gv_articles[:N_TEST] +  non_gv_articles[:N_TEST]
+        test = pd.DataFrame(test)
+
         train = gv_articles[N_TEST:] + non_gv_articles[N_TEST:]
+        train = pd.DataFrame(train)
+
+
         fh.pickle_data(test, test_file)
         fh.pickle_data(train, train_file)
         
