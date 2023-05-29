@@ -27,7 +27,7 @@ def clean_random_sample(data, label): # works for student news articles
     for line in data:
         text = line['headline'].split()
         content = line['content']
-        paragraphs = content.split('\n\n')
+        paragraphs = content.split('\n')
         print(paragraphs)
         n_paragraphs = len(paragraphs)
         key = line['article_id']
@@ -39,7 +39,8 @@ def clean_random_sample(data, label): # works for student news articles
             text.append(next_paragraph.split())
         print(text) 
         print("\n\n\n")
-        clean.append({'key':key, 'text': text, 'label': label})    
+        clean.append({'key':key, 'text': text, 'label': label}) 
+    return clean   
 
 
 def train_lr(train,
