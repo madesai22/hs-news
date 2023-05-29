@@ -140,7 +140,7 @@ def main():
     out_path = '/data/madesai/student-news-full/articles_clean_ids.jsonlist'
     add_id(path, out_path)
 
-    
+    quick_look_column_jsonlist(out_path,column = 'article_id',printexamples=True)
     # path = "/data/madesai/mfc_v4.0/guncontrol/guncontrol_labeled.json"
     # path = "/data/madesai/filter_data/test.jsonl"
     # dev = pd.read_json(path, lines=True)
