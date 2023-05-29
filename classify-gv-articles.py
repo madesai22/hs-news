@@ -23,12 +23,11 @@ def select_relevant_articles(data, label): # works for the mfc data
     return clean
 
 def clean_random_sample(data, label): # works for student news articles
+    word_lengths = []
     clean = []
     for line in data:
         text = line['headline'].split()
         paragraphs = pp.pre_process_paragraph(line['content'])
-        #paragraphs = [line['content']]
-        print(paragraphs)
         n_paragraphs = len(paragraphs)
         key = line['article_id']
   
@@ -37,9 +36,9 @@ def clean_random_sample(data, label): # works for student news articles
             next_paragraph = paragraphs[paragraph_count]
             paragraph_count += 1 
             text.extend(next_paragraph.split())
-        print(text) 
-        print("\n\n\n")
         clean.append({'key':key, 'text': text, 'label': label}) 
+        word_lengths.append(len(text))
+    print("average words = {}".format(sum(word_lengths)/len(word_lengths)))
     return clean   
 
 
