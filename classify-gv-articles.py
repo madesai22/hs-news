@@ -92,12 +92,15 @@ def train_lr(train,
             v = str(v)
         sample[k] = [v]
     res = pd.DataFrame(sample)
+    preds = classifier.predict(X_train)
     if test is not None:
         test_preds = classifier.predict(X_test)
+    res['dev_f1'] = f1_score(train.label, preds, average='macro')
     if test is not None:
         res['test_f1'] = f1_score(test.label, test_preds, average='macro')
     if test is not None:
         res['test_accuracy'] = classifier.score(X_test, test.label)
+    res['dev_accuracy'] = classifier.score(X_train, train.label)
     res['training_duration'] = end - start
     res['ngram_range'] = str(ngram_range)
     res['weight'] = weight
@@ -157,7 +160,10 @@ def main():
     fh.pickle_data(clf,path+"/clf.pkl")
     fh.pickle_data(vectorizer, path+"/vectorizer.pkl")
     fh.pickle_data(results,path+"/results.pkl")
-    print(results)
+
+    for (columnName, columnData) in results.iteritems():
+        print('{} : {}'.format(columnName,columnData))
+    
 
 
     
