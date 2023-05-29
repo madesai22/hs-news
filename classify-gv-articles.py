@@ -17,9 +17,9 @@ def select_relevant_articles(data, label): # works for the mfc data
     clean = []
     for a in data: # use a as key?
         article = data[a]
-        print(article)
         if article['irrelevant'] == 0: # releavant article
             text = article['text']
+            print(text)
             clean.append({'key':a, 'text': text, 'label': label})
     return clean
 
