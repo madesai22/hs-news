@@ -78,7 +78,7 @@ class HyperparameterSearch:
 
     def parse(self, val: Any):
             
-        if isinstance(val, (int, np.int)):
+        if isinstance(val, (int)):
             return int(val)
         elif isinstance(val, (float, np.float)):
             return val
@@ -90,7 +90,7 @@ class HyperparameterSearch:
             return val
         else:
             val = val()
-            if isinstance(val, (int, np.int)):
+            if isinstance(val, (int)):
                 return int(val)
             elif isinstance(val, (np.ndarray, list)):
                 return " ".join(val)
