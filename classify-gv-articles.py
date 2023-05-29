@@ -19,7 +19,8 @@ def select_relevant_articles(data, label): # works for the mfc data
         article = data[a]
         if article['irrelevant'] == 0: # releavant article
             text = article['text']
-            text = pp.pre_process(text)
+            text = pp.remove_whitespaces(text)
+            text = pp.strip_punctuation(text).lower().strip()
             clean.append({'key':a, 'text': text, 'label': label})
     return clean
 
@@ -38,6 +39,7 @@ def clean_random_sample(data, label): # works for student news articles
             next_paragraph = paragraphs[paragraph_count]
             paragraph_count += 1 
             text.extend(next_paragraph.split())
+        text = " ".join(text)
         clean.append({'key':key, 'text': text, 'label': label}) 
         word_lengths.append(len(text))
     print("average words = {}".format(sum(word_lengths)/len(word_lengths)))
@@ -113,9 +115,10 @@ def main():
     path = "/data/madesai/student-news-full/classifier/"
     test_file = path+"test.jsonlist"
     train_file = path+"/train.jsonlist"
+    b = True
 
 
-    if not os.path.exists(test_file) or not os.path.exists(train_file):
+    if b: #not os.path.exists(test_file) or not os.path.exists(train_file):
         gv_file = fh.read_json("/data/madesai/mfc_v4.0/guncontrol/guncontrol_labeled.json")
         gv_articles = select_relevant_articles(gv_file, label=1)
         random.shuffle(gv_articles)
