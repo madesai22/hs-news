@@ -116,7 +116,8 @@ def main():
 
     if not os.path.exists(test_file) or not os.path.exists(train_file):
         gv_file = fh.read_json("/data/madesai/mfc_v4.0/guncontrol/guncontrol_labeled.json")
-        gv_articles = random.shuffle(select_relevant_articles(gv_file, label=1))
+        gv_articles = select_relevant_articles(gv_file, label=1)
+        random.shuffle(gv_articles)
         print("read in gun control articles")
 
         
@@ -129,7 +130,8 @@ def main():
             print("read in random sample")
             
 
-        non_gv_articles = random.shuffle(clean_random_sample(random_student_sample, label=0))
+        non_gv_articles = clean_random_sample(random_student_sample, label=0)
+        random.shuffle(non_gv_articles)
         print("read in random sample")
 
         test = gv_articles[:N_TEST] +  non_gv_articles[:N_TEST]
