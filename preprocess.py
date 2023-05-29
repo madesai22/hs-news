@@ -81,10 +81,22 @@ def tokenize(text, stopwords=None):
         text = [token for token in text.split()]
     return text
 
+def pre_process_sentence(text, stopwords=None):
+    pattern = pattern = "\.(\n|\s)+"
+    text = re.split(pattern, text)
+    new_text = []
+    for i in range(len(text)):
+       sentence = text[i]
+       if sentence is not None:
+          sentence = strip_punctuation(sentence)
+          sentence = remove_whitespaces(sentence)
+          new_text.append(sentence)
+    return new_text
+
 def pre_process_paragraph(text, stopwords=None):
     text = strip_punctuation(text).lower().strip()
     text = remove_whitespaces(text,paragraph=True)
-    
+
     pattern = "\n(\s)?\n"
     text = re.split(pattern, text)
     text = list(filter(lambda item: item is not None, text))
