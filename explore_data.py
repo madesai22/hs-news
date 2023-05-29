@@ -3,6 +3,7 @@ import file_handling as fh
 import preprocess as pp
 import sys
 import pandas as pd
+from tqdm.auto import tqdm
 
 # write a function that will group by year given a conditional? and then write a gv-articles-by-year 
 # type thing 
@@ -124,12 +125,10 @@ def main():
     # path = '/data/madesai/articles_clean.jsonlist'
     # path = "/data/madesai/mfc_v4.0/guncontrol/guncontrol_labeled.json"
     path = "/data/madesai/filter_data/test.jsonl"
-    data = fh.read_jsonlist(path)
-    i = 0
-    for d in data:
-        if i <10:
-            print(d)
-            i+=1
+    dev = pd.read_json(path)
+    tqdm.pandas()
+    dev.loc[dev.label == 0].text.progress_apply(lambda x: len(x.split())).sum()
+
     # json_column = 'school_type'
     # select_for = ['high','middle','college']
     # for c in select_for:
