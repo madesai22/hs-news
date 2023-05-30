@@ -11,14 +11,14 @@ import matplotlib.pyplot as plt
 def domain_to_year(path_to_article_data, path_to_school_data,path_to_states = "/home/madesai/hs-news/external-data/states.txt",year_start=1999, year_end=2019):
     # read in states
     states_list = fh.read_text_to_list(path_to_states)
-    states_dict = {s.strip().lower():i for i,s in enumerate(states_list)}
+    states_dict = {s.strip().lower():0 for s in states_list}
 
     year_range = year_end-year_start
     year_to_idx = {y:i for i, y in enumerate(range(year_start,year_end+1))}
     year_to_idx = {y:i for i, y in enumerate(range(year_start,year_end+1))}
     year_to_idx.update({pp.get_invalid_year_value():len(year_to_idx.keys())})
     year_to_idx.update({'total':len(year_to_idx.keys())})
-    year_to_idx.update({'state':len(year_to_idx.keys())})
+    #year_to_idx.update({'state':len(year_to_idx.keys())})
     year_to_idx.update({'dem_share':len(year_to_idx.keys())})
     print(year_to_idx)
     ncolumns = len(year_to_idx.keys())
@@ -40,14 +40,15 @@ def domain_to_year(path_to_article_data, path_to_school_data,path_to_states = "/
                 except:
                     paper_dict[domain][year_to_idx['dem_share']] = -1
                 
-                try:
-                    state = school['state'].lower()
-                except:
-                    state = -1
-                if state in states_dict.keys():
-                    paper_dict[domain][year_to_idx['state']] = states_dict[state]
-                else:
-                    paper_dict[domain][year_to_idx['state']] = -1
+                # try:
+                #     state = school['state'].lower()
+                # except:
+                #     state = -1
+                # if state in states_dict.keys():
+                #     states_dict[state] += 1
+                #     paper_dict[domain][year_to_idx['state']] = states_dict[state]
+                # else:
+                #     paper_dict[domain][year_to_idx['state']] = -1
                 
 
     for a in article_data:
@@ -64,9 +65,10 @@ def domain_to_year(path_to_article_data, path_to_school_data,path_to_states = "/
 
                 if a['geographic'].lower() in states_dict.keys():
                     state = a['geographic'].lower()
-                    paper_dict[domain][year_to_idx['state']] = states_dict[state]
-                else:
-                    paper_dict[domain][year_to_idx['state']] = -1
+                    states_dict[state] +=1
+                    #paper_dict[domain][year_to_idx['state']] = states_dict[state]
+                #else:
+                #    paper_dict[domain][year_to_idx['state']] = -1
     
             paper_dict[article_domain][year_to_idx['total']] += 1 # total
     
@@ -81,7 +83,7 @@ def domain_to_year(path_to_article_data, path_to_school_data,path_to_states = "/
     #             year_sum += sum(domain_articles_in_year)
     #             year_domains += 1
     #     averages_by_year[idx] = year_sum/year_domains
-    return paper_dict, year_to_idx.keys()#, averages_by_year
+    return paper_dict, list(year_to_idx.keys())#, averages_by_year
 
 
 def main():
