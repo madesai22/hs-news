@@ -65,6 +65,7 @@ def multiple_box_plot(data_dict, title, outfile, colors = ['#0000FF', '#00FF00',
     data = data_dict.values()
     labels = data_dict.keys()
     colors = colors[:len(data)]
+    
     fig = plt.figure(figsize =(10,7))
     ax = fig.add_subplot(111)
     bp = ax.boxplot(data, patch_artist = True,

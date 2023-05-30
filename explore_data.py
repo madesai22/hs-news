@@ -6,6 +6,7 @@ import pandas as pd
 from tqdm.auto import tqdm
 import matplotlib.pyplot as plt
 import os 
+import make_plot as mp
 
 # write a function that will group by year given a conditional? and then write a gv-articles-by-year 
 # type thing 
@@ -158,12 +159,26 @@ def main():
 
 
     data = [i[0] for i in  df['total'].values.tolist()] # this is a list where each item is the total n of domains 
+    data.sort()
+    data_exclude_zeros = [d for d in data if d!=0]
+
+    mp.multiple_box_plot({'all data':data,'excluded zeros':data_exclude_zeros},'Article distribution over schools','/home/madesai/hs-news/plots/data-familiarity/schools-distribution.png')
+
     n_schools = len(data)
-    print(data)
-    print(n_schools)
     print(sum(data))
     mean_articles = sum(data)/len(data)
-    print("{} schools, {} average articles per school".format(n_schools,mean_articles))
+
+    n_zeros = sum(1 for d in data if d ==0)
+    non_zero_sum = sum(1 for d in data if d>0)
+    non_zero_n = n_schools-n_zeros
+    non_zero_mean = non_zero_sum/non_zero_n
+
+
+
+    print(data)
+    print(n_schools)
+    
+    print("{} schools, {} average articles per school, {} publish 0 articles".format(n_schools,mean_articles,n_zeros))
     
     plt.hist(data, bins=40)
     plt.savefig('domain-to-years.png')
