@@ -149,7 +149,7 @@ def main():
     paper_dict = domain_to_year(path, path_to_school)
     years = [str(i) for i in range(1999,2020)]
     years.insert(0, str(-3000))
-    #years.append("total")
+    years.append("total")
     df = pd.DataFrame.from_dict(paper_dict, orient= 'index', columns=[years])
     fh.pickle_data(df,"domains_to_years.pkl")
     print("saving df")
