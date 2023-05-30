@@ -55,8 +55,7 @@ def plot_headline_types(path_to_file):
 def make_hist(data, labels,out_file):
     plt.hist(data)
     xticks = [i+1 for i in range(len(data))]
-    plt.xticks(xticks, labels=labels,rotation='vertical')
-    
+  #  plt.xticks(xticks, labels=labels,rotation='vertical')
     plt.savefig(out_file)
 
 
