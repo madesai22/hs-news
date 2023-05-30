@@ -61,14 +61,14 @@ def domain_to_year(path_to_article_data, path_to_school_data,path_to_states = "/
                 else:
                     paper_dict[article_domain] = [0]*(ncolumns)
                     paper_dict[article_domain][idx] += 1
-                    paper_dict[domain][year_to_idx['dem_share']] = -1
+                    paper_dict[article_domain][year_to_idx['dem_share']] = -1
 
                     if a['geographic'].lower() in states_dict.keys(): 
                         state = a['geographic'].lower()
                         states_dict[state] +=1
                     else:
                         state = -1
-                    domain_to_states[domain] = state
+                    domain_to_states[article_domain] = state
 
 
                         #paper_dict[domain][year_to_idx['state']] = states_dict[state]
