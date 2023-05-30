@@ -52,6 +52,15 @@ def plot_headline_types(path_to_file):
         year = line[0]
         school_type = line[1]
 
+def make_hist(data, labels,out_file):
+    plt.hist(data)
+    plt.xticks(labels=labels)
+    plt.savefig(out_file)
+
+
+
+
+
 
 def box_plot(data, title, out_file):
 

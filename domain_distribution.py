@@ -101,6 +101,7 @@ def main():
     else:
         df = fh.unpickle_data('domains_to_years.pkl')
         columns = fh.unpickle_data('columns.pkl')
+        states = fh.unpickle_data('states_dict.pkl')
 
     data_w_domain = df['total']
 
@@ -121,6 +122,8 @@ def main():
 
     dem_share = [i for i in df['dem_share'].values.tolist() if i >0]
     mp.box_plot(dem_share,"dem share",'/home/madesai/hs-news/plots/data-familiarity/voting-distribution.png')
+
+    mp.make_hist(states.values,states.keys,'/home/madesai/hs-news/plots/data-familiarity/states.png')
 
 
 
