@@ -18,6 +18,7 @@ def domain_to_year(path_to_article_data, path_to_school_data,path_to_states = "/
     year_to_idx.update({pp.get_invalid_year_value():year_range+1})
     year_to_idx.update({'state':year_range+2})
     year_to_idx.update({'dem_share':year_range+3})
+    ncolumns = len(year_to_idx.keys())
 
     paper_dict = {} # dictionary of domain: list of numbers of articles
     school_data = fh.read_jsonlist(path_to_school_data)
@@ -29,7 +30,7 @@ def domain_to_year(path_to_article_data, path_to_school_data,path_to_states = "/
             domain = school['domain'].lower().strip()
             
             if domain not in paper_dict:
-                paper_dict[domain] = [0]*(year_range+3) # plus one for -3000 plus one other for total 
+                paper_dict[domain] = [0]*(ncolumns) # plus one for -3000 plus one other for total 
                 try:
                     dem_share = school['dem_share']
                     paper_dict[domain][year_to_idx['dem_share']] = dem_share
@@ -48,13 +49,8 @@ def domain_to_year(path_to_article_data, path_to_school_data,path_to_states = "/
         article_year = pp.get_year(a['date'])
         if article_year in year_to_idx:
             idx = year_to_idx[article_year]
-            if article_domain in paper_dict:
-                paper_dict[article_domain][idx] += 1
-            else:
-                print("SLFJSLDFJSDLKFJSL")
-                paper_dict[article_domain] = [0]*(year_range+3)
-                paper_dict[article_domain][idx] += 1
-                
+            paper_dict[article_domain][idx] += 1
+    
             paper_dict[article_domain][-1] += 1 # total
     
    #averages_by_year = [0]*(year_range+1) # plus one for -3000
