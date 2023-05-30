@@ -67,18 +67,19 @@ def domain_to_year(path_to_article_data, path_to_school_data,path_to_states = "/
     #             year_sum += sum(domain_articles_in_year)
     #             year_domains += 1
     #     averages_by_year[idx] = year_sum/year_domains
-    return paper_dict#, averages_by_year
+    return paper_dict, year_to_idx.keys()#, averages_by_year
 
 
 def main():
     if True:#not os.path.exists("domains_to_years.pkl"):
         path = "/data/madesai/student-news-full//articles_clean_ids.jsonlist"
         path_to_school = "/data/madesai/student-news-full/school_full_info_with_votes.jsonlist"
-        paper_dict = domain_to_year(path, path_to_school)
-        years = [str(i) for i in range(1999,2020)]
-        years.insert(0, str(-3000))
-        years.append("total")
-        df = pd.DataFrame.from_dict(paper_dict, orient= 'index', columns=[years])
+        paper_dict, columns = domain_to_year(path, path_to_school)
+        #years = [str(i) for i in range(1999,2020)]
+        #years.insert(0, str(-3000))
+        #years.append("total")
+        #years.append("")
+        df = pd.DataFrame.from_dict(paper_dict, orient= 'index', columns=columns)
         df.to_csv('domains_to_years.csv')
         fh.pickle_data(df,"domains_to_years.pkl")
 
@@ -87,8 +88,7 @@ def main():
         df = fh.unpickle_data('domains_to_years.pkl')
 
     data_w_domain = df['total']
-    #print(data_w_domain)
-    
+
     data = [i[0] for i in  data_w_domain.values.tolist()] # this is a list where each item is the total n of domains 
     data.sort()
     data_exclude_zeros = [d for d in data if d!=0]
