@@ -52,9 +52,19 @@ def domain_to_year(path_to_article_data, path_to_school_data,path_to_states = "/
         article_year = pp.get_year(a['date'])
         if article_year in year_to_idx:
             idx = year_to_idx[article_year]
-            paper_dict[article_domain][idx] += 1
+            if article_domain in paper_dict:
+                paper_dict[article_domain][idx] += 1
+            else:
+                paper_dict[article_domain] = [0]*(ncolumns)
+                paper_dict[article_domain][idx] += 1
+                paper_dict[domain][year_to_idx['dem_share']] = -1
+
+                if a['geographic'] in states_dict.keys():
+                    paper_dict[domain][year_to_idx['state']] = states_dict[state]
+                else:
+                    paper_dict[domain][year_to_idx['state']] = -1
     
-            paper_dict[article_domain][-1] += 1 # total
+            paper_dict[article_domain][year_to_idx['total']] += 1 # total
     
    #averages_by_year = [0]*(year_range+1) # plus one for -3000
     
