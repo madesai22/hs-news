@@ -36,8 +36,11 @@ def domain_to_year(path_to_article_data, path_to_school_data,path_to_states = "/
                     paper_dict[domain][year_to_idx['dem_share']] = dem_share
                 except:
                     paper_dict[domain][year_to_idx['dem_share']] = -1
-
-                state = school['state']
+                
+                try:
+                    state = school['state']
+                except:
+                    state = -1
                 if state in states_dict.keys():
                     paper_dict[domain][year_to_idx['state']] = states_dict[state]
                 else:
