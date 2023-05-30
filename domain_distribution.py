@@ -96,10 +96,12 @@ def main():
         df = pd.DataFrame.from_dict(paper_dict, orient= 'index', columns=columns)
         df.to_csv('domains_to_years.csv')
         fh.pickle_data(df,"domains_to_years.pkl")
+        fh.pickle_data(columns,'columns.pkl')
 
         print("saving df")
     else:
         df = fh.unpickle_data('domains_to_years.pkl')
+        columns = fh.unpickle_data('columns.pkl')
 
     data_w_domain = df['total']
 
@@ -117,6 +119,10 @@ def main():
     non_zero_sum = sum(data_exclude_zeros)
     non_zero_n = len(data_exclude_zeros)
     non_zero_mean = non_zero_sum/non_zero_n
+
+    dem_share = [i for i in df['dem_share'].values.tolist() if i >0]
+    mp.box_plot(dem_share,"dem share",'/home/madesai/hs-news/plots/data-familiarity/schools-distribution.png')
+
 
 
     
