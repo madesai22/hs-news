@@ -139,7 +139,7 @@ def main():
     path = "/data/madesai/mfc_v4.0/guncontrol/guncontrol_all_with_duplicates.json"
     data = fh.read_json(path)
     for d in data:
-        print d
+        print(d)
     #path = '/data/madesai/student-news-full/articles_clean.jsonlist'
     #out_path = '/data/madesai/student-news-full/articles_clean_ids.jsonlist'
     #add_id(path, out_path)
