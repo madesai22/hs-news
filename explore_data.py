@@ -156,8 +156,7 @@ def main():
     else:
         df = fh.unpickle_data('domains_to_years.pkl')
 
-    data = df.loc[:,'total'] # this is a list where each item is the total n of domains 
-    print(data)
+    data = df['total'].values.tolist() # this is a list where each item is the total n of domains 
     n_schools = len(data)
     mean_articles = sum(data)/len(data)
     print("{} schools, {} average articles per school".format(n_schools,mean_articles))
