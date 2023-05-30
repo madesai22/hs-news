@@ -19,8 +19,9 @@ def select_relevant_articles(data, label): # works for the mfc data
     for a in data: # use a as key?
         article = data[a]
         if article['irrelevant'] == 0: # releavant article
-            text = re.sub(pattern, "",text)
+            
             text = article['text']
+            text = re.sub(pattern, "",text)
             text = pp.strip_punctuation(text).lower().strip()
             text = pp.remove_whitespaces(text)
             clean.append({'key':a, 'text': text, 'label': label})
