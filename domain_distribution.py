@@ -134,6 +134,7 @@ def main():
     mp.box_plot(dem_share,"dem share",'/home/madesai/hs-news/plots/data-familiarity/voting-distribution.png')
 
     mp.make_hist(states.values(),states.keys(),'/home/madesai/hs-news/plots/data-familiarity/states.png')
+    print(len(states.values()))
 
 
 
