@@ -157,7 +157,7 @@ def main():
     else:
         df = fh.unpickle_data('domains_to_years.pkl')
 
-
+    print(df['total'])
     data = [i[0] for i in  df['total'].values.tolist()] # this is a list where each item is the total n of domains 
     data.sort()
     data_exclude_zeros = [d for d in data if d!=0]
@@ -178,7 +178,7 @@ def main():
     print(data)
     print(n_schools)
     
-    print("{} schools, {} average articles per school, {} publish 0 articles".format(n_schools,mean_articles,n_zeros))
+    print("{} schools, {} average articles per school, {} publish 0 articles, {} average among other schools".format(n_schools,mean_articles,n_zeros, non_zero_mean))
     
     plt.hist(data, bins=40)
     plt.savefig('domain-to-years.png')
