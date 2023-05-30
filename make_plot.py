@@ -108,6 +108,8 @@ def multiple_box_plot(data_dict, title, outfile, colors = ['#0000FF', '#00FF00',
     ax.get_yaxis().tick_left()
     plt.title(title)
     fig.savefig(outfile)
+    plt.clf() 
+
 
 
     
