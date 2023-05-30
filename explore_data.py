@@ -25,7 +25,7 @@ def domain_to_year(path_to_article_data, path_to_school_data,year_start=1999, ye
                 paper_dict[domain] = [0]*(year_range+2) # plus one for -3000 plus one other for total 
     for a in article_data:
         article_domain = a['domain']
-        article_year = pp.get_date(a['year'])
+        article_year = pp.get_year(a['date'])
         idx = year_to_idx(article_year)
         paper_dict[article_domain][idx] += 1
         paper_dict[article_domain][-1] += 1 # total
