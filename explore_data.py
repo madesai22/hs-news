@@ -143,7 +143,7 @@ def add_id(path_to_file, path_to_out_file):
             
 
 def main():
-    if not os.path.exists("domains_to_years.pkl"):
+    if True:#not os.path.exists("domains_to_years.pkl"):
         path = "/data/madesai/student-news-full//articles_clean_ids.jsonlist"
         path_to_school = "/data/madesai/student-news-full/school_full_info_with_votes.jsonlist"
         paper_dict = domain_to_year(path, path_to_school)
@@ -151,6 +151,7 @@ def main():
         years.insert(0, str(-3000))
         years.append("total")
         df = pd.DataFrame.from_dict(paper_dict, orient= 'index', columns=[years])
+        df.to_csv('domains_to_years.csv')
         fh.pickle_data(df,"domains_to_years.pkl")
 
         print("saving df")
