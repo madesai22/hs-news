@@ -11,7 +11,7 @@ import matplotlib.pyplot as plt
 def domain_to_year(path_to_article_data, path_to_school_data,path_to_states = "/home/madesai/hs-news/external-data/states.txt",year_start=1999, year_end=2019):
     # read in states
     states_list = fh.read_text_to_list(path_to_states)
-    states_dict = {s.lower():i for i,s in enumerate(states_list)}
+    states_dict = {s.strip().lower():i for i,s in enumerate(states_list)}
     print(states_dict)
     year_range = year_end-year_start
     year_to_idx = {y:i for i, y in enumerate(range(year_start,year_end+1))}
