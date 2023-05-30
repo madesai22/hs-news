@@ -12,6 +12,7 @@ def domain_to_year(path_to_article_data, path_to_school_data,path_to_states = "/
     # read in states
     states_list = fh.read_text_to_list(path_to_states)
     states_dict = {s.strip().lower():0 for s in states_list}
+    states_dict.update({-1:0})
     domain_to_states = {}
 
     year_range = year_end-year_start
