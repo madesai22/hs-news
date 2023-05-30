@@ -157,8 +157,10 @@ def main():
     else:
         df = fh.unpickle_data('domains_to_years.pkl')
 
-    print(df['total'])
-    data = [i[0] for i in  df['total'].values.tolist()] # this is a list where each item is the total n of domains 
+    data_w_domain = df['total']
+    print(data_w_domain)
+    
+    data = [i[0] for i in  data_w_domain.values.tolist()] # this is a list where each item is the total n of domains 
     data.sort()
     data_exclude_zeros = [d for d in data if d!=0]
 
@@ -169,8 +171,8 @@ def main():
     mean_articles = sum(data)/len(data)
 
     n_zeros = sum(1 for d in data if d ==0)
-    non_zero_sum = sum(1 for d in data if d>0)
-    non_zero_n = n_schools-n_zeros
+    non_zero_sum = sum(data_exclude_zeros)
+    non_zero_n = len(data_exclude_zeros)
     non_zero_mean = non_zero_sum/non_zero_n
 
 
