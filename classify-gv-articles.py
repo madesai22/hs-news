@@ -19,7 +19,7 @@ def select_relevant_articles(data, label): # works for the mfc data
         article = data[a]
         if article['irrelevant'] == 0: # releavant article
             text = article['text']
-            pattern = r"gun[123456789]+"
+            pattern = r"gun[0-9]+"
             text = re.sub(pattern, "",text)
             text = pp.remove_whitespaces(text)
             text = pp.strip_punctuation(text).lower().strip()
