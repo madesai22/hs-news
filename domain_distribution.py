@@ -120,7 +120,7 @@ def main():
     non_zero_mean = non_zero_sum/non_zero_n
 
     dem_share = [i for i in df['dem_share'].values.tolist() if i >0]
-    mp.box_plot(dem_share,"dem share",'/home/madesai/hs-news/plots/data-familiarity/schools-distribution.png')
+    mp.box_plot(dem_share,"dem share",'/home/madesai/hs-news/plots/data-familiarity/voting-distribution.png')
 
 
 
@@ -128,7 +128,7 @@ def main():
     print("{} schools, {} average articles per school, {} publish 0 articles, {} average among other schools".format(n_schools,mean_articles,n_zeros, non_zero_mean))
     
     plt.hist(data, bins=40)
-    plt.savefig('domain-to-years.png')
+    plt.savefig('dom-to-years.png')
 
 
 
