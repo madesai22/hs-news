@@ -15,16 +15,12 @@ from sklearn.metrics import f1_score
 
 def select_relevant_articles(data, label): # works for the mfc data
     clean = []
-    pattern = r"GUN\-[0-9]+\n\nPRIMARY\n\n"
-    pattern2 = r"NA-[0-9]+\n\nPRIMARY"
+    pattern = "(NA|GUN)-[0-9]+\n\nPRIMARY\n\n"
     for a in data: # use a as key?
         article = data[a]
         if article['irrelevant'] == 0: # releavant article
             
             text = article['text']
-            if re.match(pattern2,text):
-                print(article)
-
             text = re.sub(pattern, "",text)
             
             text = pp.strip_punctuation(text).lower().strip()
@@ -154,9 +150,9 @@ def main():
 
         test = gv_articles[:N_TEST] +  non_gv_articles[:N_TEST]
         test = pd.DataFrame(test)
-        # for i in range(10):
-        #     print(random.choice(gv_articles))
-        #     print(random.choice(non_gv_articles))
+        for i in range(10):
+            print(random.choice(gv_articles))
+            print(random.choice(non_gv_articles))
 
         train = gv_articles[N_TEST:] + non_gv_articles[N_TEST:]
         train = pd.DataFrame(train)
