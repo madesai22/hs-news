@@ -103,7 +103,7 @@ def main():
 
     data_w_domain = df['total']
 
-    data = [i for i in  data_w_domain.values.tolist()] # this is a list where each item is the total n of domains 
+    data = data_w_domain.values.tolist() # this is a list where each item is the total n of domains 
     data.sort()
     data_exclude_zeros = [d for d in data if d!=0]
 
