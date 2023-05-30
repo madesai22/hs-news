@@ -87,14 +87,10 @@ def domain_to_year(path_to_article_data, path_to_school_data,path_to_states = "/
 
 
 def main():
-    if True:#not os.path.exists("domains_to_years.pkl"):
+    if not os.path.exists("domains_to_years.pkl"):
         path = "/data/madesai/student-news-full//articles_clean_ids.jsonlist"
         path_to_school = "/data/madesai/student-news-full/school_full_info_with_votes.jsonlist"
         paper_dict, columns, states_dict = domain_to_year(path, path_to_school)
-        #years = [str(i) for i in range(1999,2020)]
-        #years.insert(0, str(-3000))
-        #years.append("total")
-        #years.append("")
         df = pd.DataFrame.from_dict(paper_dict, orient= 'index', columns=columns)
         df.to_csv('domains_to_years.csv')
         fh.pickle_data(states_dict,'states_dict.pkl')
