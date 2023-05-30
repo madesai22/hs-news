@@ -74,6 +74,7 @@ def box_plot(data, title, out_file):
                       horizontalalignment='center',size='x-small',color='w',weight='semibold')
     fig = box_plot.get_figure()
     fig.savefig(out_file)
+    plt.clf()
    #fig = plt.figure(figsize =(10, 7))
    # plt.boxplot(data)
    # plt.title(title)

@@ -12,6 +12,7 @@ def domain_to_year(path_to_article_data, path_to_school_data,path_to_states = "/
     # read in states
     states_list = fh.read_text_to_list(path_to_states)
     states_dict = {s.strip().lower():0 for s in states_list}
+    domain_to_states = {}
 
     year_range = year_end-year_start
     year_to_idx = {y:i for i, y in enumerate(range(year_start,year_end+1))}
@@ -40,10 +41,11 @@ def domain_to_year(path_to_article_data, path_to_school_data,path_to_states = "/
                 except:
                     paper_dict[domain][year_to_idx['dem_share']] = -1
                 
-                # try:
-                #     state = school['state'].lower()
-                # except:
-                #     state = -1
+                try:
+                    state = school['state'].lower()
+                except:
+                    state = -1
+                domain_to_states[domain] = state
                 # if state in states_dict.keys():
                 #     states_dict[state] += 1
                 #     paper_dict[domain][year_to_idx['state']] = states_dict[state]
@@ -58,6 +60,8 @@ def domain_to_year(path_to_article_data, path_to_school_data,path_to_states = "/
             idx = year_to_idx[article_year]
             if article_domain in paper_dict:
                 paper_dict[article_domain][idx] += 1
+                state = domain_to_states[article_domain]
+                states_dict[state] += 1
             else:
                 paper_dict[article_domain] = [0]*(ncolumns)
                 paper_dict[article_domain][idx] += 1
@@ -87,7 +91,7 @@ def domain_to_year(path_to_article_data, path_to_school_data,path_to_states = "/
 
 
 def main():
-    if not os.path.exists("domains_to_years.pkl"):
+    if True:#not os.path.exists("domains_to_years.pkl"):
         path = "/data/madesai/student-news-full//articles_clean_ids.jsonlist"
         path_to_school = "/data/madesai/student-news-full/school_full_info_with_votes.jsonlist"
         paper_dict, columns, states_dict = domain_to_year(path, path_to_school)
