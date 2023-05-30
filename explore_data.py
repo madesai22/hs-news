@@ -26,7 +26,7 @@ def domain_to_year(path_to_article_data, path_to_school_data,year_start=1999, ye
     for a in article_data:
         article_domain = a['domain']
         article_year = pp.get_year(a['date'])
-        if year in year_to_idx:
+        if article_year in year_to_idx:
             idx = year_to_idx[article_year]
             if article_domain in paper_dict:
                 paper_dict[article_domain][idx] += 1
