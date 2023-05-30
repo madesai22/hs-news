@@ -12,7 +12,7 @@ def domain_to_year(path_to_article_data, path_to_school_data,path_to_states = "/
     # read in states
     states_list = fh.read_text_to_list(path_to_states)
     states_dict = {s.strip().lower():i for i,s in enumerate(states_list)}
-    print(states_dict)
+
     year_range = year_end-year_start
     year_to_idx = {y:i for i, y in enumerate(range(year_start,year_end+1))}
     year_to_idx = {y:i for i, y in enumerate(range(year_start,year_end+1))}
@@ -103,7 +103,7 @@ def main():
 
     data_w_domain = df['total']
 
-    data = [i[0] for i in  data_w_domain.values.tolist()] # this is a list where each item is the total n of domains 
+    data = [i for i in  data_w_domain.values.tolist()] # this is a list where each item is the total n of domains 
     data.sort()
     data_exclude_zeros = [d for d in data if d!=0]
 
