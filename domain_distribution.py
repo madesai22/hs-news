@@ -46,40 +46,36 @@ def domain_to_year(path_to_article_data, path_to_school_data,path_to_states = "/
                 except:
                     state = -1
                 domain_to_states[domain] = state
-                # if state in states_dict.keys():
-                #     states_dict[state] += 1
-                #     paper_dict[domain][year_to_idx['state']] = states_dict[state]
-                # else:
-                #     paper_dict[domain][year_to_idx['state']] = -1
-                
 
     for a in article_data:
-        article_domain = a['domain'].lower().strip()
-        article_year = pp.get_year(a['date'])
-        if article_year in year_to_idx:
-            idx = year_to_idx[article_year]
-            if article_domain in paper_dict:
-                paper_dict[article_domain][idx] += 1
-                state = domain_to_states[article_domain]
-                states_dict[state] += 1
-            else:
-                paper_dict[article_domain] = [0]*(ncolumns)
-                paper_dict[article_domain][idx] += 1
-                paper_dict[domain][year_to_idx['dem_share']] = -1
+        if a['school_type'] != 'middle':
 
-                if a['geographic'].lower() in states_dict.keys():
-                    state = a['geographic'].lower()
-                    states_dict[state] +=1
+            article_domain = a['domain'].lower().strip()
+            article_year = pp.get_year(a['date'])
+            if article_year in year_to_idx:
+                idx = year_to_idx[article_year]
+                if article_domain in paper_dict:
+                    paper_dict[article_domain][idx] += 1
+                    state = domain_to_states[article_domain]
+                    states_dict[state] += 1
                 else:
-                    state = -1
-                domain_to_states[domain] = state
+                    paper_dict[article_domain] = [0]*(ncolumns)
+                    paper_dict[article_domain][idx] += 1
+                    paper_dict[domain][year_to_idx['dem_share']] = -1
+
+                    if a['geographic'].lower() in states_dict.keys(): 
+                        state = a['geographic'].lower()
+                        states_dict[state] +=1
+                    else:
+                        state = -1
+                    domain_to_states[domain] = state
 
 
-                    #paper_dict[domain][year_to_idx['state']] = states_dict[state]
-                #else:
-                #    paper_dict[domain][year_to_idx['state']] = -1
-    
-            paper_dict[article_domain][year_to_idx['total']] += 1 # total
+                        #paper_dict[domain][year_to_idx['state']] = states_dict[state]
+                    #else:
+                    #    paper_dict[domain][year_to_idx['state']] = -1
+        
+                paper_dict[article_domain][year_to_idx['total']] += 1 # total
     
    #averages_by_year = [0]*(year_range+1) # plus one for -3000
     
