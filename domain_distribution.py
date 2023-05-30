@@ -59,7 +59,8 @@ def domain_to_year(path_to_article_data, path_to_school_data,path_to_states = "/
                 if article_domain in paper_dict:
                     paper_dict[article_domain][idx] += 1
                     state = domain_to_states[article_domain]
-                    states_dict[state] += 1
+                    if state in states_dict:
+                            states_dict[state] +=1
                 else:
                     paper_dict[article_domain] = [0]*(ncolumns)
                     paper_dict[article_domain][idx] += 1
