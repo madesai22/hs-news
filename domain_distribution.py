@@ -15,9 +15,11 @@ def domain_to_year(path_to_article_data, path_to_school_data,path_to_states = "/
 
     year_range = year_end-year_start
     year_to_idx = {y:i for i, y in enumerate(range(year_start,year_end+1))}
-    year_to_idx.update({pp.get_invalid_year_value():year_range+1})
-    year_to_idx.update({'state':year_range+2})
-    year_to_idx.update({'dem_share':year_range+3})
+    year_to_idx.update({pp.get_invalid_year_value():len(year_to_idx.keys())+1})
+    year_to_idx.update({'total':len(year_to_idx.keys())+1})
+    year_to_idx.update({'state':len(year_to_idx.keys())+1})
+    year_to_idx.update({'dem_share':len(year_to_idx.keys())+1})
+    print(year_to_idx)
     ncolumns = len(year_to_idx.keys())
 
     paper_dict = {} # dictionary of domain: list of numbers of articles
