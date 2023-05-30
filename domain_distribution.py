@@ -67,7 +67,9 @@ def domain_to_year(path_to_article_data, path_to_school_data,path_to_states = "/
 
                     if a['geographic'].lower() in states_dict.keys(): 
                         state = a['geographic'].lower()
-                        states_dict[state] +=1
+                        if state in states_dict:
+                            states_dict[state] +=1
+
                     else:
                         state = -1
                     domain_to_states[article_domain] = state
