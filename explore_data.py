@@ -161,6 +161,7 @@ def main():
 
     data = df['total'] # this is a list where each item is the total n of domains 
     n_schools = len(data)
+    print(n_schools)
     mean_articles = sum(data)/len(data)
     print("{} schools, {} average articles per school".format(n_schools,mean_articles))
     
