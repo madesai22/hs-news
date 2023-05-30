@@ -22,7 +22,7 @@ def domain_to_year(path_to_article_data, path_to_school_data,year_start=1999, ye
         else:
             domain = school['domain']
             if domain not in paper_dict:
-                paper_dict[domain] = [0]*(year_range+2) # plus one for -3000 plus one other for total 
+                paper_dict[domain] = [0]*(year_range+3) # plus one for -3000 plus one other for total 
     for a in article_data:
         article_domain = a['domain']
         article_year = pp.get_year(a['date'])
@@ -31,11 +31,11 @@ def domain_to_year(path_to_article_data, path_to_school_data,year_start=1999, ye
             if article_domain in paper_dict:
                 paper_dict[article_domain][idx] += 1
             else:
-                paper_dict[article_domain] = [0]*(year_range+2)
+                paper_dict[article_domain] = [0]*(year_range+3)
                 paper_dict[article_domain][idx] += 1
             paper_dict[article_domain][-1] += 1 # total
     
-    averages_by_year = [0]*(year_range+1) # plus one for -3000
+   #averages_by_year = [0]*(year_range+1) # plus one for -3000
     
     # for y in year_to_idx: # calculate averages; maybe move this to a different function 
     #     year_sum, year_domains = 0, 0 
