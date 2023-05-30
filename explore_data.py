@@ -4,6 +4,7 @@ import preprocess as pp
 import sys
 import pandas as pd
 from tqdm.auto import tqdm
+import matplotlib.pyplot as plt
 
 # write a function that will group by year given a conditional? and then write a gv-articles-by-year 
 # type thing 
@@ -12,7 +13,7 @@ def domain_to_year(path_to_article_data, path_to_school_data,year_start=1999, ye
     year_to_idx = {y:i for i, y in enumerate(range(year_start,year_end+1))}
     year_to_idx.update({pp.get_invalid_year_value():year_range+1})
 
-    paper_dict = {}
+    paper_dict = {} # dictionary of domain: list of numbers of articles
     school_data = fh.read_jsonlist(path_to_school_data)
     article_data = fh.read_jsonlist(path_to_article_data)
     for school in school_data: 
@@ -21,14 +22,16 @@ def domain_to_year(path_to_article_data, path_to_school_data,year_start=1999, ye
         else:
             domain = school['domain']
             if domain not in paper_dict:
-                paper_dict[domain] = [0]*year_range+1 # plus one for -3000
+                paper_dict[domain] = [0]*year_range+2 # plus one for -3000 plus one other for total 
     for a in article_data:
         article_domain = a['domain']
         article_year = pp.get_date(a['year'])
         idx = year_to_idx(article_year)
         paper_dict[article_domain][idx] += 1
+        paper_dict[article_domain][-1] += 1 # total
     
     averages_by_year = [0]*year_range+1 # plus one for -3000
+    
     for y in year_to_idx: # calculate averages; maybe move this to a different function 
         year_sum, year_domains = 0, 0 
         idx = year_to_idx[y]
@@ -36,9 +39,9 @@ def domain_to_year(path_to_article_data, path_to_school_data,year_start=1999, ye
             domain_articles_in_year = paper_dict[p]
             if domain_articles_in_year != 0:
                 year_sum += domain_articles_in_year
-                year_total += 1
-        averages_by_year[idx] = year_sum/year_total
-
+                year_domains += 1
+        averages_by_year[idx] = year_sum/year_domains
+    return paper_dict, averages_by_year
 
 
 
@@ -136,13 +139,31 @@ def add_id(path_to_file, path_to_out_file):
             
 
 def main():
-    path = "/data/madesai/mfc_v4.0/guncontrol/guncontrol_all_with_duplicates.json"
-    data = fh.read_json(path)
-    i = 0 
-    for d in data:
-        if i < 10:
-            print(data[d])
-        i +=1
+    path = "/data/madesai/student-news-full//articles_clean_ids.jsonlist"
+    path_to_school = "/data/madesai/student-news-full/school_locations_full.jsonlist"
+    paper_dict, avg_dict = domain_to_year(path, path_to_school)
+    years = [str(i) for i in range(1999,2020)]
+    years.insert(0, str(-3000))
+    years.append("total")
+    df = pd.DataFrame.from_dict(paper_dict, orient= 'index', columns=[years])
+    fh.pickle_data(df,"domains_to_years.pkl")
+    print("saving df")
+    data = df['total']
+    plt.hist(data)
+    plt.savefig('domain-to-years.png')
+    
+    
+
+
+
+
+    # path = "/data/madesai/mfc_v4.0/guncontrol/guncontrol_all_with_duplicates.json"
+    # data = fh.read_json(path)
+    # i = 0 
+    # for d in data:
+    #     if i < 10:
+    #         print(data[d])
+    #     i +=1
     #path = '/data/madesai/student-news-full/articles_clean.jsonlist'
     #out_path = '/data/madesai/student-news-full/articles_clean_ids.jsonlist'
     #add_id(path, out_path)
