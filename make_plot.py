@@ -56,8 +56,10 @@ def plot_headline_types(path_to_file):
 def box_plot(data, title, out_file):
 
     box_plot = sns.boxplot(data=data)
+    medain = sum(data)/len(data)
+    vertical_offset = medain * 0.05
     for xtick in box_plot.get_xticks():
-        box_plot.text(xtick,medians[xtick] + vertical_offset,medians[xtick], 
+        box_plot.text(xtick,medain + vertical_offset,medain, 
                       orizontalalignment='center',size='x-small',color='w',weight='semibold')
     fig = box_plot.get_figure()
     fig.savefig(out_file)
