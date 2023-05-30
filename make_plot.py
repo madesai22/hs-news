@@ -60,7 +60,7 @@ def box_plot(data, title, out_file):
     vertical_offset = medain * 0.05
     for xtick in box_plot.get_xticks():
         box_plot.text(xtick,medain + vertical_offset,medain, 
-                      orizontalalignment='center',size='x-small',color='w',weight='semibold')
+                      horizontalalignment='center',size='x-small',color='w',weight='semibold')
     fig = box_plot.get_figure()
     fig.savefig(out_file)
    #fig = plt.figure(figsize =(10, 7))
