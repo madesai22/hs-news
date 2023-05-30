@@ -21,6 +21,7 @@ def select_relevant_articles(data, label): # works for the mfc data
         if article['irrelevant'] == 0: # releavant article
             
             text = article['text']
+            print(text)
             text = re.sub(pattern, "",text)
             text = pp.strip_punctuation(text).lower().strip()
             text = pp.remove_whitespaces(text)
@@ -149,9 +150,9 @@ def main():
 
         test = gv_articles[:N_TEST] +  non_gv_articles[:N_TEST]
         test = pd.DataFrame(test)
-        for i in range(10):
-            print(random.choice(gv_articles))
-            print(random.choice(non_gv_articles))
+        # for i in range(10):
+        #     print(random.choice(gv_articles))
+        #     print(random.choice(non_gv_articles))
 
         train = gv_articles[N_TEST:] + non_gv_articles[N_TEST:]
         train = pd.DataFrame(train)
