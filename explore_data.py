@@ -5,6 +5,7 @@ import sys
 import pandas as pd
 from tqdm.auto import tqdm
 import matplotlib.pyplot as plt
+import os 
 
 # write a function that will group by year given a conditional? and then write a gv-articles-by-year 
 # type thing 
@@ -144,17 +145,26 @@ def add_id(path_to_file, path_to_out_file):
             
 
 def main():
-    path = "/data/madesai/student-news-full//articles_clean_ids.jsonlist"
-    path_to_school = "/data/madesai/student-news-full/school_full_info_with_votes.jsonlist"
-    paper_dict = domain_to_year(path, path_to_school)
-    years = [str(i) for i in range(1999,2020)]
-    years.insert(0, str(-3000))
-    years.append("total")
-    df = pd.DataFrame.from_dict(paper_dict, orient= 'index', columns=[years])
-    fh.pickle_data(df,"domains_to_years.pkl")
-    print("saving df")
-    data = df['total']
-    plt.hist(data)
+    if not os.path.exists("domains_to_years.pkl"):
+        path = "/data/madesai/student-news-full//articles_clean_ids.jsonlist"
+        path_to_school = "/data/madesai/student-news-full/school_full_info_with_votes.jsonlist"
+        paper_dict = domain_to_year(path, path_to_school)
+        years = [str(i) for i in range(1999,2020)]
+        years.insert(0, str(-3000))
+        years.append("total")
+        df = pd.DataFrame.from_dict(paper_dict, orient= 'index', columns=[years])
+        fh.pickle_data(df,"domains_to_years.pkl")
+
+        print("saving df")
+    else:
+        df = fh.unpickle_data('domains_to_years.pkl')
+
+    data = df['total'] # this is a list where each item is the total n of domains 
+    n_schools = len(data)
+    mean_articles = sum(data)/len(data)
+    print("{} schools, {} average articles per school".format(n_schools,mean_articles))
+    
+    plt.hist(data, bins=40)
     plt.savefig('domain-to-years.png')
     
     
