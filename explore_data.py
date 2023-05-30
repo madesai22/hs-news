@@ -139,9 +139,6 @@ def add_id(path_to_file, path_to_out_file):
             data.update({'article_id':article_id})
             new_json.append(data)
     fh.write_to_jsonlist(new_json,path_to_out_file)
-
-
-
             
 
 def main():
@@ -159,7 +156,8 @@ def main():
     else:
         df = fh.unpickle_data('domains_to_years.pkl')
 
-    data = df['total'].tolist() # this is a list where each item is the total n of domains 
+    data = df['total'] # this is a list where each item is the total n of domains 
+    print(data)
     n_schools = len(data)
     mean_articles = sum(data)/len(data)
     print("{} schools, {} average articles per school".format(n_schools,mean_articles))
