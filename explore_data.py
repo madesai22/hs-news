@@ -140,7 +140,7 @@ def add_id(path_to_file, path_to_out_file):
 
 def main():
     path = "/data/madesai/student-news-full//articles_clean_ids.jsonlist"
-    path_to_school = "/data/madesai/student-news-full/school_locations_full.jsonlist"
+    path_to_school = "/data/madesai/student-news-full/school_full_info_with_votes.jsonlist"
     paper_dict, avg_dict = domain_to_year(path, path_to_school)
     years = [str(i) for i in range(1999,2020)]
     years.insert(0, str(-3000))
