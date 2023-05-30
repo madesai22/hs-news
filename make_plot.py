@@ -1,6 +1,6 @@
 import pandas as pd
 import matplotlib.pyplot as plt
-
+import seaborn as sns
 
 def plot_articles_by_year(path_to_csv): # this works for gv-articles-by-year.csv
     df = pd.read_csv(path_to_csv)
@@ -54,10 +54,17 @@ def plot_headline_types(path_to_file):
 
 
 def box_plot(data, title, out_file):
-    fig = plt.figure(figsize =(10, 7))
-    plt.boxplot(data)
-    plt.title(title)
-    fig.savefig(out_file, dpi=300)
+
+    box_plot = sns.boxplot(data=data)
+    for xtick in box_plot.get_xticks():
+        box_plot.text(xtick,medians[xtick] + vertical_offset,medians[xtick], 
+                      orizontalalignment='center',size='x-small',color='w',weight='semibold')
+    fig = box_plot.get_figure()
+    fig.savefig(out_file)
+   #fig = plt.figure(figsize =(10, 7))
+   # plt.boxplot(data)
+   # plt.title(title)
+   # fig.savefig(out_file, dpi=300)
 
 
 def multiple_box_plot(data_dict, title, outfile, colors = ['#0000FF', '#00FF00','#FFFF00', '#FF00FF']):
