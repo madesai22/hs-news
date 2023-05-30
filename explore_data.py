@@ -158,6 +158,7 @@ def main():
 
     data = df['total'].values.tolist() # this is a list where each item is the total n of domains 
     n_schools = len(data)
+    print(data)
     print(n_schools)
     print(sum(data))
     mean_articles = sum(data)/len(data)
