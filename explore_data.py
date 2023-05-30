@@ -138,8 +138,11 @@ def add_id(path_to_file, path_to_out_file):
 def main():
     path = "/data/madesai/mfc_v4.0/guncontrol/guncontrol_all_with_duplicates.json"
     data = fh.read_json(path)
+    i = 0 
     for d in data:
-        print(d)
+        if i < 10:
+            print(data[d])
+        i +=1
     #path = '/data/madesai/student-news-full/articles_clean.jsonlist'
     #out_path = '/data/madesai/student-news-full/articles_clean_ids.jsonlist'
     #add_id(path, out_path)
