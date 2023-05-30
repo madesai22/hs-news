@@ -43,7 +43,7 @@ def domain_to_year(path_to_article_data, path_to_school_data,year_start=1999, ye
         for p in paper_dict:
             domain_articles_in_year = paper_dict[p]
             if domain_articles_in_year != 0:
-                year_sum += domain_articles_in_year
+                year_sum += sum(domain_articles_in_year)
                 year_domains += 1
         averages_by_year[idx] = year_sum/year_domains
     return paper_dict, averages_by_year
