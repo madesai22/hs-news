@@ -136,16 +136,20 @@ def add_id(path_to_file, path_to_out_file):
             
 
 def main():
+    path = "/data/madesai/mfc_v4.0/guncontrol/guncontrol_all_with_duplicates.json"
+    data = fh.read_json(path)
+    for d in data:
+        print d
     #path = '/data/madesai/student-news-full/articles_clean.jsonlist'
     #out_path = '/data/madesai/student-news-full/articles_clean_ids.jsonlist'
     #add_id(path, out_path)
 
     #quick_look_column_jsonlist(out_path,column = 'article_id',printexamples=True)
-    path = "/data/madesai/student-news-full/classifier/results.pkl"
-    results = fh.unpickle_data(path)
-    test_acc = results['test_accuracy']
-    test_f1 = results['test_f1']
-    print(test_acc, test_f1)
+    # path = "/data/madesai/student-news-full/classifier/results.pkl"
+    # results = fh.unpickle_data(path)
+    # test_acc = results['test_accuracy']
+    # test_f1 = results['test_f1']
+    # print(test_acc, test_f1)
     # path = "/data/madesai/mfc_v4.0/guncontrol/guncontrol_labeled.json"
     # path = "/data/madesai/filter_data/test.jsonl"
     # dev = pd.read_json(path, lines=True)

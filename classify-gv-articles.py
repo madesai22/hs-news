@@ -15,15 +15,16 @@ from sklearn.metrics import f1_score
 
 def select_relevant_articles(data, label): # works for the mfc data
     clean = []
+    pattern = r"gun[0-9]+"
     for a in data: # use a as key?
         article = data[a]
         if article['irrelevant'] == 0: # releavant article
             text = article['text']
-            pattern = r"gun[0-9]+"
             
-            text = pp.remove_whitespaces(text)
+            
             text = pp.strip_punctuation(text).lower().strip()
             text = re.sub(pattern, "",text)
+            text = pp.remove_whitespaces(text)
             clean.append({'key':a, 'text': text, 'label': label})
     return clean
 
