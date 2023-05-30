@@ -8,22 +8,41 @@ import make_plot as mp
 import matplotlib.pyplot as plt
 
 
-def domain_to_year(path_to_article_data, path_to_school_data,year_start=1999, year_end=2019):
+def domain_to_year(path_to_article_data, path_to_school_data,path_to_states = "/madesai/hs-news/external-data/states.txt",year_start=1999, year_end=2019):
+    # read in states
+    states_list = fh.read_text_to_list(path_to_states)
+    states_dict = {s:i for i,s in enumerate(states_list)}
+
     year_range = year_end-year_start
     year_to_idx = {y:i for i, y in enumerate(range(year_start,year_end+1))}
     year_to_idx.update({pp.get_invalid_year_value():year_range+1})
+    year_to_idx.update({'state':year_range+2})
+    year_to_idx.update({'dem_share':year_range+3})
 
     paper_dict = {} # dictionary of domain: list of numbers of articles
     school_data = fh.read_jsonlist(path_to_school_data)
     article_data = fh.read_jsonlist(path_to_article_data)
     for school in school_data: 
-        if school['school_type'] == 'middle':
+        if school['school_type'] == 'middle' or school['is_foreign']== 'true':
             pass
         else:
             domain = school['domain'].lower().strip()
+            
             if domain not in paper_dict:
                 paper_dict[domain] = [0]*(year_range+3) # plus one for -3000 plus one other for total 
+                try:
+                    dem_share = school['dem_share']
+                    paper_dict[domain][year_to_idx['dem_share']] = dem_share
+                except:
+                    paper_dict[domain][year_to_idx['dem_share']] = -1
+
+                state = school['state']
+                if state in states_dict.keys():
+                    paper_dict[domain][year_to_idx['state']] = states_dict[state]
+                else:
+                    paper_dict[domain][year_to_idx['state']] = -1
                 
+
     for a in article_data:
         article_domain = a['domain'].lower().strip()
         article_year = pp.get_year(a['date'])
@@ -32,8 +51,10 @@ def domain_to_year(path_to_article_data, path_to_school_data,year_start=1999, ye
             if article_domain in paper_dict:
                 paper_dict[article_domain][idx] += 1
             else:
+                print("SLFJSLDFJSDLKFJSL")
                 paper_dict[article_domain] = [0]*(year_range+3)
                 paper_dict[article_domain][idx] += 1
+                
             paper_dict[article_domain][-1] += 1 # total
     
    #averages_by_year = [0]*(year_range+1) # plus one for -3000
@@ -67,7 +88,7 @@ def main():
         df = fh.unpickle_data('domains_to_years.pkl')
 
     data_w_domain = df['total']
-    print(data_w_domain)
+    #print(data_w_domain)
     
     data = [i[0] for i in  data_w_domain.values.tolist()] # this is a list where each item is the total n of domains 
     data.sort()
@@ -85,9 +106,6 @@ def main():
     non_zero_mean = non_zero_sum/non_zero_n
 
 
-
-    print(data)
-    print(n_schools)
     
     print("{} schools, {} average articles per school, {} publish 0 articles, {} average among other schools".format(n_schools,mean_articles,n_zeros, non_zero_mean))
     
