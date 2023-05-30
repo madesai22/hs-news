@@ -8,7 +8,7 @@ import make_plot as mp
 import matplotlib.pyplot as plt
 
 
-def domain_to_year(path_to_article_data, path_to_school_data,path_to_states = "/madesai/hs-news/external-data/states.txt",year_start=1999, year_end=2019):
+def domain_to_year(path_to_article_data, path_to_school_data,path_to_states = "/home/madesai/hs-news/external-data/states.txt",year_start=1999, year_end=2019):
     # read in states
     states_list = fh.read_text_to_list(path_to_states)
     states_dict = {s:i for i,s in enumerate(states_list)}
