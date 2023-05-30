@@ -37,16 +37,16 @@ def domain_to_year(path_to_article_data, path_to_school_data,year_start=1999, ye
     
     averages_by_year = [0]*(year_range+1) # plus one for -3000
     
-    for y in year_to_idx: # calculate averages; maybe move this to a different function 
-        year_sum, year_domains = 0, 0 
-        idx = year_to_idx[y]
-        for p in paper_dict:
-            domain_articles_in_year = paper_dict[p]
-            if domain_articles_in_year != 0:
-                year_sum += sum(domain_articles_in_year)
-                year_domains += 1
-        averages_by_year[idx] = year_sum/year_domains
-    return paper_dict, averages_by_year
+    # for y in year_to_idx: # calculate averages; maybe move this to a different function 
+    #     year_sum, year_domains = 0, 0 
+    #     idx = year_to_idx[y]
+    #     for p in paper_dict:
+    #         domain_articles_in_year = paper_dict[p]
+    #         if domain_articles_in_year != 0:
+    #             year_sum += sum(domain_articles_in_year)
+    #             year_domains += 1
+    #     averages_by_year[idx] = year_sum/year_domains
+    return paper_dict#, averages_by_year
 
 
 
@@ -146,7 +146,7 @@ def add_id(path_to_file, path_to_out_file):
 def main():
     path = "/data/madesai/student-news-full//articles_clean_ids.jsonlist"
     path_to_school = "/data/madesai/student-news-full/school_full_info_with_votes.jsonlist"
-    paper_dict, avg_dict = domain_to_year(path, path_to_school)
+    paper_dict = domain_to_year(path, path_to_school)
     years = [str(i) for i in range(1999,2020)]
     years.insert(0, str(-3000))
     years.append("total")
