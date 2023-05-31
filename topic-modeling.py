@@ -46,7 +46,7 @@ def main():
     for p in data:
         for nt in ntopics:
             print("Finding {} topics in {} file".format(nt, p))
-            topic_model(path+p,nt)
+            topic_model(path+p,nt,path)
     #for g in gv_topics:
     #    topic_model(path+gv_data, g)
 
