@@ -20,7 +20,7 @@ def topic_model(path_to_file, ntopics):
 
     ldamallet = LdaMallet(path_to_mallet_binary, corpus=corpus, num_topics=ntopics, id2word=dictionary)
 
-    topic_list  = ldamallet.show_topics(formatted=False)
+    topic_list  = ldamallet.show_topics(formatted=False, topn=ntopics)
     topic_dict = {}
     for t in topic_list:
         word_list = []

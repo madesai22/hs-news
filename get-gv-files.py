@@ -38,42 +38,46 @@ def main():
     gv_by_content_content = []
     all_content = []
     all_headlines = []
+    all_headlines_no_pp = []
     n_gv = 0 
     total = 0
-    with open('/data/madesai/articles_clean.jsonlist') as f, open(path+'/headline_counts.csv','w') as f2: #open(path+'/gv-headlines.csv','w') as f2, open(path+'/shooting-headlines.csv','w') as f3:
+    with open('/data/madesai/student-news-full/articles_clean.jsonlist') as f, open(path+'/headline_counts.csv','w') :#as f2: #open(path+'/gv-headlines.csv','w') as f2, open(path+'/shooting-headlines.csv','w') as f3:
         for line in f:
             sys.stdout.write("Seen %.2f percent of articles\r" %(total/1951843*100))
             sys.stdout.flush()
             total +=1
             
             data = json.loads(line)
-            #headline = data['headline']
-            #content = data['content']
-            school_type = data['school_type']
-            #pp_content = pp.pre_process(content,stopwords)
+            if data['school_type'] != 'middle' and data['is_foreign'] != 'true':
+                headline = data['headline']
+                #content = data['content']
+                #school_type = data['school_type']
+                #pp_content = pp.pre_process(content,stopwords)
 
-            if data['date']:
-                year = pp.get_year(data['date'])
-            else:
-                year =  3000
-            f2.write(str(year)+","+school_type+'\n')
-            
-            #all_headlines.append(pp.pre_process(headline,stopwords))
-            #all_content.append(pp_content)
+                if data['date']:
+                    year = pp.get_year(data['date'])
+                else:
+                    year =  3000
+                #f2.write(str(year)+","+school_type+'\n')
+                
+                all_headlines.append(pp.pre_process(headline,stopwords=stopwords))
+                all_headlines_no_pp.append(pp.pre_process(headline))
+                #all_content.append(pp_content)
 
-            # if pp.match_gun_violence(headline):
-            #     gv_by_headline_json_file.append(line)
-            #     gv_by_headline_content.append(pp_content)
-            #     f2.write(headline.replace(",", "")+','+str(year)+'\n')
-            #     n_gv +=1
-            # if pp.match_gun_violence_simple(content):
-            #     gv_by_content_content.append(pp_content)
-            #     f3.write(headline.replace(",", "")+','+str(year)+'\n')      
+                # if pp.match_gun_violence(headline):
+                #     gv_by_headline_json_file.append(line)
+                #     gv_by_headline_content.append(pp_content)
+                #     f2.write(headline.replace(",", "")+','+str(year)+'\n')
+                #     n_gv +=1
+                # if pp.match_gun_violence_simple(content):
+                #     gv_by_content_content.append(pp_content)
+                #     f3.write(headline.replace(",", "")+','+str(year)+'\n')      
     
     sys.stdout.write("Writing files...")
     #fh.pickle_data(gv_by_content_content, path+'/gv_content_by_content.pkl')
     #fh.pickle_data(gv_by_headline_content, path+'/gv_content_by_headline.pkl')
-    #fh.pickle_data(all_headlines,path +'/all_headlines.pkl')
+    fh.pickle_data(all_headlines,path +'/all_headlines.pkl')
+    fh.pickle_data(all_headlines_no_pp,path+'/all_headlines_no_preprocessing.pkl')
     #fh.pickle_data(all_content, path+'/all_content.pkl')
     #fh.write_to_jsonlist(gv_by_headline_json_file,path+'/gun-violence-articles-by-headline_clean.jsonlist')
 
