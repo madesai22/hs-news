@@ -37,7 +37,7 @@ def main():
     path = "/data/madesai/gv-topic-data/"
     data =["all_headlines.pkl"]
     gv_data = "gv_content_by_headline.pkl"
-    ntopics = [25]#,40,55]
+    ntopics = [25,40,55]
     gv_topics = [5,10,15]
 
     for p in data:
