@@ -133,7 +133,7 @@ def main():
     dem_share = [i for i in df['dem_share'].values.tolist() if i >0]
     mp.box_plot(dem_share,"dem share",'/home/madesai/hs-news/plots/data-familiarity/voting-distribution.png')
 
-    mp.bar_plot(states.values(),states.keys(),'/home/madesai/hs-news/plots/data-familiarity/states.png')
+    mp.bar_plot(states.values(),states.keys(),ylabel="n articles",out_file='/home/madesai/hs-news/plots/data-familiarity/states.png')
     print(len(states.values()))
 
 

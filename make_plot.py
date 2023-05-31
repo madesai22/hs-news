@@ -58,10 +58,14 @@ def make_hist(data, labels,out_file):
   #  plt.xticks(xticks, labels=labels,rotation='vertical')
     plt.savefig(out_file)
 
-def  bar_plot(data,labels,out_file):
-    plt.plot(data)
+def  bar_plot(data,labels,xlabel=None,ylabel=None,out_file):
+    plt.bar(data)
     xticks = [i+1 for i in range(len(data))]
     plt.xticks(xticks, labels=labels,rotation='vertical')
+    if xlabel:
+        plt.xlabel(xlabel)
+    if ylabel:
+        plt.ylabel(ylabel)
     plt.tight_layout()
     plt.savefig(out_file)
 
