@@ -138,7 +138,7 @@ def main():
     states_scaled_by_population = [i/j for i, j in zip(list(states.values())[:len(states_population)],states_population)]
     states_labels = list(states.keys())
 
-    mp.bar_plot(states_scaled_by_population,states_labels[:len(states_population)],'/home/madesai/hs-news/plots/data-familiarity/states_scaled.png',ylabel="n articles",title='States scaled by 2019 population')
+    mp.bar_plot(states_scaled_by_population,states_labels[:len(states_population)],'/home/madesai/hs-news/plots/data-familiarity/states_scaled.png',ylabel="n articles/2019 population")
 
     mp.bar_plot(states.values(),states_labels,'/home/madesai/hs-news/plots/data-familiarity/states.png',ylabel="n articles")
     print(len(states.values()))
