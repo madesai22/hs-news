@@ -70,6 +70,7 @@ def bar_plot(data,labels,out_file,xlabel=None,ylabel=None, title=None):
         plt.title(title)
     plt.tight_layout()
     plt.savefig(out_file)
+    plt.clf()
 
 
 
