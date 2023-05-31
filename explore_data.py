@@ -143,52 +143,8 @@ def add_id(path_to_file, path_to_out_file):
             
 
 def main():
-    if not os.path.exists("domains_to_years.pkl"):
-        path = "/data/madesai/student-news-full//articles_clean_ids.jsonlist"
-        path_to_school = "/data/madesai/student-news-full/school_full_info_with_votes.jsonlist"
-        paper_dict = domain_to_year(path, path_to_school)
-        years = [str(i) for i in range(1999,2020)]
-        years.insert(0, str(-3000))
-        years.append("total")
-        df = pd.DataFrame.from_dict(paper_dict, orient= 'index', columns=[years])
-        df.to_csv('domains_to_years.csv')
-        fh.pickle_data(df,"domains_to_years.pkl")
-
-        print("saving df")
-    else:
-        df = fh.unpickle_data('domains_to_years.pkl')
-
-    data_w_domain = df['total']
-    print(data_w_domain)
-    
-    data = [i[0] for i in  data_w_domain.values.tolist()] # this is a list where each item is the total n of domains 
-    data.sort()
-    data_exclude_zeros = [d for d in data if d!=0]
-
-    mp.multiple_box_plot({'all data':data,'excluded zeros':data_exclude_zeros},'Article distribution over schools','/home/madesai/hs-news/plots/data-familiarity/schools-distribution.png')
-
-    n_schools = len(data)
-    print(sum(data))
-    mean_articles = sum(data)/len(data)
-
-    n_zeros = sum(1 for d in data if d ==0)
-    non_zero_sum = sum(data_exclude_zeros)
-    non_zero_n = len(data_exclude_zeros)
-    non_zero_mean = non_zero_sum/non_zero_n
-
-
-
-    print(data)
-    print(n_schools)
-    
-    print("{} schools, {} average articles per school, {} publish 0 articles, {} average among other schools".format(n_schools,mean_articles,n_zeros, non_zero_mean))
-    
-    plt.hist(data, bins=40)
-    plt.savefig('domain-to-years.png')
-    
-    
-
-
+    path = '/data/madesai/student-news-full/articles_clean.jsonlist'
+    quick_look_column_jsonlist(path,'geographic',printexamples=True)
 
 
     # path = "/data/madesai/mfc_v4.0/guncontrol/guncontrol_all_with_duplicates.json"
@@ -198,7 +154,7 @@ def main():
     #     if i < 10:
     #         print(data[d])
     #     i +=1
-    #path = '/data/madesai/student-news-full/articles_clean.jsonlist'
+    #
     #out_path = '/data/madesai/student-news-full/articles_clean_ids.jsonlist'
     #add_id(path, out_path)
 
