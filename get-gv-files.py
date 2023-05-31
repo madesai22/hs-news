@@ -48,7 +48,7 @@ def main():
             total +=1
             
             data = json.loads(line)
-            if data['school_type'] != 'middle' and data['is_foreign'] != 'true':
+            if data['school_type'] != 'middle':
                 headline = data['headline']
                 #content = data['content']
                 #school_type = data['school_type']
