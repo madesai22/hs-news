@@ -133,7 +133,14 @@ def main():
     dem_share = [i for i in df['dem_share'].values.tolist() if i >0]
     mp.box_plot(dem_share,"dem share",'/home/madesai/hs-news/plots/data-familiarity/voting-distribution.png')
 
-    mp.bar_plot(states.values(),states.keys(),'/home/madesai/hs-news/plots/data-familiarity/states.png',ylabel="n articles")
+    states_population = fh.read_text_to_list("/home/madesai/hs-news/external-data/states-population-2019-census-alphabetic.txt")
+    states_population = [int(pp.strip_punctuation(i.strip())) for i in states_population]
+    states_scaled_by_population = states.values()[:len(states_population)]/states_population
+    states_labels = states.keys()
+
+    mp.bar_plot(states_scaled_by_population,states_labels[:len(states_population)],'/home/madesai/hs-news/plots/data-familiarity/states_scaled.png',ylabel="n articles",title='States scaled by 2019 population')
+
+    mp.bar_plot(states.values(),states_labels,'/home/madesai/hs-news/plots/data-familiarity/states.png',ylabel="n articles")
     print(len(states.values()))
 
 
