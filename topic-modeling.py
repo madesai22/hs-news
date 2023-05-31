@@ -2,23 +2,26 @@ from gensim.models.wrappers.ldamallet import LdaMallet
 from gensim.matutils import corpus2csc
 from gensim.models import CoherenceModel
 from gensim.corpora.dictionary import Dictionary
+from gensim.test.utils import datapath
 import numpy
 import file_handling as fh
 import pandas as pd
 
 
-def topic_model(path_to_file, ntopics):
+def topic_model(path_to_file, ntopics,path_to_save_file):
 
     path_to_mallet_binary = "/home/madesai/Mallet/bin/mallet"
     path = "/".join(path_to_file.split("/")[:-1])+"/"
     file_name = path[-1].split(".")[0]
-
+    out_file_name = path_to_save_file+"lda_"+file_name+"_"+str(ntopics)
+    out_file = datapath(out_file_name)
 
     content = fh.unpickle_data(path_to_file)
     dictionary = Dictionary(content)
     corpus = [dictionary.doc2bow(text) for text in content]
 
     ldamallet = LdaMallet(path_to_mallet_binary, corpus=corpus, num_topics=ntopics, id2word=dictionary)
+    ldamallet.save(out_file)
 
     topic_list  = ldamallet.show_topics(formatted=False, topn=ntopics)
     topic_dict = {}
