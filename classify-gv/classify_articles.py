@@ -10,7 +10,7 @@ def main():
     path = "/data/madesai/student-news-full/"
     gv_articles = path+"/classifier/gunviolence_clf_articles.jsonlist"
     gv_article_list = []
-    all_articles = fh.read_jsonlist(path +"articles_clean_ids.jsonlist", ignore_middle = True)
+    all_articles = iter(fh.read_jsonlist(path +"articles_clean_ids.jsonlist", ignore_middle = True))
     clf = load_classifier(path+"/classifier/clf.pkl")
 
     limit = 30
