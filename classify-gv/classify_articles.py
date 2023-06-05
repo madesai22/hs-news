@@ -50,7 +50,7 @@ def main():
         # maybe it doesn't make sense to truncat the guesses?? 
 
         prediction = score(text,clf,vectorizer)
-        print(type(prediction[0]))
+        #print(type(prediction[0]))
         gv_pred = prediction[0][1]
         other_pred = prediction[0][0]
         if gv_pred > other_pred:
