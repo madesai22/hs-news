@@ -134,7 +134,7 @@ SEARCH_SPACE = {
         "ngram_range": "1 2",
         "random_state": 44555,
         "weight": "count",
-        "stopwords": 1
+        "stopwords": None
 } 
 
 BEST_HPS = {
