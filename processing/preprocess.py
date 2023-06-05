@@ -123,6 +123,7 @@ def clean_student_news_article(headline, content):
     sentences = pre_process_sentence(content)
     n_sentences = len(sentences)
     sentence_count = 0 
+    text = []
 
     while len(text) < MEDIA_FRAMES_CORPUS_TRUNCATION() and sentence_count < n_sentences:
         next_sentence = sentences[sentence_count]
