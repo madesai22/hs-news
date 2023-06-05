@@ -54,7 +54,7 @@ def main():
         gv_pred = prediction[0][1]
         other_pred = prediction[0][0]
         if gv_pred > other_pred:
-            gv_articles.append({'text': text, 'gv_score': gv_pred})
+            gv_articles.append({'text': text, 'gv_score': gv_pred},ignore_index = True)
 
 
 
