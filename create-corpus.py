@@ -1,7 +1,7 @@
 # first command line argument: path to directory for storing below files
 # if not supplied will write to /data/madesai/gv-topic-data
 # second command line argument: path to stopword text file
-# if not supplied will write to ./snowball.txt
+# if not supplied will read from to ./snowball.txt
 # creates a jsonlist file with the articles + all meta data that match for gun violence-related headlines
 # creates a pickeled corpus of gun violence news articles (list of articles that have been preprocessed)
 # creates a pickeled corpus of all news articles (list of articles that have been preprocessed) 
