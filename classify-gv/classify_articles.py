@@ -22,7 +22,7 @@ def score(x, clf, vectorizer): # also from kernelmachine
 
 def main():
     path = "/data/madesai/student-news-full/"
-    all_articles = fh.read_jsonlist(path+"all_articles_no_middle.jsonlist")
+    all_articles = iter(fh.read_jsonlist(path+"all_articles_no_middle.jsonlist"))
     print('read in articles')
     gv_articles = path+"/classifier/gunviolence_clf_articles.jsonlist"
     gv_article_list = []
