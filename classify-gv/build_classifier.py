@@ -149,6 +149,8 @@ def main():
         for i in range(10):
             print(random.choice(gv_articles))
             print(random.choice(non_gv_articles))
+        
+        fh.pickle_data(gv_articles[N_TEST:],"/data/madesai/student-news-full/classifier/gv-test.pkl")
 
         train = gv_articles[N_TEST:] + non_gv_articles[N_TEST:]
         train = pd.DataFrame(train)
