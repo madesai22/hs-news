@@ -24,7 +24,8 @@ def main():
     path = "/data/madesai/student-news-full/all_articles_no_middle.jsonlist"
     gv_articles = path+"/classifier/gunviolence_clf_articles.jsonlist"
     gv_article_list = []
-    all_articles = pd.read_json(path, lines=True).drop_duplicates(subset=['text'])
+    #all_articles = pd.read_json(path, lines=True).drop_duplicates(subset=['text'])
+    all_articles = fh.read_jsonlist(gv_articles)
     
     clf = fh.unpickle(path+"/classifier/clf.pkl")
     vectorizer = fh.unpickle(path+"/vectorizer.pkl")
