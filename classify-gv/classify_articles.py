@@ -29,8 +29,8 @@ def main():
     #all_articles = pd.read_json(path+"all_articles_no_middle.jsonlist", lines=True).drop_duplicates(subset=['text'])
   
     
-    clf = fh.unpickle(path+"/classifier/clf.pkl")
-    vectorizer = fh.unpickle(path+"/vectorizer.pkl")
+    clf = fh.unpickle_data(path+"/classifier/clf.pkl")
+    vectorizer = fh.unpickle_data(path+"/vectorizer.pkl")
     print("opened classifier")
     
 
