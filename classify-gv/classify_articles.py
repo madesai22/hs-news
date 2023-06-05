@@ -28,9 +28,8 @@ def main():
         print("headline: {}\n prediction: {}\n".format(headline,prediction))
         i += 1
 
-
-
-
+if __name__ == '__main__':
+    main()
     
 
 
