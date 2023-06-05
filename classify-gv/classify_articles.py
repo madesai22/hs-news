@@ -27,7 +27,7 @@ def main():
     gv_articles = path+"/classifier/gunviolence_clf_articles.jsonlist"
     gv_article_list = []
     test = fh.unpickle_data("/data/madesai/student-news-full/classifier/gv-test.pkl")
-    test_article = test.iloc[1]['text']
+    test_article = test[1]['text']
 
 
 
