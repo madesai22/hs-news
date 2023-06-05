@@ -27,7 +27,7 @@ def main():
     #gv_articles = path+"/classifier/gunviolence_clf_articles.jsonlist"
     #gv_article_list = []    
     gv_articles = []#pd.DataFrame(columns = ['text','gv_score'])
-
+    other_articles = []
     #all_articles = pd.read_json(path+"all_articles_no_middle.jsonlist", lines=True).drop_duplicates(subset=['text'])
   
     
@@ -57,13 +57,15 @@ def main():
         
         if gv_pred > other_pred:
             gv_articles.append({'text': text, 'gv_score': gv_pred})
-            print(gv_pred)
+
+        else:
+            other_articles.append({'text': text, 'gv_score': other_pred})
+
     gv_df = pd.DataFrame(gv_articles)
-
-
-
+    other_df = pd.DataFrame(other_articles)
 
     gv_df.to_csv('gv_classify_explore.csv')
+    other_df.to_csv('other_classify_explore.csv')
 
 if __name__ == '__main__':
     main()
