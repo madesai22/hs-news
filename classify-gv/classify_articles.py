@@ -43,7 +43,7 @@ def main():
         sys.stdout.write("Seen %d articles\r" %(i))
         sys.stdout.flush()
         i += 1
-        #article = next(all_articles)
+        article = next(all_articles)
 
         headline = article['headline']
         content = article['content']
