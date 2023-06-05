@@ -34,7 +34,7 @@ def read_jsonlist(input_filename, ignore_middle = True):
         with codecs.open(input_filename) as input_file:
             for line in input_file:
                 line_json = json.loads(line)
-                if ignore_middle and line['school_type'] != 'middle':
+                if ignore_middle and line_json['school_type'] != 'middle':
                     data.append(line_json)
                 elif ignore_middle == False:
                     data.append(line_json)
