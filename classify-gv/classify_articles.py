@@ -40,7 +40,7 @@ def main():
     i = 0 
     #while i< limit:
     for article in all_articles:
-        sys.stdout.write("Seen %d percent of articles\r" %(i))
+        sys.stdout.write("Seen %d articles\r" %(i))
         sys.stdout.flush()
         i += 1
         #article = next(all_articles)

@@ -38,8 +38,8 @@ def read_jsonlist(input_filename):
 
 
 
-def read_jsonlist_random_sample(input_filename, size, percent = False, ignore_middle = True): #if percent = False, return size number of random articles 
-    all_data = read_jsonlist(input_filename,ignore_middle=ignore_middle)
+def read_jsonlist_random_sample(input_filename, size, percent = False): #if percent = False, return size number of random articles 
+    all_data = read_jsonlist(input_filename)
     data = []
     random.shuffle(all_data)
     if percent: 
