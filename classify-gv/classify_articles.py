@@ -56,10 +56,10 @@ def main():
         other_pred = prediction[0][0]
         
         if gv_pred > other_pred:
-            gv_articles.append({'text': text, 'gv_score': gv_pred})
+            gv_articles.append({'text': headline, 'gv_score': gv_pred})
 
         else:
-            other_articles.append({'text': text, 'gv_score': other_pred})
+            other_articles.append({'text': headline, 'gv_score': other_pred})
 
     gv_df = pd.DataFrame(gv_articles)
     other_df = pd.DataFrame(other_articles)
