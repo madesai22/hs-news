@@ -38,8 +38,8 @@ def main():
 
     limit = 300
     i = 0 
-    while i< limit:
-    #for article in all_articles:
+    #while i< limit:
+    for article in all_articles:
         sys.stdout.write("Seen %d articles\r" %(i))
         sys.stdout.flush()
         i += 1
