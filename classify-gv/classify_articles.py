@@ -42,7 +42,8 @@ def main():
     for article in all_articles:
         sys.stdout.write("Seen %d percent of articles\r" %(i))
         sys.stdout.flush()
-        article = next(all_articles)
+        i += 1
+        #article = next(all_articles)
 
         headline = article['headline']
         content = article['content']
