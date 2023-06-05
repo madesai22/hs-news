@@ -24,7 +24,7 @@ def read_json(input_filename):
     return data
 
 
-def read_jsonlist(input_filename)
+def read_jsonlist(input_filename):
     data = []
     if input_filename[-3:] == '.gz':
         with gzip.open(input_filename, 'rt') as input_file:
