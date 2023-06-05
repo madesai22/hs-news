@@ -14,6 +14,7 @@ from hyperparameters import (SEARCH_SPACE,BEST_HPS, HyperparameterSearch,
 from sklearn.feature_extraction.text import (CountVectorizer, TfidfVectorizer, HashingVectorizer)
 from sklearn.linear_model import LogisticRegression
 from sklearn.metrics import f1_score
+from sklearn.utils import shuffle
 
 
 def select_relevant_articles(data, label): # works for the mfc data
@@ -143,15 +144,15 @@ def main():
 
         test = gv_articles[:N_TEST] +  non_gv_articles[:N_TEST]
         test = pd.DataFrame(test)
-        random.shuffle(test)
-        
+        test = shuffle(test)
+
         for i in range(10):
             print(random.choice(gv_articles))
             print(random.choice(non_gv_articles))
 
         train = gv_articles[N_TEST:] + non_gv_articles[N_TEST:]
         train = pd.DataFrame(train)
-        random.shuffle(train)
+        train = shuffle(train)
 
 
 
