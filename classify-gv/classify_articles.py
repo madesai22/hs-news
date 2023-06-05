@@ -30,7 +30,7 @@ def main():
   
     
     clf = fh.unpickle_data(path+"/classifier/clf.pkl")
-    vectorizer = fh.unpickle_data(path+"/vectorizer.pkl")
+    vectorizer = fh.unpickle_data(path+"/classifier/vectorizer.pkl")
     print("opened classifier")
     
 
