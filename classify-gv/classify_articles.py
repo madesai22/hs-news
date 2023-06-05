@@ -26,7 +26,7 @@ def main():
     print('read in articles')
     #gv_articles = path+"/classifier/gunviolence_clf_articles.jsonlist"
     #gv_article_list = []    
-    gv_articles = pd.DataFrame(columns = ['text','gv_score'])
+    gv_articles = []#pd.DataFrame(columns = ['text','gv_score'])
 
     #all_articles = pd.read_json(path+"all_articles_no_middle.jsonlist", lines=True).drop_duplicates(subset=['text'])
   
@@ -36,10 +36,10 @@ def main():
     print("opened classifier")
     
 
-    #limit = 5000
+    limit = 300
     i = 0 
-    #while i< limit:
-    for article in all_articles:
+    while i< limit:
+    #for article in all_articles:
         sys.stdout.write("Seen %d articles\r" %(i))
         sys.stdout.flush()
         i += 1
@@ -54,13 +54,16 @@ def main():
         #print(type(prediction[0]))
         gv_pred = prediction[0][1]
         other_pred = prediction[0][0]
+        
         if gv_pred > other_pred:
-            gv_articles.append({'text': text, 'gv_score': gv_pred},ignore_index = True)
+            gv_articles.append({'text': text, 'gv_score': gv_pred})
+            print(gv_pred)
+    gv_df = pd.DataFrame(gv_articles)
 
 
 
 
-    gv_articles.to_csv('gv_classify_explore.csv')
+    gv_df.to_csv('gv_classify_explore.csv')
 
 if __name__ == '__main__':
     main()
