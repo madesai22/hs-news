@@ -1,7 +1,7 @@
 import sys
 sys.path.insert(1, '/home/madesai/hs-news/processing')
 import file_handling as fh
-import preprocessing as pp
+import preprocess as pp
 
 def load_classifier(path):
     return fh.unpickle_data(path)
