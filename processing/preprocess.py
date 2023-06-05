@@ -127,7 +127,7 @@ def clean_student_news_article(headline, content):
 
     while len(text) < MEDIA_FRAMES_CORPUS_TRUNCATION() and sentence_count < n_sentences:
         next_sentence = sentences[sentence_count]
-        paragraph_count += 1 
+        sentence_count += 1 
         text.extend(next_sentence.split())
     text = " ".join(text)
 
