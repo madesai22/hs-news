@@ -22,14 +22,11 @@ def score(x, clf, vectorizer): # also from kernelmachine
 
 def main():
     path = "/data/madesai/student-news-full/"
-    #all_articles = iter(fh.read_jsonlist(path+"all_articles_no_middle.jsonlist"))
+    all_articles = iter(fh.read_jsonlist(path+"all_articles_no_middle.jsonlist"))
     print('read in articles')
-    gv_articles = path+"/classifier/gunviolence_clf_articles.jsonlist"
-    gv_article_list = []
-    test = fh.unpickle_data("/data/madesai/student-news-full/classifier/gv-test.pkl")
-    
-
-
+    #gv_articles = path+"/classifier/gunviolence_clf_articles.jsonlist"
+    #gv_article_list = []    
+    gv_articles = pd.DataFrame(columns = ['text','gv_score'])
 
     #all_articles = pd.read_json(path+"all_articles_no_middle.jsonlist", lines=True).drop_duplicates(subset=['text'])
   
@@ -37,28 +34,31 @@ def main():
     clf = fh.unpickle_data(path+"/classifier/clf.pkl")
     vectorizer = fh.unpickle_data(path+"/classifier/vectorizer.pkl")
     print("opened classifier")
-    for i in range(15):
-        test_article = test[i]['text']
-
-        prediction = score(test_article,clf,vectorizer)
-        print(test_article)
-        print(prediction)
     
 
-    limit = 30
+    #limit = 5000
     i = 0 
-#     while i < limit:
-#    # for article in all_articles:
-#         article = next(all_articles)
+    #while i< limit:
+    for article in all_articles:
+        sys.stdout.write("Seen %f percent of articles\r" %(i))
+        sys.stdout.flush()
+        article = next(all_articles)
 
-#         headline = article['headline']
-#         content = article['content']
-#         text = pp.clean_student_news_article(headline,content) 
-#         # maybe it doesn't make sense to truncat the guesses?? 
+        headline = article['headline']
+        content = article['content']
+        text = pp.clean_student_news_article(headline,content) 
+        # maybe it doesn't make sense to truncat the guesses?? 
 
-#         prediction = score(text,clf,vectorizer)
-#         print("headline: {}\n prediction: {}\n".format(headline,prediction))
-#         i += 1
+        prediction = score(text,clf,vectorizer)
+        gv_pred = prediction[1]
+        other_pred = prediction[0]
+        if gv_pred > other_pred:
+            gv_articles.append({'text': text, 'gv_score': gv_pred})
+
+
+
+
+    gv_articles.to_csv('gv_classify_explore.csv')
 
 if __name__ == '__main__':
     main()
