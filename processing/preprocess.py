@@ -114,3 +114,18 @@ def pre_process(text, stopwords=None): #remove punctuation, remove stop words, l
     text = tokenize(text,stopwords)
     return text
 
+def clean_student_news_article(headline, content):
+    headline = remove_whitespaces(headline)
+    headline = strip_punctuation(headline).lower().strip()
+    sentences = pre_process_sentence(content)
+    n_sentences = len(sentences)
+    sentence_count = 0 
+
+    while len(text) < 225 and sentence_count < n_sentences:
+        next_sentence = sentences[sentence_count]
+        paragraph_count += 1 
+        text.extend(next_sentence.split())
+    text = " ".join(text)
+
+    return text
+

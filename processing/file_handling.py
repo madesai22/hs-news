@@ -24,7 +24,7 @@ def read_json(input_filename):
     return data
 
 
-def read_jsonlist(input_filename):
+def read_jsonlist(input_filename, ignore_middle = True):
     data = []
     if input_filename[-3:] == '.gz':
         with gzip.open(input_filename, 'rt') as input_file:
@@ -33,25 +33,28 @@ def read_jsonlist(input_filename):
     else:
         with codecs.open(input_filename) as input_file:
             for line in input_file:
-                data.append(json.loads(line))
+                line_json = json.loads(line)
+                if ignore_middle and line['school_type'] != 'middle':
+                    data.append(line_json)
+                elif ignore_middle == False:
+                    data.append(line_json)
     return data
 
 
 
 def read_jsonlist_random_sample(input_filename, size, percent = False, ignore_middle = True): #if percent = False, return size number of random articles 
-    all_data = read_jsonlist(input_filename)
+    all_data = read_jsonlist(input_filename,ignore_middle=ignore_middle)
     data = []
     random.shuffle(all_data)
     if percent: 
         nsamples = size * len(all_data)
     else: 
         nsamples = size
-    for i, line in enumerate(all_data):
-        if line['school_type'] != 'middle': 
-            if i < nsamples:
-                data.append(line)
-            else:
-                break
+    for i, line in enumerate(all_data): 
+        if i < nsamples:
+            data.append(line)
+        else:
+            break
     return data
     
 
