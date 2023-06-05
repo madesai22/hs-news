@@ -60,7 +60,6 @@ def event_to_domain_to_article_list(event_domains, articles, zip_to_date, max_di
                 events_to_hlines_by_domain[event][article_domain].append((headline, article_date))
             else:
                 events_to_hlines_by_domain[event].update({article_domain:(headline, article_date)})
-
     
     return events_to_hlines_by_domain
     

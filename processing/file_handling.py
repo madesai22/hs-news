@@ -24,7 +24,7 @@ def read_json(input_filename):
     return data
 
 
-def read_jsonlist(input_filename, ignore_middle = True):
+def read_jsonlist(input_filename)
     data = []
     if input_filename[-3:] == '.gz':
         with gzip.open(input_filename, 'rt') as input_file:
@@ -33,11 +33,7 @@ def read_jsonlist(input_filename, ignore_middle = True):
     else:
         with codecs.open(input_filename) as input_file:
             for line in input_file:
-                line_json = json.loads(line)
-                if ignore_middle and line_json['school_type'] != 'middle':
-                    data.append(line_json)
-                elif ignore_middle == False:
-                    data.append(line_json)
+                data.append(json.loads(line))
     return data
 
 

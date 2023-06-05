@@ -31,25 +31,15 @@ def select_relevant_articles(data, label): # works for the mfc data
             clean.append({'key':a, 'text': text, 'label': label})
     return clean
 
+
 def clean_random_sample(data, label): # works for student news articles
     word_lengths = []
     clean = []
     for line in data:
         headline = line['headline']
-        headline = pp.remove_whitespaces(headline)
-        headline = pp.strip_punctuation(headline).lower().strip()
-        text = headline.split()
-        #paragraphs = pp.pre_process_paragraph(line['content'])
-        paragraphs = pp.pre_process_sentence(line['content']) # really this is sentences 
-        n_paragraphs = len(paragraphs)
+        content = line['content']
+        text = pp.clean_student_news_article(headline,content)
         key = line['article_id']
-  
-        paragraph_count = 0 
-        while len(text) < 225 and paragraph_count < n_paragraphs:
-            next_paragraph = paragraphs[paragraph_count]
-            paragraph_count += 1 
-            text.extend(next_paragraph.split())
-        text = " ".join(text)
         clean.append({'key':key, 'text': text, 'label': label}) 
         word_lengths.append(len(text))
     print("average words = {}".format(sum(word_lengths)/len(word_lengths)))
