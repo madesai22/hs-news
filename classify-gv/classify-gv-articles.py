@@ -1,6 +1,9 @@
 import time
-from processing import file_handling as fh
-from processing import preprocess as pp
+import sys
+sys.path.insert(1, '/home/madesai/hs-news/processing')
+
+import file_handling as fh
+import preprocess as pp
 import pandas as pd
 from tqdm import tqdm
 import random
