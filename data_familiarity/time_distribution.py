@@ -6,7 +6,7 @@ import pandas as pd
 
 
 def main():
-    path = pd.read_csv("/data/madesai/descriptive-statistics/n_high_articles_by_year.csv")
+    path = "/data/madesai/descriptive-statistics/n_high_articles_by_year.csv"
     #college = pd.read_csv("/data/madesai/descriptive-statistics/n_college_articles_by_year.csv")
 
 
