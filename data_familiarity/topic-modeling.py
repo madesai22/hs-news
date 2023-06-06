@@ -32,7 +32,7 @@ def dominant_topic_analysis(corpus, corpus_topic_df):
                                   Total_Docs_Perc = ('Dominant Topic', np.size)).reset_index()
 
     dominant_topic_df['Total_Docs_Perc'] = dominant_topic_df['Total_Docs_Perc'].apply(lambda row: round((row*100) / len(corpus), 2))
-
+    dominant_topic_df.sort_values(by=['Total_Docs_Perc']
     return dominant_topic_df
 
 def make_topic_csv(ldamallet):
@@ -64,36 +64,43 @@ def topic_model(corpus, dictionary, path_to_file, ntopics,path_to_save_file):
     return ldamallet
 
 
-def make_corpus(filename):
+def make_corpus(filename, truncate = True):
     content = fh.unpickle_data(filename)
-    content = content[:300]
+    if truncate:
+        content = content[:300]
     dictionary = Dictionary(content)
     corpus = [dictionary.doc2bow(text) for text in content]
     return corpus, dictionary
-    
 
-def main():
-    path = "/data/madesai/gv-topic-data/"
-    data =["all_headlines.pkl"]
-    gv_data = "gv_content_by_headline.pkl"
-    ntopics =[10]
-    #ntopics = [25,40,55]
-    gv_topics = [5,10,15]
 
+def all_analysis(path,data,ntopics, truncate = True):
     for p in data:
         for nt in ntopics:
             print("Finding {} topics in {} file".format(nt, p))
-            corpus, dictionary = make_corpus(path+p) 
+            corpus, dictionary = make_corpus(path+p, truncate=truncate) 
             lda = topic_model(corpus,dictionary,path+p,nt,path)
 
             cd = corpus_distribution_of_topics(lda,corpus)
             corpus_topic_df = get_dominant_topic_by_document(lda,cd)
             dominant_topic = dominant_topic_analysis(corpus, corpus_topic_df)
             print(dominant_topic)
+            dominant_topic.to_csv(path+"dominant_topic")
+            
+
+
+    
+
+def main():
+    path = "/data/madesai/gv-topic-data/"
+    data =["all_headlines.pkl"]
+    #gv_data = "gv_content_by_headline.pkl"
+    ntopics =[10]
+    all_analysis(path,data,ntopics,truncate=True)
+    
+
             
             
-    #for g in gv_topics:
-    #    topic_model(path+gv_data, g)
+
 
     
 
