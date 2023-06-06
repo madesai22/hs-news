@@ -86,17 +86,30 @@ def all_analysis(path,data,ntopics, truncate = True):
             dominant_topic = dominant_topic_analysis(corpus, corpus_topic_df)
             print(dominant_topic)
             dominant_topic.to_csv(path+"dominant_topic")
-            
 
+def load_all_analysis(path,path_to_data,ntopics, truncate = True):
+    corpus, dictionary = make_corpus(path_to_data, truncate=truncate) 
+    lda = LdaMallet.load(path)
+    topic_df = make_topic_csv(lda)
+    print(topic_df)
+    topic_df.to_csv(path+"load_topics")
+    cd = corpus_distribution_of_topics(lda,corpus)
+    corpus_topic_df = get_dominant_topic_by_document(lda,cd)
+    dominant_topic = dominant_topic_analysis(corpus, corpus_topic_df)
+    print(dominant_topic)
+    dominant_topic.to_csv(path+"dominant_topic")
 
-    
 
 def main():
     path = "/data/madesai/gv-topic-data/"
     data =["all_headlines.pkl"]
     #gv_data = "gv_content_by_headline.pkl"
     ntopics =[10]
-    all_analysis(path,data,ntopics,truncate=True)
+    #all_analysis(path,data,ntopics,truncate=True)
+
+    path_to_model = "/data/madesai/gv-topic-data/lda_gv-topic-data_25"
+    lda = LdaMallet.load(path_to_model)
+
     
 
             
