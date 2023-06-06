@@ -12,6 +12,7 @@ def plot_articles_by_year(path_to_csv, gv = False, outpath = '/home/madesai/hs-n
     data = df[(df['years'] >= start_year) & (df['years'] <= end_year)].sort_values(by='years')
 
     year = data['years']
+    total = data['total']
 
     if gv: 
         n_gv = data['n gv headlines']
@@ -23,6 +24,7 @@ def plot_articles_by_year(path_to_csv, gv = False, outpath = '/home/madesai/hs-n
     ax.set_xlabel('year')
 
     if gv:
+        n_gv = data['nfiles']
         ax.set_ylabel('percent headlines')
         ax.plot(year, n_gv, label='gun violence headlines')
         ax.set_title('Percent gun violence headlines')
