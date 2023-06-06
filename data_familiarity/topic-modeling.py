@@ -21,7 +21,6 @@ def topic_model(path_to_file, ntopics,path_to_save_file):
     out_file = datapath(out_file_name)
 
     content = fh.unpickle_data(path_to_file)
-    content = content[:10]
     dictionary = Dictionary(content)
     corpus = [dictionary.doc2bow(text) for text in content]
 
@@ -45,7 +44,7 @@ def main():
     path = "/data/madesai/gv-topic-data/"
     data =["all_headlines.pkl"]
     gv_data = "gv_content_by_headline.pkl"
-    ntopics = [3,25,40,55]
+    ntopics = [25,40,55]
     gv_topics = [5,10,15]
 
     for p in data:
