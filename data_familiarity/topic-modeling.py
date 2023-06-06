@@ -51,7 +51,7 @@ def topic_model(path_to_file, ntopics,path_to_save_file):
     ldamallet.save(out_file)
 
    # topic_list  = ldamallet.show_topics(formatted=False, num_topics=ntopics)
-    topic_list = [[(term, round(wt, 3)) for term, wt in ldamallet.show_topic(n, num_topics=ntopics)] for n in range(0, ldamallet.num_topics)]
+    topic_list = [[(term, round(wt, 3)) for term, wt in ldamallet.show_topic(num_topics=ntopics, topn=20)] for n in range(0, ldamallet.num_topics)]
     print(topic_list)
     topic_dict = {}
     for t in topic_list:
