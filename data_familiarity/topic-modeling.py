@@ -42,7 +42,7 @@ def make_topic_csv(ldamallet):
     topic_df = pd.DataFrame([[term for term, wt in topic] for topic in topic_list], columns = ['Term'+str(i) for i in range(1, 21)], index=['Topic '+str(t) for t in range(1, ldamallet.num_topics+1)]).T
     return topic_df
 
-def topic_model(corpus, path_to_file, ntopics,path_to_save_file):
+def topic_model(corpus, dictionary, path_to_file, ntopics,path_to_save_file):
 
     path_to_mallet_binary = "/home/madesai/Mallet/bin/mallet"
 
@@ -67,7 +67,7 @@ def make_corpus(filename):
     content = content[:300]
     dictionary = Dictionary(content)
     corpus = [dictionary.doc2bow(text) for text in content]
-    return corpus
+    return corpus, dictionary
     
 
 def main():
@@ -81,8 +81,8 @@ def main():
     for p in data:
         for nt in ntopics:
             print("Finding {} topics in {} file".format(nt, p))
-            corpus = make_corpus(path+p) 
-            lda = topic_model(corpus,path+p,nt,path)
+            corpus, dictionary = make_corpus(path+p) 
+            lda = topic_model(corpus,dictionary,path+p,nt,path)
 
             cd = corpus_distribution_of_topics(lda,corpus)
             corpus_topic_df = get_dominant_topic_by_document(lda,cd)
