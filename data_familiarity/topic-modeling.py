@@ -11,8 +11,6 @@ import pandas as pd
 import numpy as np
 
 def corpus_distribution_of_topics(model,corpus):
-
-    corpus = [common_dictionary.doc2bow(text) for text in corpus]
     results = model[corpus]
     corpus_topics = [sorted(topics, key=lambda record: -record[1])[0] for topics in results]
     return corpus_topics 
