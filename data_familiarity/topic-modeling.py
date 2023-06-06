@@ -64,7 +64,7 @@ def topic_model(corpus, path_to_file, ntopics,path_to_save_file):
 
 def make_corpus(filename):
     content = fh.unpickle_data(filename)
-    corpus = corpus[:300]
+    content = content[:300]
     dictionary = Dictionary(content)
     corpus = [dictionary.doc2bow(text) for text in content]
     return corpus
