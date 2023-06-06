@@ -27,7 +27,7 @@ def topic_model(path_to_file, ntopics,path_to_save_file):
     ldamallet = LdaMallet(path_to_mallet_binary, corpus=corpus, num_topics=ntopics, id2word=dictionary)
     ldamallet.save(out_file)
 
-    topic_list  = ldamallet.show_topics(formatted=False, topn=ntopics)
+    topic_list  = ldamallet.show_topics(formatted=False, n_topics=ntopics)
     topic_dict = {}
     for t in topic_list:
         word_list = []
@@ -44,7 +44,7 @@ def main():
     path = "/data/madesai/gv-topic-data/"
     data =["all_headlines.pkl"]
     gv_data = "gv_content_by_headline.pkl"
-    ntopics = [25,40,55]
+    ntopics = [3,25,40,55]
     gv_topics = [5,10,15]
 
     for p in data:

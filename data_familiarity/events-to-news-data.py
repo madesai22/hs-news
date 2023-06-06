@@ -1,5 +1,7 @@
 from dateutil.parser import parse
 import pandas as pd
+import sys
+sys.path.insert(1, '/home/madesai/hs-news/processing')
 import file_handling as fh 
 import preprocess as pp
 import geography_functions as gf

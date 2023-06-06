@@ -1,4 +1,6 @@
 import json
+import sys
+sys.path.insert(1, '/home/madesai/hs-news/processing')
 import file_handling as fh 
 from processing import preprocess as pp
 import sys
@@ -108,7 +110,7 @@ def main():
     data.sort()
     data_exclude_zeros = [d for d in data if d!=0]
 
-    mp.multiple_box_plot({'all data':data,'excluded zeros':data_exclude_zeros},'Article distribution over schools','/home/madesai/hs-news/plots/data-familiarity/schools-distribution.png')
+    mp.multiple_box_plot({'all data':data,'excluded zeros':data_exclude_zeros},'N articles per school','/home/madesai/hs-news/plots/data-familiarity/schools-distribution.png')
 
     n_schools = len(data)
     print(sum(data))
