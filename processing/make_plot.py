@@ -17,17 +17,19 @@ def plot_articles_by_year(path_to_csv, gv = False, outpath = '/home/madesai/hs-n
         total = data['percent gv']
 
     fig, ax = plt.subplots()
-    #ax.plot(year, n_gv, label='gun violence headlines')
-    ax.plot(year, total, label='total headlines')
+    #
+    
     ax.set_xlabel('year')
 
     if gv:
         ax.set_ylabel('percent headlines')
+        ax.plot(year, n_gv, label='gun violence headlines')
         ax.set_title('Percent gun violence headlines')
+        ax.legend()
     else:
+        ax.plot(year, total, label='total headlines')
         ax.set_ylabel('n articles')
         ax.set_title('N articles over time')
-    #ax.legend()
 
 
     ax.set_ylim(ymin=0)
