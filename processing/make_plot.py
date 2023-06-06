@@ -2,7 +2,7 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sns
 
-def plot_articles_by_year(path_to_csv): # this works for gv-articles-by-year.csv
+def plot_articles_by_year(path_to_csv, gv = False, outpath = '/home/madesai/hs-news/plots/data-familiarity'): # this works for gv-articles-by-year.csv
     df = pd.read_csv(path_to_csv)
 
     # Extract the rows with year values between 1999 and 2019
@@ -11,15 +11,22 @@ def plot_articles_by_year(path_to_csv): # this works for gv-articles-by-year.csv
     data = df[(df['years'] >= start_year) & (df['years'] <= end_year)].sort_values(by='years')
 
     year = data['years']
-    n_gv = data['n gv headlines']
-    total = data['percent gv']
+
+    if gv: 
+        n_gv = data['n gv headlines']
+        total = data['percent gv']
 
     fig, ax = plt.subplots()
     #ax.plot(year, n_gv, label='gun violence headlines')
     ax.plot(year, total, label='total headlines')
     ax.set_xlabel('year')
-    ax.set_ylabel('percent headlines')
-    ax.set_title('Percent gun violence headlines')
+
+    if gv:
+        ax.set_ylabel('percent headlines')
+        ax.set_title('Percent gun violence headlines')
+    else:
+        ax.set_ylabel('n articles')
+        ax.set_title('N articles over time')
     #ax.legend()
 
 
@@ -40,7 +47,11 @@ def plot_articles_by_year(path_to_csv): # this works for gv-articles-by-year.csv
     fig.tight_layout(pad=2)
 
     # Save the plot
-    fig.savefig('gun-violence-headlines-by-year.png', dpi=300)
+    
+    if gv:
+        fig.savefig(outpath+'gun-violence-headlines-by-year.png', dpi=300)
+    else:
+        fig.savefig(outpath+'n-headlines-by-year.png', dpi=300)
 
 
 def plot_headline_types(path_to_file):
