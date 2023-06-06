@@ -32,7 +32,7 @@ def dominant_topic_analysis(corpus, corpus_topic_df):
                                   Total_Docs_Perc = ('Dominant Topic', np.size)).reset_index()
 
     dominant_topic_df['Total_Docs_Perc'] = dominant_topic_df['Total_Docs_Perc'].apply(lambda row: round((row*100) / len(corpus), 2))
-    dominant_topic_df = dominant_topic_df.sort_values(by=['Total_Docs_Perc'])
+    dominant_topic_df = dominant_topic_df.sort_values(by=['Total_Docs_Perc'],ascending=False)
     return dominant_topic_df
 
 def make_topic_csv(ldamallet):
