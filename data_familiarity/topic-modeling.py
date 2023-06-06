@@ -17,10 +17,10 @@ def corpus_distribution_of_topics(model,corpus):
 def get_dominant_topic_by_document(model,corpus_distribution):
     corpus_topic_df = pd.DataFrame()
     # get the Titles from the original dataframe
-    corpus_topic_df[‘Title’] = df.Title
-    corpus_topic_df[‘Dominant Topic’] = [item[0]+1 for item in corpus_topics]
-    corpus_topic_df[‘Contribution %’] = [round(item[1]*100, 2) for item in corpus_topics]
-    corpus_topic_df[‘Topic Terms’] = [topics_df.iloc[t[0]][‘Terms per Topic’] for t in corpus_topics]
+    corpus_topic_df['Title'] = df.Title
+    corpus_topic_df['Dominant Topic'] = [item[0]+1 for item in corpus_topics]
+    corpus_topic_df['Contribution %'] = [round(item[1]*100, 2) for item in corpus_topics]
+    corpus_topic_df['Topic Terms'] = [topics_df.iloc[t[0]]['Terms per Topic'] for t in corpus_topics]
 
 
 def document_topic_analysis():
