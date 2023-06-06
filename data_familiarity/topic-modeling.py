@@ -77,7 +77,7 @@ def main():
             print("Finding {} topics in {} file".format(nt, p))
             corpus = fh.unpickle_data(path+p)
             corpus = corpus[:300]
-            lda = topic_model(corpus,nt,path)
+            lda = topic_model(corpus,path+p,nt,path)
 
             cd = corpus_distribution_of_topics(lda,corpus)
             corpus_topic_df = get_dominant_topic_by_document(lda,cd)
