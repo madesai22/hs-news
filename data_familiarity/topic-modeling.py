@@ -87,8 +87,8 @@ def all_analysis(path,data,ntopics, truncate = True):
             print(dominant_topic)
             dominant_topic.to_csv(path+"dominant_topic")
 
-def load_all_analysis(path,path_to_data,ntopics, truncate = True):
-    corpus, dictionary = make_corpus(path_to_data, truncate=truncate) 
+def load_all_analysis(path,path_to_data):
+    corpus, dictionary = make_corpus(path_to_data) 
     lda = LdaMallet.load(path)
     topic_df = make_topic_csv(lda)
     print(topic_df)
@@ -108,7 +108,7 @@ def main():
     #all_analysis(path,data,ntopics,truncate=True)
 
     path_to_model = "/data/madesai/gv-topic-data/lda_gv-topic-data_25"
-    lda = LdaMallet.load(path_to_model)
+    load_all_analysis(path_to_model,path+data[0])
 
     
 
