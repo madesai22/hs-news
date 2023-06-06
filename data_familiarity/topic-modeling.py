@@ -21,6 +21,7 @@ def topic_model(path_to_file, ntopics,path_to_save_file):
     out_file = datapath(out_file_name)
 
     content = fh.unpickle_data(path_to_file)
+    content = content[:10]
     dictionary = Dictionary(content)
     corpus = [dictionary.doc2bow(text) for text in content]
 
