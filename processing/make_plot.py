@@ -4,6 +4,7 @@ import seaborn as sns
 
 def plot_articles_by_year(path_to_csv, gv = False, outpath = '/home/madesai/hs-news/plots/data-familiarity'): # this works for gv-articles-by-year.csv
     df = pd.read_csv(path_to_csv)
+    print(df)
 
     # Extract the rows with year values between 1999 and 2019
     start_year = 1999
