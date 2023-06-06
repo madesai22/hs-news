@@ -11,8 +11,10 @@ import pandas as pd
 def topic_model(path_to_file, ntopics,path_to_save_file):
 
     path_to_mallet_binary = "/home/madesai/Mallet/bin/mallet"
-    path = "/".join(path_to_file.split("/")[:-1])+"/"
-    file_name = path[-1].split(".")[0]
+
+    path_list = path_to_file.split("/")[:-1]
+    path = "/".join(path_list)+"/"
+    file_name = path_list[-1].split(".")[0]
     out_file_name = path_to_save_file+"lda_"+file_name+"_"+str(ntopics)
     out_file = datapath(out_file_name)
 
