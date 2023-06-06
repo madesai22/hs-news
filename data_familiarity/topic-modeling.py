@@ -4,6 +4,7 @@ from gensim.models import CoherenceModel
 from gensim.corpora.dictionary import Dictionary
 from gensim.test.utils import datapath
 import numpy
+import sys
 sys.path.insert(1, '/home/madesai/hs-news/processing')
 import file_handling as fh
 import pandas as pd
