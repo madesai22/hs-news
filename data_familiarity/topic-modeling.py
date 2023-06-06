@@ -59,6 +59,7 @@ def topic_model(corpus, dictionary, path_to_file, ntopics,path_to_save_file):
 
     ldamallet = LdaMallet(path_to_mallet_binary, corpus=corpus, num_topics=ntopics, id2word=dictionary)
     topic_df = make_topic_csv(ldamallet)
+    print(topic_df)
     topic_df.to_csv(path+file_name+"topics_"+str(ntopics)+".csv")
     ldamallet.save(out_file)
     return ldamallet
