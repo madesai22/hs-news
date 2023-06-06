@@ -26,7 +26,7 @@ def get_dominant_topic_by_document(model,corpus_topics):
     return corpus_topic_df
 
 
-def dominant_topic_analysis(corpus_topic_df):
+def dominant_topic_analysis(corpus, corpus_topic_df):
     dominant_topic_df = corpus_topic_df.groupby('Dominant Topic').agg(
                                   Doc_Count = ('Dominant Topic', np.size),
                                   Total_Docs_Perc = ('Dominant Topic', np.size)).reset_index()
@@ -88,7 +88,7 @@ def main():
 
             cd = corpus_distribution_of_topics(lda,corpus)
             corpus_topic_df = get_dominant_topic_by_document(lda,cd)
-            dominant_topic = dominant_topic_analysis(corpus_topic_df)
+            dominant_topic = dominant_topic_analysis(corpus, corpus_topic_df)
             print(dominant_topic)
             
             
