@@ -36,12 +36,12 @@ def dominant_topic_analysis(corpus_topic_df):
     return dominant_topic_df
 
 def make_topic_csv(ldamallet):
-   # topic_list = [[(term, round(wt, 3)) for term, wt in ldamallet.show_topic(n, topn=20)] for n in range(0, ldamallet.num_topics)]
+    topic_list = [[(term, round(wt, 3)) for term, wt in ldamallet.show_topic(n, topn=20)] for n in range(0, ldamallet.num_topics)]
     #topic_df = pd.DataFrame([[term for term, wt in topic] for topic in topic_list], columns = ['Term'+str(i) for i in range(1, 21)], index=['Topic '+str(t) for t in range(1, ldamallet.num_topics+1)]).T
     
 
     pd.set_option('display.max_colwidth', -1)
-    topics_df = pd.DataFrame([', '.join([term for term, wt in topic]) for topic in topics], columns = ['Terms per Topic'], index=['Topic'+str(t) for t in range(1, ldamallet.num_topics+1)] )
+    topics_df = pd.DataFrame([', '.join([term for term, wt in topic]) for topic in topic_list], columns = ['Terms per Topic'], index=['Topic'+str(t) for t in range(1, ldamallet.num_topics+1)] )
     return topics_df
 
 def topic_model(corpus, dictionary, path_to_file, ntopics,path_to_save_file):
