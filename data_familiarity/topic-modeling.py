@@ -52,15 +52,17 @@ def topic_model(path_to_file, ntopics,path_to_save_file):
 
    # topic_list  = ldamallet.show_topics(formatted=False, num_topics=ntopics)
     topic_list = [[(term, round(wt, 3)) for term, wt in ldamallet.show_topic(n, topn=20)] for n in range(0, ldamallet.num_topics)]
-    print(topic_list)
-    topic_dict = {}
-    for t in topic_list:
-        word_list = []
-        for t2 in t[1]:
-            word_list.append(t2[0])
+    topic_df = pd.DataFrame([[term for term, wt in topic] for topic in topic_list], columns = ['Term'+str(i) for i in range(1, 21)], index=['Topic '+str(t) for t in range(1, ldamallet.num_topics+1)]).T
+    print(topic_df)
+    # print(topic_list)
+    # topic_dict = {}
+    # for t in topic_list:
+    #     word_list = []
+    #     for t2 in t[1]:
+    #         word_list.append(t2[0])
 
-        topic_dict[t[0]]=word_list
-        print(t[0], word_list)
+    #     topic_dict[t[0]]=word_list
+    #     print(t[0], word_list)
 
     topic_df= pd.DataFrame.from_dict(topic_dict,orient='index')
     topic_df.to_csv(path+file_name+"topics_"+str(ntopics)+".csv")
