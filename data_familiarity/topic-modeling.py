@@ -9,6 +9,28 @@ sys.path.insert(1, '/home/madesai/hs-news/processing')
 import file_handling as fh
 import pandas as pd
 
+def corpus_distribution_of_topics(model,corpus):
+    results = model[corpus]
+    corpus_topics = [sorted(topics, key=lambda record: -record[1])[0] for topics in results]
+    return corpus_topics 
+
+def get_dominant_topic_by_document(model,corpus_distribution):
+    corpus_topic_df = pd.DataFrame()
+    # get the Titles from the original dataframe
+    corpus_topic_df[‘Title’] = df.Title
+    corpus_topic_df[‘Dominant Topic’] = [item[0]+1 for item in corpus_topics]
+    corpus_topic_df[‘Contribution %’] = [round(item[1]*100, 2) for item in corpus_topics]
+    corpus_topic_df[‘Topic Terms’] = [topics_df.iloc[t[0]][‘Terms per Topic’] for t in corpus_topics]
+
+
+def document_topic_analysis():
+    dominant_topic_df = corpus_topic_df.groupby('Dominant Topic').agg(
+                                  Doc_Count = ('Dominant Topic', np.size),
+                                  Total_Docs_Perc = ('Dominant Topic', np.size)).reset_index()
+
+    dominant_topic_df['Total_Docs_Perc'] = dominant_topic_df['Total_Docs_Perc'].apply(lambda row: round((row*100) / len(corpus), 2))
+
+    dominant_topic_df
 
 def topic_model(path_to_file, ntopics,path_to_save_file):
 
@@ -21,13 +43,16 @@ def topic_model(path_to_file, ntopics,path_to_save_file):
     out_file = datapath(out_file_name)
 
     content = fh.unpickle_data(path_to_file)
+    content = content[:300]
     dictionary = Dictionary(content)
     corpus = [dictionary.doc2bow(text) for text in content]
 
     ldamallet = LdaMallet(path_to_mallet_binary, corpus=corpus, num_topics=ntopics, id2word=dictionary)
     ldamallet.save(out_file)
 
-    topic_list  = ldamallet.show_topics(formatted=False, num_topics=ntopics)
+   # topic_list  = ldamallet.show_topics(formatted=False, num_topics=ntopics)
+    topic_list = [[(term, round(wt, 3)) for term, wt in ldamallet.show_topic(n, num_topics=ntopics)] for n in range(0, ldamallet.num_topics)]
+    print(topic_list)
     topic_dict = {}
     for t in topic_list:
         word_list = []
@@ -44,7 +69,8 @@ def main():
     path = "/data/madesai/gv-topic-data/"
     data =["all_headlines.pkl"]
     gv_data = "gv_content_by_headline.pkl"
-    ntopics = [25,40,55]
+    ntopics =[10]
+    #ntopics = [25,40,55]
     gv_topics = [5,10,15]
 
     for p in data:
