@@ -105,7 +105,11 @@ def pre_process_paragraph(text, stopwords=None):
     text = re.split(pattern, text)
     text = list(filter(lambda item: item is not None, text))
     return text
-   
+
+def clean(text):
+   text = remove_whitespaces(text)
+   text = strip_punctuation(text).lower().strip()
+   return clean
 
 
 def pre_process(text, stopwords=None): #remove punctuation, remove stop words, lower case, and tokenize   
