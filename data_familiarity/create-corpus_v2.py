@@ -39,7 +39,9 @@ def make_corpus(data,path_to_metadata, columns = [], conditions = []):
         take_article = True
         for column, condition in zip(columns, conditions): # select for conditions
             if article[column] != condition:
+                print(article[column])
                 take_article = False
+        print(take_article)
         if take_article:
             text = article['content']
             if text not in seen: # remove duplicates 
@@ -59,7 +61,7 @@ def make_corpus(data,path_to_metadata, columns = [], conditions = []):
 
 def main():
     random_sample = '/data/madesai/student-news-full/articles_no_middle_10p_rs.jsonlist'
-    if False:#os.path.exists(random_sample):
+    if os.path.exists(random_sample):
         data = fh.read_jsonlist(random_sample)
     else:
         data = fh.read_jsonlist_random_sample('/data/madesai/student-news-full/all_articles_no_middle.jsonlist', .1, percent =True)
