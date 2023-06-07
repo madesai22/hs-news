@@ -26,7 +26,7 @@ def make_corpus(data,path_to_metadata, columns = [], conditions = []):
     # read in file
     #data = fh.read_json(path)
     n_total = len(data)
-    metadata = fh.read_jason(path_to_metadata)
+    metadata = fh.read_json(path_to_metadata)
     seen = set()
     corpus = []
 
@@ -58,7 +58,13 @@ def make_corpus(data,path_to_metadata, columns = [], conditions = []):
     return corpus, columns
 
 def main():
-    data = fh.read_jsonlist_random_sample('/data/madesai/student-news-full/all_articles_no_middle.jsonlist', 10, percent =True)
+    random_sample = '/data/madesai/student-news-full/articles_no_middle_10p_rs.jsonlist'
+    if os.path.exists(random_sample):
+        data = fh.read_jsonlist(random_sample)
+    else:
+        data = fh.read_jsonlist_random_sample('/data/madesai/student-news-full/all_articles_no_middle.jsonlist', 10, percent =True)
+        fh.write_to_jsonlist(data, random_sample)
+        
     print('read random sample')
     path_to_md = '/data/madesai/student-news-full/school_full_info_with_votes.jsonlist'
     corpus, columns = make_corpus(data,path_to_md, columns = ['school_type'], conditions = ['high'])
