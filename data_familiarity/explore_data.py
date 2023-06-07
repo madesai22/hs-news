@@ -7,8 +7,7 @@ import os
 import sys
 sys.path.insert(1, '/home/madesai/hs-news/processing')
 import make_plot as mp
-import file_handling as fh 
-import preprocess as pp
+
 
 
 def domain_to_year(path_to_article_data, path_to_school_data,year_start=1999, year_end=2019):
@@ -144,8 +143,8 @@ def add_id(path_to_file, path_to_out_file):
             
 
 def main():
-    path = '/data/madesai/student-news-full/school_full_info_with_votes.jsonlist'
-    quick_look_column_jsonlist(path,'is_foreign',printexamples=True,nexamples=1000000)
+    path = '/data/madesai/student-news-full/all_articles_no_middle.jsonlist'
+    quick_look_column_jsonlist(path,'category',printexamples=True,nexamples=1000000)
 
 
     # path = "/data/madesai/mfc_v4.0/guncontrol/guncontrol_all_with_duplicates.json"
