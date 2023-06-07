@@ -2,7 +2,7 @@ import json
 import sys
 sys.path.insert(1, '/home/madesai/hs-news/processing')
 import file_handling as fh 
-from processing import preprocess as pp
+import preprocess as pp
 import sys
 import pandas as pd
 import os 
@@ -104,7 +104,8 @@ def main():
         columns = fh.unpickle_data('columns.pkl')
         states = fh.unpickle_data('states_dict.pkl')
 
-    data_w_domain = df['total']
+    data_w_domain = df#(df['total'] > 0)
+
 
     data = data_w_domain.values.tolist() # this is a list where each item is the total n of domains 
     data.sort()
