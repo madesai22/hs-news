@@ -65,7 +65,7 @@ def topic_model(corpus, dictionary, path_to_file, ntopics,path_to_save_file):
     return ldamallet
 
 
-def make_corpus(filename, truncate = True):
+def make_corpus(filename, truncate = False):
     content = fh.unpickle_data(filename)
     if truncate:
         content = content[:300]
