@@ -96,9 +96,10 @@ def bar_plot(data,labels,out_file,xlabel=None,ylabel=None, title=None):
 def box_plot(data, title, out_file):
 
     box_plot = sns.boxplot(data=data)
-    medain = sum(data)/len(data)
     print(data)
     print(type(len(data)))
+    medain = sum(data)/len(data)
+    
     vertical_offset = medain * 0.05
     for xtick in box_plot.get_xticks():
         box_plot.text(xtick,medain + vertical_offset,medain, 
