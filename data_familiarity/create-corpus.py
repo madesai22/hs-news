@@ -28,7 +28,7 @@ def main():
         if os.path.exists(os.path.dirname(sys.argv[2])):
             stopword_file = sys.argv[2]
     except:
-        stopword_file = "/home/madesai/hs-news/snowball.txt"
+        stopword_file = "/home/madesai/hs-news/processing/snowball.txt"
         
     print("Reading stopwords from "+stopword_file)
     stopwords = fh.read_text_to_list(stopword_file)
