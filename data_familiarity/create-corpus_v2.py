@@ -16,82 +16,52 @@ import json
 import os
 
 
+def get_meta_data(domain, meta_data_json):
+    for school in meta_data_json:
+        if pp.clean(school['domain']) == pp.clean(domain):
+            return school
+
+# date, school_type, category, (metadata zipcode, is_foreign, dem_share, state)
+def make_corpus(data,path_to_metadata, columns = [], conditions = []): 
+    # read in file
+    #data = fh.read_json(path)
+    n_total = len(data)
+    metadata = fh.read_jason(path_to_metadata)
+    seen = set()
+    corpus = []
+
+    columns = {'date':[], 'school_type':[], 'zip_code':[], 'is_foreign':[], 'dem_share':[], 'state':[]}
+    total = 0 
+    for article in data:
+        sys.stdout.write("Seen %.2f percent of articles\r" %(total/1951843*100))
+        sys.stdout.flush()
+        total +=1
+        take_article = True
+        for column, condition in zip(columns, conditions): # select for conditions
+            if article[column] != condition:
+                take_article = False
+        if take_article:
+            text = article['content']
+            if text not in seen: # remove duplicates 
+                seen.add(text)
+
+                # get metadata
+                domain = article['domain']
+                meta_data = get_meta_data(domain,metadata)
+                columns['date'].append(pp.get_date(article['date']))
+                columns['school_type'].append(article['school_type'])
+                columns['zip_code'].append(meta_data['zipcode'])
+                columns['is_foreign'].append(meta_data['is_foreign'])
+                columns['dem_share'].append(meta_data['dem_share'])
+                columns['state'].append(meta_data['state'])
+                corpus.append(pp.pre_process(text,stopwords=None))
+    return corpus, columns
+
 def main():
-    try:
-        path = sys.argv[1]
-        fh.makedirs(path)
-    except:
-        path = "/data/madesai/gv-topic-data/"
-    print("Writing to "+path)
-    
-    try:
-        if os.path.exists(os.path.dirname(sys.argv[2])):
-            stopword_file = sys.argv[2]
-    except:
-        stopword_file = "/home/madesai/hs-news/processing/snowball.txt"
-        
-    print("Reading stopwords from "+stopword_file)
-    stopwords = fh.read_text_to_list(stopword_file)
-    stopwords = set([word.strip() for word in stopwords])
-
-    gv_by_headline_json_file = []
-    gv_by_headline_content = []
-    gv_by_content_content = []
-    all_content = []
-    all_headlines = []
-    n_gv = 0 
-    total = 0
-    with open('/data/madesai/articles_clean.jsonlist') as f:#, open(path+'/gv-headlines.csv','w') as f2, open(path+'/shooting-headlines.csv','w') as f3:
-        for line in f:
-            
-            sys.stdout.write("Seen %.2f percent of articles\r" %(total/1951843*100))
-            sys.stdout.flush()
-            total +=1
-            
-            data = json.loads(line)
-            headline = data['headline']
-            content = data['content']
-            pp_content = pp.pre_process(content,stopwords=None)
-
-            if data['date']:
-                year = pp.get_year(data['date'])
-            else:
-                year =  3000
-            
-            all_headlines.append(headline)
-            all_content.append(pp_content)
-
-            # if pp.match_gun_violence(headline):
-            #     gv_by_headline_json_file.append(line)
-            #     gv_by_headline_content.append(pp_content)
-            #     f2.write(headline.replace(",", "")+','+str(year)+'\n')
-            #     n_gv +=1
-            # if pp.match_gun_violence_simple(content):
-            #     gv_by_content_content.append(pp_content)
-            #     f3.write(headline.replace(",", "")+','+str(year)+'\n')      
-    
-    sys.stdout.write("Writing files...")
-    #fh.pickle_data(gv_by_content_content, path+'/gv_content_by_content.pkl')
-    #fh.pickle_data(gv_by_headline_content, path+'/gv_content_by_headline.pkl')
-    fh.pickle_data(all_headlines,path +'/all_headlines.pkl')
-    fh.pickle_data(all_content, path+'/all_content.pkl')
-    #fh.write_to_jsonlist(gv_by_headline_json_file,path+'/gun-violence-articles-by-headline_clean.jsonlist')
-
-
-    documentation = """file,description
-    gv-headlines.csv,headlines that match gun violence terms - not preprocessed
-    gv_content.pkl,list of full content of articles that match gun violence terms, where each article is preprocessed (list of list of strings)
-    all_headlines.pkl,list of headlines of all articles, where each headline is preprocessed (list of list of strings) - stopwords not removed
-    all_content.pkl,list of full content of articles, where each article is preprocessed (list of list of strings) - stopwords not removed
-    all_headlines_stopwords_removed.pkl,list of headlines of all articles, where each headline is preprocessed (list of list of strings) - stopwords removed
-    all_content_stopwords_removed.pkl,list of full content of articles, where each article is preprocessed (list of list of strings) - stopwords removed
-    gun-violence-articles_clean.jsonlist,jsonlist file with all articles that match gun violence terms, no preprocessing
-    stopwords, """+ stopword_file+""" 
-    other preprocessing, remove punctuation remove extra white spaces words lowercased tokenized"""
-
-    fh.write_documentation(documentation,path+"/README.txt")
-    sys.stdout.write("Done!")
-
+    data = fh.read_jsonlist_random_sample('/data/madesai/student-news-full/all_articles_no_middle.jsonlist', 10, percent =True)
+    path_to_md = '/data/madesai/student-news-full/school_full_info_with_votes.jsonlist'
+    corpus, columns = make_corpus(data,path_to_md, columns = ['school_type'], conditions = ['high'])
+    print(corpus[:10],columns[:10])
 
 if __name__ == '__main__':
     main()

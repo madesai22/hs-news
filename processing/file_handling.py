@@ -28,7 +28,7 @@ def read_jsonlist(input_filename):
     data = []
     if input_filename[-3:] == '.gz':
         with gzip.open(input_filename, 'rt') as input_file:
-            for l_i, line in enumerate(input_file):
+            for line in input_file:
                 data.append(json.loads(line))
     else:
         with codecs.open(input_filename) as input_file:
