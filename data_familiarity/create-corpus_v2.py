@@ -33,7 +33,7 @@ def make_corpus(data,path_to_metadata, columns = [], conditions = []):
     columns = {'date':[], 'school_type':[], 'zip_code':[], 'is_foreign':[], 'dem_share':[], 'state':[]}
     total = 0 
     for article in data:
-        sys.stdout.write("Seen %.2f percent of articles\r" %(total/1951843*100))
+        sys.stdout.write("Seen %d articles\r" %(total))
         sys.stdout.flush()
         total +=1
         take_article = True
@@ -59,6 +59,7 @@ def make_corpus(data,path_to_metadata, columns = [], conditions = []):
 
 def main():
     data = fh.read_jsonlist_random_sample('/data/madesai/student-news-full/all_articles_no_middle.jsonlist', 10, percent =True)
+    print('read random sample')
     path_to_md = '/data/madesai/student-news-full/school_full_info_with_votes.jsonlist'
     corpus, columns = make_corpus(data,path_to_md, columns = ['school_type'], conditions = ['high'])
     print(corpus[:10],columns[:10])
