@@ -1,12 +1,3 @@
-# first command line argument: path to directory for storing below files
-# if not supplied will write to /data/madesai/gv-topic-data
-# second command line argument: path to stopword text file
-# if not supplied will read from to ./snowball.txt
-# creates a jsonlist file with the articles + all meta data that match for gun violence-related headlines
-# creates a pickeled corpus of gun violence news articles (list of articles that have been preprocessed)
-# creates a pickeled corpus of all news articles (list of articles that have been preprocessed) 
-# creates a pickeled corpus of all headlines (list of headlines that have been preprocessed)
-# preprocessing = removing snowball stopwords, replacing all punctuation with blank, removing multiple white spaces, and tokenizing 
 import sys
 sys.path.insert(1, '/home/madesai/hs-news/processing')
 import preprocess as pp
@@ -71,14 +62,14 @@ def make_corpus(data,path_to_metadata, columns = [], conditions = []):
     return corpus, labels
 
 def main():
-    random_sample = '/data/madesai/student-news-full/articles_no_middle_10p_rs.jsonlist'
-    if os.path.exists(random_sample):
-        data = fh.read_jsonlist(random_sample)
-    else:
-        data = fh.read_jsonlist_random_sample('/data/madesai/student-news-full/all_articles_no_middle.jsonlist', .1, percent =True)
-        fh.write_to_jsonlist(data, random_sample) 
-    #data = fh.read_jsonlist('/data/madesai/student-news-full/all_articles_no_middle.jsonlist')
-    print('read random sample')
+    # random_sample = '/data/madesai/student-news-full/articles_no_middle_10p_rs.jsonlist'
+    # if os.path.exists(random_sample):
+    #     data = fh.read_jsonlist(random_sample)
+    # else:
+    #     data = fh.read_jsonlist_random_sample('/data/madesai/student-news-full/all_articles_no_middle.jsonlist', .1, percent =True)
+    #     fh.write_to_jsonlist(data, random_sample) 
+    data = fh.read_jsonlist('/data/madesai/student-news-full/all_articles_no_middle.jsonlist')
+    print('read data sample')
     path_to_md = '/data/madesai/student-news-full/school_full_info_with_votes.jsonlist'
     corpus, columns = make_corpus(data,path_to_md)# columns = ['school_type'], conditions = ['high'])
     print(corpus[:10])

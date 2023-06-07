@@ -9,6 +9,7 @@ sys.path.insert(1, '/home/madesai/hs-news/processing')
 import file_handling as fh
 import pandas as pd
 import numpy as np
+import create_corpus as cp
 
 def corpus_distribution_of_topics(model,corpus):
     results = model[corpus]
@@ -65,7 +66,7 @@ def topic_model(corpus, dictionary, path_to_file, ntopics,path_to_save_file):
     return ldamallet
 
 
-def make_corpus(filename, truncate = False):
+def process_corpus(filename, truncate = False): #from processed list of strings 
     content = fh.unpickle_data(filename)
     if truncate:
         content = content[:300]
@@ -78,7 +79,7 @@ def all_analysis(path,data,ntopics, truncate = False):
     for p in data:
         for nt in ntopics:
             print("Finding {} topics in {} file".format(nt, p))
-            corpus, dictionary = make_corpus(path+p, truncate=truncate) 
+            corpus, dictionary = process_corpus(path+p, truncate=truncate) 
             lda = topic_model(corpus,dictionary,path+p,nt,path)
 
             cd = corpus_distribution_of_topics(lda,corpus)
@@ -88,7 +89,7 @@ def all_analysis(path,data,ntopics, truncate = False):
             dominant_topic.to_csv(path+"dominant_topic")
 
 def load_all_analysis(path,path_to_data):
-    corpus, dictionary = make_corpus(path_to_data) 
+    corpus, dictionary = process_corpus(path_to_data) 
     lda = LdaMallet.load(path)
     topic_df = make_topic_csv(lda)
     print(topic_df)
@@ -100,9 +101,16 @@ def load_all_analysis(path,path_to_data):
     dominant_topic.to_csv(path+"dominant_topic")
 
 
+
 def main():
     path = "/data/madesai/gv-topic-data/"
-    data =["all_headlines.pkl"]
+    path_to_data = fh.read_jsonlist('/data/madesai/student-news-full/all_articles_no_middle.jsonlist')
+    print('read data')
+    path_to_md = '/data/madesai/student-news-full/school_full_info_with_votes.jsonlist'
+
+    data, columns = cp.make_corpus(path_to_data,path_to_md)
+
+
     #gv_data = "gv_content_by_headline.pkl"
     ntopics =[10]
     all_analysis(path,data,ntopics,truncate=False)
