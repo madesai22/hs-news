@@ -30,7 +30,7 @@ def make_corpus(data,path_to_metadata, columns = [], conditions = []):
     seen = set()
     corpus = []
 
-    columns = {'date':[], 'school_type':[], 'zip_code':[], 'is_foreign':[], 'dem_share':[], 'state':[]}
+    labels = {'date':[], 'school_type':[], 'zip_code':[], 'is_foreign':[], 'dem_share':[], 'state':[]}
     total = 0 
     for article in data:
         sys.stdout.write("Seen %d articles\r" %(total))
@@ -50,14 +50,14 @@ def make_corpus(data,path_to_metadata, columns = [], conditions = []):
                 # get metadata
                 domain = article['domain']
                 meta_data = get_meta_data(domain,metadata)
-                columns['date'].append(pp.get_date(article['date']))
-                columns['school_type'].append(article['school_type'])
-                columns['zip_code'].append(meta_data['zipcode'])
-                columns['is_foreign'].append(meta_data['is_foreign'])
-                columns['dem_share'].append(meta_data['dem_share'])
-                columns['state'].append(meta_data['state'])
+                labels['date'].append(pp.get_date(article['date']))
+                labels['school_type'].append(article['school_type'])
+                labels['zip_code'].append(meta_data['zipcode'])
+                labels['is_foreign'].append(meta_data['is_foreign'])
+                labels['dem_share'].append(meta_data['dem_share'])
+                labels['state'].append(meta_data['state'])
                 corpus.append(pp.pre_process(text,stopwords=None))
-    return corpus, columns
+    return corpus, labels
 
 def main():
     random_sample = '/data/madesai/student-news-full/articles_no_middle_10p_rs.jsonlist'
