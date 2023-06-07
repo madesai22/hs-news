@@ -68,7 +68,7 @@ def main():
     print('read random sample')
     path_to_md = '/data/madesai/student-news-full/school_full_info_with_votes.jsonlist'
     corpus, columns = make_corpus(data,path_to_md, columns = ['school_type'], conditions = ['high'])
-    print(corpus[:10],columns[:10])
+    print(corpus[:10])
 
 if __name__ == '__main__':
     main()
