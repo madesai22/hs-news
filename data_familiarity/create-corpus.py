@@ -7,7 +7,8 @@
 # creates a pickeled corpus of all news articles (list of articles that have been preprocessed) 
 # creates a pickeled corpus of all headlines (list of headlines that have been preprocessed)
 # preprocessing = removing snowball stopwords, replacing all punctuation with blank, removing multiple white spaces, and tokenizing 
-
+import sys
+sys.path.insert(1, '/home/madesai/hs-news/processing')
 import preprocess as pp
 import file_handling as fh
 import sys
@@ -49,7 +50,7 @@ def main():
             data = json.loads(line)
             headline = data['headline']
             content = data['content']
-            pp_content = pp.pre_process(content,stopwords)
+            pp_content = pp.pre_process(content,stopwords=None)
 
             if data['date']:
                 year = pp.get_year(data['date'])
@@ -79,8 +80,10 @@ def main():
     documentation = """file,description
     gv-headlines.csv,headlines that match gun violence terms - not preprocessed
     gv_content.pkl,list of full content of articles that match gun violence terms, where each article is preprocessed (list of list of strings)
-    all_headlines.pkl,list of headlines of all articles, where each headline is preprocessed (list of list of strings)
-    all_content.pkl,list of full content of articles, where each article is preprocessed (list of list of strings)
+    all_headlines.pkl,list of headlines of all articles, where each headline is preprocessed (list of list of strings) - stopwords not removed
+    all_content.pkl,list of full content of articles, where each article is preprocessed (list of list of strings) - stopwords not removed
+    all_headlines_stopwords_removed.pkl,list of headlines of all articles, where each headline is preprocessed (list of list of strings) - stopwords removed
+    all_content_stopwords_removed.pkl,list of full content of articles, where each article is preprocessed (list of list of strings) - stopwords removed
     gun-violence-articles_clean.jsonlist,jsonlist file with all articles that match gun violence terms, no preprocessing
     stopwords, """+ stopword_file+""" 
     other preprocessing, remove punctuation remove extra white spaces words lowercased tokenized"""
