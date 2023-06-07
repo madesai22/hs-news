@@ -107,13 +107,21 @@ def quick_look_column_jsonlist(path_to_file, column, condition=None, printn=True
                         n_condition+=1
                     if printexamples and n_condition < nexamples:
                         print(data)
-                        options.add(data)
+                        if type(data) == list:
+                            for i in data:
+                                options.add(data)
+                        else:
+                            options.add(data)
             else:
                 if printn: 
                     n_condition+=1
                 if printexamples and count < nexamples:
                     print(data)
-                    options.add(data)
+                    if type(data) == list:
+                        for i in data:
+                            options.add(data)
+                    else:
+                        options.add(data)
             count +=1
     if printn:
         print("{} {}".format(n_condition, condition))
