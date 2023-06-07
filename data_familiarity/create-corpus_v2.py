@@ -70,6 +70,9 @@ def main():
     corpus, columns = make_corpus(data,path_to_md, columns = ['school_type'], conditions = ['high'])
     print(corpus[:10])
 
+    for c in columns:
+        print(columns[c][:10])
+
 if __name__ == '__main__':
     main()
 
