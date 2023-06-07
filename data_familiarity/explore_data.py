@@ -1,12 +1,14 @@
 import json
-import file_handling as fh 
-import preprocess as pp
 import sys
 import pandas as pd
 from tqdm.auto import tqdm
 import matplotlib.pyplot as plt
 import os 
+import sys
+sys.path.insert(1, '/home/madesai/hs-news/processing')
 import make_plot as mp
+import file_handling as fh 
+import preprocess as pp
 
 
 def domain_to_year(path_to_article_data, path_to_school_data,year_start=1999, year_end=2019):
