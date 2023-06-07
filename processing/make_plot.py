@@ -54,9 +54,9 @@ def plot_articles_by_year(path_to_csv, gv = False, outpath = '/home/madesai/hs-n
     # Save the plot
     
     if gv:
-        fig.savefig(outpath+'gun-violence-headlines-by-year.png', dpi=300)
+        fig.savefig(outpath+'/gun-violence-headlines-by-year.png', dpi=300)
     else:
-        fig.savefig(outpath+'n-headlines-by-year.png', dpi=300)
+        fig.savefig(outpath+'/n-headlines-by-year.png', dpi=300)
 
 
 def plot_headline_types(path_to_file):

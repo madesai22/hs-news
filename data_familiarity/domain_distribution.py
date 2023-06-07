@@ -111,7 +111,7 @@ def main():
     data.sort()
     data_exclude_zeros = [d for d in data if d!=0]
 
-    mp.multiple_box_plot({'all data':data,'excluded zeros':data_exclude_zeros},'N articles per school','/home/madesai/hs-news/plots/data-familiarity/schools-distribution.png')
+    mp.box_plot({'all data':data,'excluded zeros':data_exclude_zeros},'N articles per school','/home/madesai/hs-news/plots/data-familiarity/schools-distribution.png')
 
     n_schools = len(data)
     print(sum(data))
