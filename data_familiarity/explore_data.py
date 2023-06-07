@@ -96,7 +96,8 @@ def group_data_by_year(path_to_data, out_file_path, column = None, condition = N
 
 def quick_look_column_jsonlist(path_to_file, column, condition=None, printn=True, printexamples = False, nexamples = 1000):
     n_condition = 0 
-    count = 0 
+    count = 0
+    options = set()
     with open(path_to_file) as f:
         for line in f:
             data = json.loads(line)[column]
@@ -106,14 +107,17 @@ def quick_look_column_jsonlist(path_to_file, column, condition=None, printn=True
                         n_condition+=1
                     if printexamples and n_condition < nexamples:
                         print(data)
+                        options.add(data)
             else:
                 if printn: 
                     n_condition+=1
                 if printexamples and count < nexamples:
                     print(data)
+                    options.add(data)
             count +=1
     if printn:
         print("{} {}".format(n_condition, condition))
+    print(options)
 
 def quick_look_json(path_to_file, column, condition=None, printn=True, printexamples = False, nexamples = 1000):
     d = fh.read_json(path_to_file)
