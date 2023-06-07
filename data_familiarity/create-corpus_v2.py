@@ -59,10 +59,10 @@ def make_corpus(data,path_to_metadata, columns = [], conditions = []):
 
 def main():
     random_sample = '/data/madesai/student-news-full/articles_no_middle_10p_rs.jsonlist'
-    if os.path.exists(random_sample):
+    if False:#os.path.exists(random_sample):
         data = fh.read_jsonlist(random_sample)
     else:
-        data = fh.read_jsonlist_random_sample('/data/madesai/student-news-full/all_articles_no_middle.jsonlist', 10, percent =True)
+        data = fh.read_jsonlist_random_sample('/data/madesai/student-news-full/all_articles_no_middle.jsonlist', .1, percent =True)
         fh.write_to_jsonlist(data, random_sample)
 
     print('read random sample')
