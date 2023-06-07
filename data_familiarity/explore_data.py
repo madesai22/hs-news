@@ -8,8 +8,7 @@ import matplotlib.pyplot as plt
 import os 
 import make_plot as mp
 
-# write a function that will group by year given a conditional? and then write a gv-articles-by-year 
-# type thing 
+
 def domain_to_year(path_to_article_data, path_to_school_data,year_start=1999, year_end=2019):
     year_range = year_end-year_start
     year_to_idx = {y:i for i, y in enumerate(range(year_start,year_end+1))}
@@ -91,7 +90,7 @@ def group_data_by_year(path_to_data, out_file_path, column = None, condition = N
         num, denom  = year_dict[y][nfile_idx], year_dict[y][total_idx]
         pcent = num/denom*100
         year_dict[y].append(pcent)
-    df = pd.DataFrame.from_dict(year_dict, orient='index', columns = ['nfiles','nother','total','percent'])
+    df = pd.DataFrame.from_dict(year_dict, orient='index', columns = ['years','nfiles','nother','total','percent'])
     df.to_csv(out_file_path)
 
 def quick_look_column_jsonlist(path_to_file, column, condition=None, printn=True, printexamples = False, nexamples = 1000):
@@ -143,7 +142,7 @@ def add_id(path_to_file, path_to_out_file):
             
 
 def main():
-    path = '/data/madesai/student-news-full/articles_clean.jsonlist'
+    path = '/data/madesai/student-news-full/all_articles_no_middle.jsonlist'
     quick_look_column_jsonlist(path,'geographic',printexamples=True,nexamples=1000000)
 
 
@@ -175,7 +174,7 @@ def main():
     # json_column = 'school_type'
     # select_for = ['high','middle','college']
     # for c in select_for:
-    #     path_to_outfile = '/data/madesai/descriptive-statistics/n_'+c+'l_articles_by_year.csv'
+    #     path_to_outfile = '/data/madesai/descriptive-statistics/n_'+c+'_articles_by_year.csv'
     #     print(c)
     #     group_data_by_year(path,path_to_outfile,column=json_column,condition=c)
 
