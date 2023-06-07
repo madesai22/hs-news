@@ -74,7 +74,7 @@ def make_corpus(filename, truncate = True):
     return corpus, dictionary
 
 
-def all_analysis(path,data,ntopics, truncate = True):
+def all_analysis(path,data,ntopics, truncate = False):
     for p in data:
         for nt in ntopics:
             print("Finding {} topics in {} file".format(nt, p))
@@ -105,10 +105,10 @@ def main():
     data =["all_headlines.pkl"]
     #gv_data = "gv_content_by_headline.pkl"
     ntopics =[10]
-    #all_analysis(path,data,ntopics,truncate=True)
+    all_analysis(path,data,ntopics,truncate=False)
 
-    path_to_model = "/data/madesai/gv-topic-data/lda_gv-topic-data_25"
-    load_all_analysis(path_to_model,path+data[0])
+    #path_to_model = "/data/madesai/gv-topic-data/lda_gv-topic-data_25"
+    #load_all_analysis(path_to_model,path+data[0])
 
     
 
