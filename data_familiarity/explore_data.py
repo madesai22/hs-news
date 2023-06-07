@@ -111,7 +111,7 @@ def quick_look_column_jsonlist(path_to_file, column, condition=None, printn=True
                             for i in data:
                                 options.add(data)
                         else:
-                            options.add(data)
+                            options.add(i)
             else:
                 if printn: 
                     n_condition+=1
@@ -119,7 +119,7 @@ def quick_look_column_jsonlist(path_to_file, column, condition=None, printn=True
                     print(data)
                     if type(data) == list:
                         for i in data:
-                            options.add(data)
+                            options.add(i)
                     else:
                         options.add(data)
             count +=1
