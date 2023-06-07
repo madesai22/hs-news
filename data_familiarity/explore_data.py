@@ -144,8 +144,8 @@ def add_id(path_to_file, path_to_out_file):
             
 
 def main():
-    path = '/data/madesai/student-news-full/all_articles_no_middle.jsonlist'
-    quick_look_column_jsonlist(path,'geographic',printexamples=True,nexamples=1000000)
+    path = '/data/madesai/student-news-full/school_full_info_with_votes.jsonlist'
+    quick_look_column_jsonlist(path,'is_foreign',printexamples=True,nexamples=1000000)
 
 
     # path = "/data/madesai/mfc_v4.0/guncontrol/guncontrol_all_with_duplicates.json"
