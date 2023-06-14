@@ -10,6 +10,7 @@ import file_handling as fh
 import pandas as pd
 import numpy as np
 import create_corpus as cp
+import os
 
 def corpus_distribution_of_topics(model,corpus):
     results = model[corpus]
@@ -45,15 +46,16 @@ def make_topic_csv(ldamallet):
     topics_df = pd.DataFrame([', '.join([term for term, wt in topic]) for topic in topic_list], columns = ['Terms per Topic'], index=['Topic'+str(t) for t in range(1, ldamallet.num_topics+1)] )
     return topics_df
 
-def topic_model(corpus, dictionary, path_to_file, ntopics,path_to_save_file):
+def topic_model(corpus, dictionary, path_to_save, ntopics,path_to_save_file):
 
     path_to_mallet_binary = "/home/madesai/Mallet/bin/mallet"
 
-    path_list = path_to_file.split("/")[:-1]
-    path = "/".join(path_list)+"/"
-    file_name = path_list[-1].split(".")[0]
-    out_file_name = path_to_save_file+"lda_"+file_name+"_"+str(ntopics)
-    out_file = datapath(out_file_name)
+    #path_list = path_to_file.split("/")[:-1]
+    #path = "/".join(path_list)+"/"
+    #file_name = path_list[-1].split(".")[0]
+    #out_file_name = path_to_save_file+"lda_"+file_name+"_"+str(ntopics)
+    #out_file = datapath(out_file_name)
+    
 
     
     
@@ -61,13 +63,13 @@ def topic_model(corpus, dictionary, path_to_file, ntopics,path_to_save_file):
     ldamallet = LdaMallet(path_to_mallet_binary, corpus=corpus, num_topics=ntopics, id2word=dictionary)
     topic_df = make_topic_csv(ldamallet)
     print(topic_df)
-    topic_df.to_csv(path+file_name+"topics_"+str(ntopics)+".csv")
-    ldamallet.save(out_file)
+    topic_df.to_csv(path_to_save+"topics_"+str(ntopics)+".csv")
+    ldamallet.save(path_to_save+"lda")
     return ldamallet
 
 
-def process_corpus(filename, truncate = False): #from processed list of strings 
-    content = fh.unpickle_data(filename)
+def process_corpus(content, truncate = False): # from processed list of strings 
+    #content # = fh.unpickle_data(filename)
     if truncate:
         content = content[:300]
     dictionary = Dictionary(content)
@@ -76,17 +78,21 @@ def process_corpus(filename, truncate = False): #from processed list of strings
 
 
 def all_analysis(path,data,ntopics, truncate = False):
-    for p in data:
-        for nt in ntopics:
-            print("Finding {} topics in {} file".format(nt, p))
-            corpus, dictionary = process_corpus(path+p, truncate=truncate) 
-            lda = topic_model(corpus,dictionary,path+p,nt,path)
+    #for p in data:
+    for nt in ntopics:
+        print("Finding {} topics in file".format(nt))
+        path_to_save = path+str(nt)+"_topics"
+        fh.makedirs(path_to_save)
+        print("Saving data in {}".format(path_to_save))
+        #   corpus, dictionary = process_corpus(path+p, truncate=truncate) 
+        corpus, dictionary = process_corpus(data, truncate=truncate) 
+        lda = topic_model(corpus,dictionary,path_to_save,nt,path)
 
-            cd = corpus_distribution_of_topics(lda,corpus)
-            corpus_topic_df = get_dominant_topic_by_document(lda,cd)
-            dominant_topic = dominant_topic_analysis(corpus, corpus_topic_df)
-            print(dominant_topic)
-            dominant_topic.to_csv(path+"dominant_topic")
+        cd = corpus_distribution_of_topics(lda,corpus)
+        corpus_topic_df = get_dominant_topic_by_document(lda,cd)
+        dominant_topic = dominant_topic_analysis(corpus, corpus_topic_df)
+        print(dominant_topic)
+        dominant_topic.to_csv(path_to_save+"dominant_topic.csv")
 
 def load_all_analysis(path,path_to_data):
     corpus, dictionary = process_corpus(path_to_data) 
@@ -103,17 +109,24 @@ def load_all_analysis(path,path_to_data):
 
 
 def main():
-    path = "/data/madesai/gv-topic-data/"
     path_to_data = fh.read_jsonlist('/data/madesai/student-news-full/all_articles_no_middle.jsonlist')
     print('read data')
     path_to_md = '/data/madesai/student-news-full/school_full_info_with_votes.jsonlist'
+    path_to_save_data = "/data/madesai/gv-topic-data/all_articles_no_middle/"
 
-    data, columns = cp.make_corpus(path_to_data,path_to_md)
-
+    if not os.path.exists(path_to_save_data+"all_content.pkl"):
+        data, columns = cp.make_corpus(path_to_data,path_to_md) # list of strings, processed 
+        fh.pickle_data(data, path_to_save_data+"all_content.pkl")
+        fh.pickle_data(columns, path_to_save_data+"columns.pkl")
+    else:
+        data = fh.unpickle_data(path_to_save_data+"all_content.pkl")
+        columns = fh.unpickle_data(path_to_save_data+"columns.pkl")
+    
 
     #gv_data = "gv_content_by_headline.pkl"
     ntopics =[10]
-    all_analysis(path,data,ntopics,truncate=False)
+    #path = "/data/madesai/gv-topic-data/"
+    all_analysis(path_to_save_data,data,ntopics,truncate=False)
 
     #path_to_model = "/data/madesai/gv-topic-data/lda_gv-topic-data_25"
     #load_all_analysis(path_to_model,path+data[0])
