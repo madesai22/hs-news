@@ -21,7 +21,7 @@ def get_meta_data(domain, meta_data_json):
             return school
 
 # date, school_type, category, (metadata zipcode, is_foreign, dem_share, state)
-def make_corpus(data,path_to_metadata, columns = [], conditions = []): 
+def make_corpus(data, path_to_metadata, columns = [], conditions = []): 
     # read in file
     #data = fh.read_json(path)
     n_total = len(data)
