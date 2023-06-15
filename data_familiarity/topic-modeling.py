@@ -46,7 +46,7 @@ def make_topic_csv(ldamallet):
     topics_df = pd.DataFrame([', '.join([term for term, wt in topic]) for topic in topic_list], columns = ['Terms per Topic'], index=['Topic'+str(t) for t in range(1, ldamallet.num_topics+1)] )
     return topics_df
 
-def topic_model(corpus, dictionary, path_to_save, ntopics,path_to_save_file):
+def topic_model(corpus, dictionary, path_to_save, ntopics):
 
     path_to_mallet_binary = "/home/madesai/Mallet/bin/mallet"
 
@@ -86,7 +86,8 @@ def all_analysis(path,data,ntopics, truncate = False):
         print("Saving data in {}".format(path_to_save))
         #   corpus, dictionary = process_corpus(path+p, truncate=truncate) 
         corpus, dictionary = process_corpus(data, truncate=truncate) 
-        lda = topic_model(corpus,dictionary,path_to_save,nt,path)
+        print("built corpus ... ")
+        lda = topic_model(corpus,dictionary,path_to_save,nt)
 
         cd = corpus_distribution_of_topics(lda,corpus)
         corpus_topic_df = get_dominant_topic_by_document(lda,cd)
@@ -114,8 +115,10 @@ def main():
     path_to_md = '/data/madesai/student-news-full/school_full_info_with_votes.jsonlist'
     path_to_save_data = "/data/madesai/gv-topic-data/all_articles_no_middle/"
 
+
     if not os.path.exists(path_to_save_data+"all_content.pkl"):
         data, columns = cp.make_corpus(path_to_data,path_to_md) # list of strings, processed 
+        fh.makedirs(path_to_save_data)
         fh.pickle_data(data, path_to_save_data+"all_content.pkl")
         fh.pickle_data(columns, path_to_save_data+"columns.pkl")
     else:
