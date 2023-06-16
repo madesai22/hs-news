@@ -85,7 +85,7 @@ def all_analysis(path,data,ntopics, truncate = False):
         fh.makedirs(path_to_save)
         print("Saving data in {}".format(path_to_save))
         #   corpus, dictionary = process_corpus(path+p, truncate=truncate) 
-        if os.path.exists(path_to_save+'corpus.pkl'):
+        if 1<0: #os.path.exists(path_to_save+'corpus.pkl'):
             corpus = fh.unpickle_data(path_to_save+'corpus.pkl')
             dictionary = fh.unpickle_data(path_to_save+'dictionary.pkl')
         else:
@@ -135,7 +135,7 @@ def main():
     #gv_data = "gv_content_by_headline.pkl"
     ntopics =[10]
     #path = "/data/madesai/gv-topic-data/"
-    all_analysis(path_to_save_data,data,ntopics,truncate=True)
+    all_analysis(path_to_save_data,data,ntopics,truncate=False)
 
     #path_to_model = "/data/madesai/gv-topic-data/lda_gv-topic-data_25"
     #load_all_analysis(path_to_model,path+data[0])
