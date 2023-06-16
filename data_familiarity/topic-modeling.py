@@ -90,8 +90,8 @@ def all_analysis(path,data,ntopics, truncate = False):
             dictionary = fh.unpickle_data(path_to_save+'dictionary.pkl')
         else:
             corpus, dictionary = process_corpus(data, truncate=truncate) 
-            fh.pickle_data(path_to_save+'corpus.pkl')
-            fh.pickle_data(path_to_save+'dictionary.pkl')
+            fh.pickle_data(corpus, path_to_save+'corpus.pkl')
+            fh.pickle_data(dictionary, path_to_save+'dictionary.pkl')
         print("built corpus ... ")
         lda = topic_model(corpus,dictionary,path_to_save,nt)
 
