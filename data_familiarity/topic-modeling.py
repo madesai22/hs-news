@@ -81,11 +81,17 @@ def all_analysis(path,data,ntopics, truncate = False):
     #for p in data:
     for nt in ntopics:
         print("Finding {} topics in file".format(nt))
-        path_to_save = path+str(nt)+"_topics"
+        path_to_save = path+str(nt)+"_topics/"
         fh.makedirs(path_to_save)
         print("Saving data in {}".format(path_to_save))
         #   corpus, dictionary = process_corpus(path+p, truncate=truncate) 
-        corpus, dictionary = process_corpus(data, truncate=truncate) 
+        if os.path.exists(path_to_save+'corpus.pkl'):
+            corpus = fh.unpickle_data(path_to_save+'corpus.pkl')
+            dictionary = fh.unpickle_data(path_to_save+'dictionary.pkl')
+        else:
+            corpus, dictionary = process_corpus(data, truncate=truncate) 
+            fh.pickle_data(path_to_save+'corpus.pkl')
+            fh.pickle_data(path_to_save+'dictionary.pkl')
         print("built corpus ... ")
         lda = topic_model(corpus,dictionary,path_to_save,nt)
 
@@ -129,7 +135,7 @@ def main():
     #gv_data = "gv_content_by_headline.pkl"
     ntopics =[10]
     #path = "/data/madesai/gv-topic-data/"
-    all_analysis(path_to_save_data,data,ntopics,truncate=False)
+    all_analysis(path_to_save_data,data,ntopics,truncate=True)
 
     #path_to_model = "/data/madesai/gv-topic-data/lda_gv-topic-data_25"
     #load_all_analysis(path_to_model,path+data[0])
