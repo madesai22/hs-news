@@ -121,7 +121,6 @@ def main():
     path_to_md = '/data/madesai/student-news-full/school_full_info_with_votes.jsonlist'
     path_to_save_data = "/data/madesai/gv-topic-data/all_articles_no_middle/"
 
-
     if not os.path.exists(path_to_save_data+"all_content.pkl"):
         data, columns = cp.make_corpus(path_to_data,path_to_md) # list of strings, processed 
         fh.makedirs(path_to_save_data)
@@ -133,7 +132,7 @@ def main():
     
 
     #gv_data = "gv_content_by_headline.pkl"
-    ntopics =[10]
+    ntopics =[25,50]
     #path = "/data/madesai/gv-topic-data/"
     all_analysis(path_to_save_data,data,ntopics,truncate=False)
 
