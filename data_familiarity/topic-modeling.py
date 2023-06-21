@@ -85,9 +85,9 @@ def all_analysis(path,data,ntopics, truncate = False):
         fh.makedirs(path_to_save)
         print("Saving data in {}".format(path_to_save))
         #   corpus, dictionary = process_corpus(path+p, truncate=truncate) 
-        if 1<0: #os.path.exists(path_to_save+'corpus.pkl'):
-            corpus = fh.unpickle_data(path_to_save+'corpus.pkl')
-            dictionary = fh.unpickle_data(path_to_save+'dictionary.pkl')
+        if os.path.exists(path+'corpus.pkl'):
+            corpus = fh.unpickle_data(path+'corpus.pkl')
+            dictionary = fh.unpickle_data(path+'dictionary.pkl')
         else:
             corpus, dictionary = process_corpus(data, truncate=truncate) 
             fh.pickle_data(corpus, path_to_save+'corpus.pkl')
