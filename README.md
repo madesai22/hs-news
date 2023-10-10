@@ -1,1 +1,2 @@
 # hs-news
+test
