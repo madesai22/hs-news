@@ -116,10 +116,9 @@ def load_all_analysis(path,path_to_data):
 
 
 def main():
-    path_to_data = fh.read_jsonlist('/data/madesai/student-news-full/all_articles_no_middle.jsonlist')
-    print('read data')
-    path_to_md = '/data/madesai/student-news-full/school_full_info_with_votes.jsonlist'
-    path_to_save_data = "/data/madesai/gv-topic-data/all_articles_no_middle/"
+    path_to_data = "./data/full_magazines/articles.csv"
+    df = pd.read_csv(path_to_data)
+    data = df["Article body"]
 
     if not os.path.exists(path_to_save_data+"all_content.pkl"):
         data, columns = cp.make_corpus(path_to_data,path_to_md) # list of strings, processed 
@@ -128,6 +127,7 @@ def main():
         fh.pickle_data(columns, path_to_save_data+"columns.pkl")
     else:
         data = fh.unpickle_data(path_to_save_data+"all_content.pkl")
+        print(type(data))
         columns = fh.unpickle_data(path_to_save_data+"columns.pkl")
     
 
